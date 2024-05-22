@@ -6,20 +6,36 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 13:38:39 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:09:59 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-
-# include "minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
 # include <X11/keysym.h>
+
+typedef struct	s_map
+{
+	//should contain path to texture that should be set on a given direction
+	//will be set to NULL in case nothing was given
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+
+	//each number will be set to -1 in case nothing was given
+	int		f[3];
+	int		c[3];
+
+	//char table containing map
+	char	**map;
+}		t_map;
 
 #endif
