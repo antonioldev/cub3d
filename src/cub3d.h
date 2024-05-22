@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 14:07:38 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:03:21 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,26 @@ typedef struct	s_map
 	char	**map;
 }		t_map;
 
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*win;
+	void	*img_n;
+	void	*img_s;
+	void	*img_w;
+	void	*img_e;
+	
+}		t_mlx;
+
+
+
+//INITIATE FOLDER
+void		initiate_mlx(t_mlx *game, t_map *map);
+
+//INPUT FOLDER
+int			x_pressed(t_mlx *game);
+
+//CLEAN FOLDER
+void		ft_destroy_mlx(t_mlx *game);
 #endif

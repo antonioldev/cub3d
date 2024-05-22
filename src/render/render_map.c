@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 17:01:35 by alimotta         ###   ########.fr       */
+/*   Created: 2024/05/22 16:58:52 by alimotta          #+#    #+#             */
+/*   Updated: 2024/05/22 17:01:49 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-int	main()
+
+
+void	render_map(t_mlx *game, t_map *map)
 {
-	t_mlx game;
-	t_map map;
+	int	w_map;
+	int	h_map;
+	int	w;
+	int	h;
 
-	initiate_mlx(&game, &map);
-	render_mini_map(game, map);
-	mlx_hook(game.win, 17, 1L << 0, x_pressed, &game);
-	
-	//mlx_hook(game.win, 3, 1L << 1, handle_input, &v);
-	mlx_loop(game.mlx);
-	ft_destroy_mlx(&game);
-	return (EXIT_FAILURE);
+	h = 0;
+	h_map = 0;
+	while (v -> height > 0)
+	{
+		w = 0;
+		w_map = 0;
+		while (w_map < v -> width)
+		{
+			put_image_to_map(v -> arr[h_map][w_map], w, h, &v);
+			w_map++;
+			w += v->s;
+		}
+		h_map++;
+		h += v->s;
+		v -> height--;
+	}
 }
