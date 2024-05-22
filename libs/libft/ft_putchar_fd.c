@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 14:07:38 by alimotta         ###   ########.fr       */
+/*   Created: 2023/11/03 11:20:34 by alimotta          #+#    #+#             */
+/*   Updated: 2023/11/09 07:40:50 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-
-# include "../minilibx-linux/mlx.h"
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <X11/keysym.h>
-
-#endif
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}

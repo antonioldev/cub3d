@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 14:07:38 by alimotta         ###   ########.fr       */
+/*   Created: 2023/11/03 14:32:38 by alimotta          #+#    #+#             */
+/*   Updated: 2023/11/09 07:33:30 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
+void	ft_lstiter(t_list *lst, void (*f)(void *))
+{
+	t_list	*current;
 
-# include "../minilibx-linux/mlx.h"
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <X11/keysym.h>
-
-#endif
+	if (!f)
+		return ;
+	current = lst;
+	while (current != NULL)
+	{
+		f(current -> content);
+		current = current->next;
+	}
+}

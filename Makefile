@@ -21,6 +21,10 @@ LIBFT = ./libs/libft
 LIBFT_LIB = $(LIBFT)/libft.a
 LIB_FLAGS = -lreadline -ltinfo
 
+MINIX11 = ./minilibx-linux
+MINIX11_LIB = $(MINIX11)/libmlx_Linux.a
+MINIX11_FLAGS = -lXext -lX11
+
 UNITY_ROOT = tests/libs/unity
 UNITY_SRCS = $(UNITY_ROOT)/unity.c
 UNITY_OBJS = $(UNITY_SRCS:.c=.o)
@@ -37,7 +41,9 @@ $(NAME): $(MAIN_OBJS)
 	@printf "\n"
 	@make -C $(LIBFT)
 	@printf "$(GREEN)==> Libft compiled ✅\n\n$(RESET)"
-	@$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(LIBFT_LIB) $(LIB_FLAGS)
+	@make -C $(MINIX11)
+	@printf "$(GREEN)==> Minilib compiled ✅\n\n$(RESET)"
+	@$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(LIBFT_LIB) $(LIB_FLAGS) $(MINIX11_LIB) $(MINIX11_FLAGS)
 	@printf "$(GREEN)==> Minishell compiled ✅\n\n$(RESET)"
 
 $(OBJ_F)%.o: %.c
@@ -79,6 +85,7 @@ clean: coverage_clean
 
 fclean: clean coverage_clean
 	make fclean -C $(LIBFT)
+	make clean -C $(MINIX11)
 	$(RM) $(NAME)
 	@printf "$(GREEN)==> Minishell fully cleaned ✅\n\n$(RESET)"
 
