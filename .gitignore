@@ -1,0 +1,8 @@
+objs
+*.o
+libs/**/*.o
+coverage_report
+coverage_data
+.vscode
+TODO
+minilibx-linux/
