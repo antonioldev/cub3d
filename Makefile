@@ -7,7 +7,8 @@ ifdef COV
     CFLAGS += -fprofile-arcs -ftest-coverage
 endif
 
-MAIN_SRCS	=	src/main.c 
+MAIN_SRCS	=	src/main.c \
+				src/parsing/parsing.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')
 TEST_EXES = $(TEST_SRCS:.c=)

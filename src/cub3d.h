@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 14:07:38 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:15:36 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <errno.h>
 # include <stdio.h>
 # include <X11/keysym.h>
+# include <string.h>
+# include "../libs/libft/libft.h"
 
-typedef struct	s_map
+typedef struct s_map
 {
 	//should contain path to texture that should be set on a given direction
 	//will be set to NULL in case nothing was given
@@ -37,5 +39,10 @@ typedef struct	s_map
 	//char table containing map
 	char	**map;
 }		t_map;
+
+//PARSING
+int		ft_error(int argc, char **argv);
+char	*ft_read_from_file(int fd, char *s);
+void	map_init(t_map *map, int fd);
 
 #endif
