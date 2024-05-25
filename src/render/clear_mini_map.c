@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_map.c                                       :+:      :+:    :+:   */
+/*   clear_mini_map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 16:58:52 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/22 17:01:49 by alimotta         ###   ########.fr       */
+/*   Created: 2024/05/25 09:48:08 by alimotta          #+#    #+#             */
+/*   Updated: 2024/05/25 10:05:46 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-
-
-void	render_map(t_mlx *game, t_map *map)
+/*Fill the mini map area with black pixels*/
+void	clear_mini_map(t_cub3d *cub3d)
 {
-	int	w_map;
-	int	h_map;
-	int	w;
-	int	h;
+	int	x;
+	int	y;
 
-	h = 0;
-	h_map = 0;
-	while (v -> height > 0)
+	y = 0;
+	while (y < cub3d->game.height_minimap)
 	{
-		w = 0;
-		w_map = 0;
-		while (w_map < v -> width)
+		x = 0;
+		while (x < cub3d->game.width)
 		{
-			put_image_to_map(v -> arr[h_map][w_map], w, h, &v);
-			w_map++;
-			w += v->s;
+			mlx_pixel_put(cub3d->game.mlx, cub3d->game.win, x, y, 0x0);
+			x++;
 		}
-		h_map++;
-		h += v->s;
-		v -> height--;
+		y++;
 	}
 }
