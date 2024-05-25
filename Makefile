@@ -10,10 +10,14 @@ endif
 MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_mlx.c \
 				src/initiate/initiate_map.c \
+				src/initiate/initiate_player.c \
+				src/initiate/initiate_ray.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
+				src/render/render_map.c \
 				src/render/render_mini_map.c \
 				src/render/clear_mini_map.c \
+				src/render/raycasting.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \

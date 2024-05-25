@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:32:36 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 10:14:51 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:45:38 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	pick_color(char c)
 {
 	if (c == '1')
-		return (0xf8f8ff);
+		return (0x696969);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'P')
 		return (0xff0000);
 	else
