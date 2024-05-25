@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 09:44:45 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:06:23 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	map_init(t_map *map, int fd)
 	map->f[2] = -1;
 	map->map = ft_split(str, '\n');
 	//TESTING
+	//The following are used for testing, we should get those in the parser
 	map->x = 1;
 	map->y = 1;
 	map->width = 70;
