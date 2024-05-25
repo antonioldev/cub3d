@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:12:16 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/24 10:05:12 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:18:00 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+//checks number of arguments (should only be 1 argument)
+//checks if file opened correctly
+int	ft_error(int argc, char **argv)
+{
+	int	fd;
+
+	errno = 22;
+	if (argc < 2)
+		perror("Error: Map was not provided");
+	else if (argc > 2)
+	{
+		errno = 7;
+		perror("Error");
+	}
+	if (argc != 2)
+		exit (1);
+	else
+		fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		errno = 2;
+		perror("Error while reading the file\n");
+		exit (1);
+	}
+	return (fd);
+}
 
 //reads the whole map from the file
 char	*ft_read_from_file(int fd, char *s)

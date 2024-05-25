@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
 /*   Updated: 2024/05/24 15:41:13 by alimotta         ###   ########.fr       */
