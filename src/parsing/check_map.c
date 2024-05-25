@@ -87,7 +87,7 @@ int	check_middle_edge(char *line)
 
 int	check_middle(char *line)
 {
-	return(check_middle_in(line) && check_middle_edge(line));
+	return (check_middle_in(line) && check_middle_edge(line));
 }
 
 int	count_lines(char **map)

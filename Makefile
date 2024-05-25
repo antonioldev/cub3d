@@ -8,7 +8,16 @@ ifdef COV
 endif
 
 MAIN_SRCS	=	src/main.c \
-				src/parsing/parsing.c
+				src/initiate/initiate_mlx.c \
+				src/initiate/initiate_map.c \
+				src/parsing/check_map.c \
+				src/parsing/parsing.c \
+				src/render/render_mini_map.c \
+				src/render/clear_mini_map.c \
+				src/input/input.c \
+				src/input/input_movement.c \
+				src/clean/error.c \
+				src/clean/clear_mlx.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')
 TEST_EXES = $(TEST_SRCS:.c=)
@@ -45,10 +54,10 @@ $(NAME): $(MAIN_OBJS)
 	@make -C $(MINIX11)
 	@printf "$(GREEN)==> Minilib compiled ✅\n\n$(RESET)"
 	@$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(LIBFT_LIB) $(LIB_FLAGS) $(MINIX11_LIB) $(MINIX11_FLAGS)
-	@printf "$(GREEN)==> Minishell compiled ✅\n\n$(RESET)"
+	@printf "$(GREEN)==> Cub3D compiled ✅\n\n$(RESET)"
 
 $(OBJ_F)%.o: %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	@printf "\033[0;33mGenerating cub3D objects... %-33.33s\r" $@
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -82,13 +91,13 @@ clean: coverage_clean
 	make clean -C $(LIBFT)
 	@printf "$(GREEN)==> Libft Cleaned✅\n\n$(RESET)"
 	$(RM) $(OBJ_F)* $(TEST_EXES) $(UNITY_OBJS)
-	@printf "$(GREEN)==> Minishell Cleaned ✅\n\n$(RESET)"
+	@printf "$(GREEN)==> Cub3D Cleaned ✅\n\n$(RESET)"
 
 fclean: clean coverage_clean
 	make fclean -C $(LIBFT)
 	make clean -C $(MINIX11)
 	$(RM) $(NAME)
-	@printf "$(GREEN)==> Minishell fully cleaned ✅\n\n$(RESET)"
+	@printf "$(GREEN)==> Cub3D fully cleaned ✅\n\n$(RESET)"
 
 re: fclean all
 
