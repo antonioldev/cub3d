@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_mini_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:32:36 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 16:45:38 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:28:41 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static int	pick_color(char c)
 /*Draw more pixel for each part of the map*/
 static void	draw_square(t_mlx *game, int w, int h, int color)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*pixel_addr;
 
 	i = 0;
 	while (i < game->size_minimap)
@@ -35,7 +36,12 @@ static void	draw_square(t_mlx *game, int w, int h, int color)
 		j = 0;
 		while (j < game->size_minimap)
 		{
-			mlx_pixel_put(game->mlx, game->win, w + j, h + i, color);
+			pixel_addr = game->img_minimap.addr + ((h + i) * \
+					game->img_minimap.line_length + (w + j) * \
+					(game->img_minimap.bpp / 8));
+			if (pixel_addr < game->img_minimap.addr + \
+					game->img_minimap.line_length * HEIGHT_MINI)
+				*(unsigned int *)pixel_addr = color;
 			j++;
 		}
 		i++;

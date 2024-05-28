@@ -1,7 +1,7 @@
 NAME    		= cub3D
 CC      		= gcc
 LFLAGS  		= -lgcov
-CFLAGS  		= -g -Wall -Wextra -Werror
+CFLAGS  		= -g #-Wall -Wextra -Werror
 
 ifdef COV
     CFLAGS += -fprofile-arcs -ftest-coverage
@@ -21,6 +21,7 @@ MAIN_SRCS	=	src/main.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
+				src/clean/error_init_mlx.c \
 				src/clean/clear_mlx.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')

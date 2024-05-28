@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 17:21:10 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:38:57 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,10 @@
 
 typedef struct s_map
 {
-	//should contain path to texture that should be set on a given direction
-	//will be set to NULL in case nothing was given
 	char		*no;
 	char		*so;
 	char		*we;
 	char		*ea;
-
-	//each number will be set to -1 in case nothing was given
 	int			f[3];
 	int			c[3];
 	int			x;
@@ -45,17 +41,22 @@ typedef struct s_map
 	char		**map;
 }		t_map;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}		t_img;
+
 typedef struct s_mlx
 {
 	void		*mlx;
 	void		*win;
 	void		*img;
-	void		*img_minimap;
-	int			tile_size;
-	int			width;
-	int			height;
-	int			height_minimap;
-	int			size_minimap;	
+	t_img		img_minimap;
+	int			size_minimap;
 }		t_mlx;
 
 typedef struct s_player
@@ -65,10 +66,6 @@ typedef struct s_player
 	int			pl_speed;
 	int			rot;
 	double		rot_speed;
-	double angle; // player angle
-	float fov_rd; // field of view in radians
-	int  l_r; // left right flag
-	int  u_d; // up down flag
 }		t_player;
 
 typedef struct s_ray
@@ -92,7 +89,7 @@ char			*ft_read_from_file(int fd, char *s);
 //INITIATE FOLDER
 void			map_init(t_map *map, int fd);
 t_mlx			initiate_mlx(void);
-t_player		initiate_player(t_cub3d *cub3d);
+t_player		initiate_player(void);
 t_ray			initiate_ray(void);
 
 //INPUT FOLDER
@@ -106,9 +103,27 @@ void			ft_move_down(t_map *map);
 //RENDER FOLDER
 int				render_mini_map(t_cub3d *cub3d);
 int				render_map(t_cub3d *cub3d);
-void			clear_mini_map(t_cub3d *cub3d);
+void			raycating(t_cub3d *cub3d);
+void			clear_mini_map(t_mlx *game);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
 void			ft_destroy_mlx(t_mlx *game);
+void			initiate_error_win(t_mlx game);
+void			initiate_error_img_minimap(t_mlx game);
+void			initiate_error_addrs_minimap(t_mlx game);
+
+# ifndef WIDTH
+#  define WIDTH 800
+# endif
+# ifndef HEIGHT
+#  define HEIGHT 600
+# endif
+# ifndef TILE_SIZE
+#  define TILE_SIZE 64
+# endif
+# ifndef HEIGHT_MINI
+#  define HEIGHT_MINI 100
+# endif
+
 #endif
