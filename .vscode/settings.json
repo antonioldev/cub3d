@@ -3,6 +3,7 @@
 		"mlx.h": "c",
 		"cub3d.h": "c",
 		"stdio.h": "c",
-		"keysym.h": "c"
+		"keysym.h": "c",
+		"test": "c"
 	}
 }

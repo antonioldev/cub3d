@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_mlx.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:03:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/28 17:47:37 by antonio          ###   ########.fr       */
+/*   Updated: 2024/05/29 08:03:57 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	ft_destroy_mlx(t_mlx *game)
 {
 	mlx_destroy_image(game->mlx, game->img_minimap.img);
+	mlx_destroy_image(game->mlx, game->img.img);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
 	free (game->mlx);

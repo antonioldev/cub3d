@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_mini_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:32:36 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/28 17:28:41 by antonio          ###   ########.fr       */
+/*   Updated: 2024/05/29 07:43:29 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static void	draw_square(t_mlx *game, int w, int h, int color)
 	char	*pixel_addr;
 
 	i = 0;
-	while (i < game->size_minimap)
+	while (i < PIXEL_MINI)
 	{
 		j = 0;
-		while (j < game->size_minimap)
+		while (j < PIXEL_MINI)
 		{
 			pixel_addr = game->img_minimap.addr + ((h + i) * \
 					game->img_minimap.line_length + (w + j) * \
@@ -53,11 +53,9 @@ static int	pos_screen_x(t_cub3d *cub3d, int w)
 {
 	int	screen_x;
 	int	player_screen_x;
-	int	size;
 
 	player_screen_x = 400;
-	size = cub3d->game.size_minimap;
-	screen_x = player_screen_x + (w - cub3d->map.x) * size;
+	screen_x = player_screen_x + (w - cub3d->map.x) * PIXEL_MINI;
 	return (screen_x);
 }
 
@@ -66,11 +64,9 @@ static int	pos_screen_y(t_cub3d *cub3d, int h)
 {
 	int	screen_y;
 	int	player_screen_y;
-	int	size;
 
 	player_screen_y = 48;
-	size = cub3d->game.size_minimap;
-	screen_y = player_screen_y + (h - cub3d->map.y) * size;
+	screen_y = player_screen_y + (h - cub3d->map.y) * PIXEL_MINI;
 	return (screen_y);
 }
 

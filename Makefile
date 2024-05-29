@@ -1,7 +1,7 @@
 NAME    		= cub3D
 CC      		= gcc
 LFLAGS  		= -lgcov
-CFLAGS  		= -g #-Wall -Wextra -Werror
+CFLAGS  		= -g -Wall -Wextra -Werror
 
 ifdef COV
     CFLAGS += -fprofile-arcs -ftest-coverage
@@ -11,7 +11,6 @@ MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_mlx.c \
 				src/initiate/initiate_map.c \
 				src/initiate/initiate_player.c \
-				src/initiate/initiate_ray.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
 				src/render/render_map.c \
@@ -108,5 +107,11 @@ re: fclean all
 
 norminette:
 	norminette src/ libs/
+
+lunch_valgrind:
+	valgrind --leak-check=full -s ./cub3D maps/map.cub
+
+lunch:
+	./cub3D maps/map.cub
 
 .PHONY: all clean fclean re libft test run_tests coverage coverage_clean
