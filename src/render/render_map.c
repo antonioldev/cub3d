@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_mlx.c                                        :+:      :+:    :+:   */
+/*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 16:03:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 08:03:57 by alimotta         ###   ########.fr       */
+/*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
+/*   Updated: 2024/05/29 16:52:33 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/*Destroy the mlx window and mlx display and free memory*/
-void	ft_destroy_mlx(t_mlx *game)
+int	render_map(t_cub3d *cub3d)
 {
-	mlx_destroy_image(game->mlx, game->img_minimap.img);
-	mlx_destroy_image(game->mlx, game->img.img);
-	mlx_destroy_window(game->mlx, game->win);
-	mlx_destroy_display(game->mlx);
-	free (game->mlx);
+	clear_mini_map(&cub3d->game);
+	render_mini_map(cub3d);
+	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
+		cub3d->game.img_minimap.img, 0, 0);
+	raycasting(cub3d);
+	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
+		cub3d->game.img.img, 0, 100);
+	
+	return (0);
 }

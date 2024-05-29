@@ -57,20 +57,11 @@ void	map_init(t_map *map, int fd)
 	map->so = NULL;
 	map->we = NULL;
 	map->ea = NULL;
-	map->c[0] = -1;
-	map->c[1] = -1;
-	map->c[2] = -1;
-	map->f[0] = -1;
-	map->f[1] = -1;
-	map->f[2] = -1;
 	map->map = ft_split(str, '\n');
 	free(str);
 	map->width = count_colum(map->map);
 	map->height = count_lines(map->map);
 	map->map = set_map(map->map, map->width, map->height);
 	set_player_pos(&map);
-	//TESTING
-	//The following are used for testing, we should get those in the parser
-	// map->x = 1;
-	// map->y = 1;
 }
+

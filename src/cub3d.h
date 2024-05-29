@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
 /*   Updated: 2024/05/29 14:45:53 by rtavabil         ###   ########.fr       */
@@ -22,47 +22,76 @@
 # include <X11/keysym.h>
 # include <string.h>
 # include <X11/keysym.h>
+# include <math.h>
 # include "../libs/libft/libft.h"
 
 typedef struct s_map
 {
-	//should contain path to texture that should be set on a given direction
-	//will be set to NULL in case nothing was given
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-
-	//each number will be set to -1 in case nothing was given
-	int		f[3];
-	int		c[3];
-	int		x;
-	int		y;
-	int		width;
-	int		height;
-	//char table containing map
-	char	**map;
-	char	player_orientation;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	int			f[3];
+	int			c[3];
+	int			x;
+	int			y;
+	int			width;
+	int			height;
+	char		**map;
+	char		player_orientation;
 }		t_map;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+}		t_img;
 
 typedef struct s_mlx
 {
-	void	*mlx;
-	void	*win;
-	void	*img_n;
-	void	*img_s;
-	void	*img_w;
-	void	*img_e;
-	int		width;
-	int		height;
-	int		height_minimap;
-	int		size_minimap;	
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_img		img_minimap;
 }		t_mlx;
+
+typedef struct s_view
+{
+	double		x;//position player on grid
+	double		y;
+	double		dir_x;//diretion player on map
+	double		dir_y;
+	double		plane_x;//the 2d raycaster version of camera plane
+	double		plane_y;
+	double		map_x;
+	double		map_y;
+	int			pl_speed;
+	int			rot;
+	int			side;
+	double		rot_speed;
+	double		camera_x;//coordinate on the camera plane that the current x-coordinate of the screen represents
+	double		ray_dir_x;
+	double		ray_dir_y;
+	double		delta_dist_x;// distance the ray has to travel to go from 1 x-side to the next side
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		ray_ngl;
+	double		distance;
+	int			flag;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+}		t_view;
 
 typedef struct s_cub3d
 {
-	t_mlx	game;
-	t_map	map;
+	t_mlx		game;
+	t_map		map;
+	t_view		v;
 }		t_cub3d;
 
 //PARSING FOLDER
@@ -81,27 +110,48 @@ int			is_allowed_all(char c);
 void		set_player_pos(t_map **map);
 
 
-
 //INITIATE FOLDER
-void		map_init(t_map *map, int fd);
-t_mlx		initiate_mlx(t_map *map);
+void			map_init(t_map *map, int fd);
+t_mlx			initiate_mlx(void);
+t_view			initiate_player(t_map map);
 
 //INPUT FOLDER
-int			x_pressed(t_cub3d *cub3d);
-int			handle_input(int ks, t_cub3d *cub3d);
-void		ft_move_left(t_map *map);
-void		ft_move_right(t_map *map);
-void		ft_move_up(t_map *map);
-void		ft_move_down(t_map *map);
+int				x_pressed(t_cub3d *cub3d);
+int				handle_input(int ks, t_cub3d *cub3d);
+void			ft_move_left(t_map *map);
+void			ft_move_right(t_map *map);
+void			ft_move_up(t_map *map);
+void			ft_move_down(t_map *map);
 
 //RENDER FOLDER
-int			render_mini_map(t_cub3d *cub3d);
-void		clear_mini_map(t_cub3d *cub3d);
+int				render_mini_map(t_cub3d *cub3d);
+int				render_map(t_cub3d *cub3d);
+void			raycasting(t_cub3d *cub3d);
+void			clear_mini_map(t_mlx *game);
 
 //CLEAN FOLDER
-int			ft_error(int argc, char **argv);
-void		ft_destroy_mlx(t_mlx *game);
+int				ft_error(int argc, char **argv);
+void			ft_destroy_mlx(t_mlx *game);
+void			initiate_error_win(t_mlx game);
+void			initiate_error_img_minimap(t_mlx game);
+void			initiate_error_img_map(t_mlx game);
 void		free_double_array(char **array);
 void		parsing_error(char **map, char *message);
+
+# ifndef WIDTH
+#  define WIDTH 800
+# endif
+# ifndef HEIGHT
+#  define HEIGHT 500
+# endif
+# ifndef TILE_SIZE
+#  define TILE_SIZE 64
+# endif
+# ifndef HEIGHT_MINI
+#  define HEIGHT_MINI 100
+# endif
+# ifndef PIXEL_MINI
+#  define PIXEL_MINI 4
+# endif
 
 #endif

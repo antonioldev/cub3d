@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:32:36 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 10:14:51 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/29 07:43:29 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	pick_color(char c)
 {
 	if (c == '1')
-		return (0xf8f8ff);
+		return (0x696969);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'P')
 		return (0xff0000);
 	else
@@ -26,16 +26,22 @@ static int	pick_color(char c)
 /*Draw more pixel for each part of the map*/
 static void	draw_square(t_mlx *game, int w, int h, int color)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*pixel_addr;
 
 	i = 0;
-	while (i < game->size_minimap)
+	while (i < PIXEL_MINI)
 	{
 		j = 0;
-		while (j < game->size_minimap)
+		while (j < PIXEL_MINI)
 		{
-			mlx_pixel_put(game->mlx, game->win, w + j, h + i, color);
+			pixel_addr = game->img_minimap.addr + ((h + i) * \
+					game->img_minimap.line_length + (w + j) * \
+					(game->img_minimap.bpp / 8));
+			if (pixel_addr < game->img_minimap.addr + \
+					game->img_minimap.line_length * HEIGHT_MINI)
+				*(unsigned int *)pixel_addr = color;
 			j++;
 		}
 		i++;
@@ -47,11 +53,9 @@ static int	pos_screen_x(t_cub3d *cub3d, int w)
 {
 	int	screen_x;
 	int	player_screen_x;
-	int	size;
 
 	player_screen_x = 400;
-	size = cub3d->game.size_minimap;
-	screen_x = player_screen_x + (w - cub3d->map.x) * size;
+	screen_x = player_screen_x + (w - cub3d->map.x) * PIXEL_MINI;
 	return (screen_x);
 }
 
@@ -60,11 +64,9 @@ static int	pos_screen_y(t_cub3d *cub3d, int h)
 {
 	int	screen_y;
 	int	player_screen_y;
-	int	size;
 
 	player_screen_y = 48;
-	size = cub3d->game.size_minimap;
-	screen_y = player_screen_y + (h - cub3d->map.y) * size;
+	screen_y = player_screen_y + (h - cub3d->map.y) * PIXEL_MINI;
 	return (screen_y);
 }
 
