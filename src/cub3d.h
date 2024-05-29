@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 16:09:29 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:45:53 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_map
 	int			y;
 	int			width;
 	int			height;
-	//char table containing map
 	char		**map;
 	char		player_orientation;
 }		t_map;
@@ -96,7 +95,20 @@ typedef struct s_cub3d
 }		t_cub3d;
 
 //PARSING FOLDER
-char			*ft_read_from_file(int fd, char *s);
+char		*ft_read_from_file(int fd, char *s);
+int			ft_error(int argc, char **argv);
+char		*ft_read_from_file(int fd, char *s);
+void		map_init(t_map *map, int fd);
+int			check_borders(char	**map);
+int			count_lines(char **map);
+char		**format_map(char **map, int w);
+int			count_colum(char **map);
+int			check_zero(char **map, int w, int h);
+int			check_player(char **map);
+int			is_allowed_p(char c);
+int			is_allowed_all(char c);
+void		set_player_pos(t_map **map);
+
 
 //INITIATE FOLDER
 void			map_init(t_map *map, int fd);
@@ -123,6 +135,8 @@ void			ft_destroy_mlx(t_mlx *game);
 void			initiate_error_win(t_mlx game);
 void			initiate_error_img_minimap(t_mlx game);
 void			initiate_error_img_map(t_mlx game);
+void		free_double_array(char **array);
+void		parsing_error(char **map, char *message);
 
 # ifndef WIDTH
 #  define WIDTH 800

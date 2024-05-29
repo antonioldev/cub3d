@@ -21,7 +21,11 @@ MAIN_SRCS	=	src/main.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
 				src/clean/error_init_mlx.c \
-				src/clean/clear_mlx.c
+				src/clean/clear_mlx.c \
+				src/parsing/map_format.c \
+				src/parsing/check_map1.c \
+				src/parsing/check_map_utils.c \
+				src/clean/clear_parsing.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')
 TEST_EXES = $(TEST_SRCS:.c=)

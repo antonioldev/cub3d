@@ -6,80 +6,48 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:23:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/23 18:04:49 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:44:24 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+int	check_line_edge(char *line)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	if (line)
+	{
+		len = (int)ft_strlen(line) - 1;
+		while (line[i] == ' ')
+			i++;
+		if (line[i] != '1')
+			return (0);
+		while (line[len] == ' ')
+			len--;
+		if (line[len] != '1')
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_top(char *line)
 {
-	int	empty;
-
 	if (line)
 	{
-		empty = 1;
+		if (!check_line_edge(line))
+			return (0);
 		while (*line == ' ')
 			line++;
-		while (*line != '\0' && *line != ' ')
+		while (*line)
 		{
-			if (*line != '1')
+			if (*line != '1' && *line != ' ')
 				return (0);
-			empty = 0;
 			line++;
 		}
-		while (*line == ' ')
-			line++;
-		if (*line != '\0')
-			return (0);
-		if (*line == '\0' && empty)
-			return (0);
-		return (1);
-	}
-	return (0);
-}
-
-int	check_middle_in(char *line)
-{
-	int	empty;
-
-	if (line)
-	{
-		empty = 1;
-		while (*line == ' ')
-			line++;
-		while (*line != '\0' && *line != ' ')
-		{
-			if (*line != '1' && *line != '0')
-				return (0);
-			empty = 0;
-			line++;
-		}
-		while (*line == ' ')
-			line++;
-		if (*line != '\0')
-			return (0);
-		if (*line == '\0' && empty)
-			return (0);
-		return (1);
-	}
-	return (0);
-}
-
-int	check_middle_edge(char *line)
-{
-	if (line)
-	{
-		while (*line == ' ')
-			line++;
-		if (*line != '1')
-			return (0);
-		while (*line != '\0' && *line != ' ')
-			line++;
-		if (*line != '\0' && *(line - 1) != '1')
-			return (0);
-		if (*line == '\0' && *(line - 1) != '1')
-			return (0);
 		return (1);
 	}
 	return (0);
@@ -87,31 +55,66 @@ int	check_middle_edge(char *line)
 
 int	check_middle(char *line)
 {
-	return (check_middle_in(line) && check_middle_edge(line));
+	if (line)
+	{
+		if (!check_line_edge(line))
+			return (0);
+		while (*line == ' ')
+			line++;
+		while (*line)
+		{
+			if (!is_allowed_all(*line))
+				return (0);
+			line++;
+		}
+		return (1);
+	}
+	return (0);
 }
 
-int	count_lines(char **map)
+int	check_player(char **map)
 {
+	int		flag;
+	char	*line;
+
+	if (*map)
+	{
+		flag = 0;
+		while (*map != NULL)
+		{
+			line = *map;
+			while (*line)
+			{
+				if (is_allowed_p(*line) && !flag)
+					flag = 1;
+				else if (is_allowed_p(*line) && flag)
+					parsing_error(map, "Error\nPlayer Error\n");
+				line++;
+			}
+			map++;
+		}
+		if (!flag)
+			parsing_error(map, "Error\nPlayer Error\n");
+	}
+	return (1);
+}
+
+int	check_borders(char	**map)
+{
+	int	i;
 	int	lines;
 
-	lines = 0;
-	while (*map)
+	if (!check_top(map[0]))
+		parsing_error(map, "Error\nIncorrect map format\n");
+	i = 1;
+	lines = count_lines(map);
+	while (i < lines - 1)
 	{
-		map++;
-		lines++;
+		if (!check_middle(map[i]))
+			parsing_error(map, "Error\nIncorrect map format\n");
+		i++;
 	}
-	return (lines);
+	if (!check_top(map[lines - 1]))
+		parsing_error(map, "Error\nIncorrect map format\n");
+	return (1);
 }
-
-// int	check_borders(char	**map)
-// {
-// 	int	i;
-// 	int	lines;
-
-// 	i = 1;
-// 	lines = count_lines(map);
-// 	while (i < lines - 1)
-// 	{
-// 		if (i == 0)
-// 	}
-// }
