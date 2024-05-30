@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 14:45:53 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:03:37 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ typedef struct s_map
 {
 	//should contain path to texture that should be set on a given direction
 	//will be set to NULL in case nothing was given
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
 
 	//each number will be set to -1 in case nothing was given
-	int		f[3];
-	int		c[3];
-	int		x;
-	int		y;
-	int		width;
-	int		height;
+	unsigned int	f;
+	unsigned int	c;
+	int				x;
+	int				y;
+	int				width;
+	int				height;
 	//char table containing map
-	char	**map;
-	char	player_orientation;
+	char			**map;
+	char			player_orientation;
 }		t_map;
 
 typedef struct s_mlx
