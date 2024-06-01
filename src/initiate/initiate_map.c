@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 13:19:30 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/05/31 07:27:42 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	set_player_pos(t_map **map)
 		i++;
 	}
 }
+
 //initialing map structure
 void	map_init(t_map *map, int fd)
 {
@@ -64,4 +65,3 @@ void	map_init(t_map *map, int fd)
 	map->map = set_map(map->map, map->width, map->height);
 	set_player_pos(&map);
 }
-

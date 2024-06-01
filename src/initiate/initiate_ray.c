@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_map.c                                       :+:      :+:    :+:   */
+/*   initiate_ray.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 16:52:33 by alimotta         ###   ########.fr       */
+/*   Created: 2024/05/30 11:22:14 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/01 08:27:53 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	render_map(t_cub3d *cub3d)
+/*Initiate the ray struct and set all variables to zero*/
+t_ray	initiate_ray(void)
 {
-	clear_mini_map(&cub3d->game);
-	render_mini_map(cub3d);
-	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
-		cub3d->game.img_minimap.img, 0, 0);
-	raycasting(cub3d);
-	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
-		cub3d->game.img.img, 0, 100);
-	
-	return (0);
+	t_ray	ray;
+
+	ray.distance = 0;
+	ray.flag = 0;
+	ray.ray_ngl = 0;
+	return (ray);
 }

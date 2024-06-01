@@ -6,18 +6,20 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:13:10 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 16:09:56 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/01 09:14:54 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/*Return the addres of the image passed as parameter*/
 static char	*get_address(t_img *img)
 {
 	return (mlx_get_data_addr(img->img, &img->bpp, \
 		&img->line_length, &img->endian));
 }
 
+/*Set all variable of mlx to NULL*/
 static void	init_mlx_args(t_mlx *game)
 {
 	game->mlx = NULL;

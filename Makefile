@@ -1,7 +1,7 @@
 NAME    		= cub3D
 CC      		= gcc
 LFLAGS  		= -lgcov
-CFLAGS  		= -g -Wall -Wextra -Werror
+CFLAGS  		= -g #-Wall -Wextra -Werror
 
 ifdef COV
     CFLAGS += -fprofile-arcs -ftest-coverage
@@ -11,12 +11,14 @@ MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_mlx.c \
 				src/initiate/initiate_map.c \
 				src/initiate/initiate_player.c \
+				src/initiate/initiate_ray.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
-				src/render/render_map.c \
+				src/render/refresh_win.c \
 				src/render/render_mini_map.c \
-				src/render/clear_mini_map.c \
 				src/render/raycasting.c \
+				src/render/render_item.c \
+				src/render/modify_addrs_img.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
@@ -61,7 +63,7 @@ $(NAME): $(MAIN_OBJS)
 	@printf "$(GREEN)==> Libft compiled ✅\n\n$(RESET)"
 	@make -C $(MINIX11)
 	@printf "$(GREEN)==> Minilib compiled ✅\n\n$(RESET)"
-	@$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(LIBFT_LIB) $(LIB_FLAGS) $(MINIX11_LIB) $(MINIX11_FLAGS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(MAIN_OBJS) $(LIBFT_LIB) $(LIB_FLAGS) $(MINIX11_LIB) $(MINIX11_FLAGS) -O3 -ffast-math -lm
 	@printf "$(GREEN)==> Cub3D compiled ✅\n\n$(RESET)"
 
 $(OBJ_F)%.o: %.c

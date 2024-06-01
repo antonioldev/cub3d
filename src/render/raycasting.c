@@ -1,164 +1,131 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/30 11:04:34 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/01 09:01:20 by alimotta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-// Calculate length of ray from one x or y-side to next x or y-side
-static double	calculate_delta(double ray_dir)
+/*Determines the quadrant of the angle on the unit circle, return 1 if in range
+if c == x, direction is right, if c == y direction is down*/
+static int	unit_circle(float angl, char c)
 {
-	if (ray_dir == 0)
-		return (1e30);
-	else
-		return (fabs(1 / ray_dir));
+	if (c == 'x')
+	{
+		if (angl > 0 && angl < M_PI)
+			return (1);
+	}
+	else if (c == 'y')
+	{
+		if (angl > (M_PI / 2) && angl < (3 * M_PI) / 2)
+			return (1);
+	}
+	return (0);
 }
 
-// Calculate step and initial sideDist
-static void	calculate_side_distance(t_view *v, int *step_x, int *step_y)
+/*Adjust the intersection and step values based on the angle and if is
+horizontal or vertical intersection*/
+static int	intersection_check(float angl, float *inter,
+	float *step, int is_horizon)
 {
-	if (v->ray_dir_x < 0)
+	if (is_horizon)
 	{
-		*step_x = -1;
-		v->side_dist_x = (v->x - v->map_x) * v->delta_dist_x;
-	}
-	else
-	{
-		*step_x = 1;
-		v->side_dist_x = (v->map_x + 1.0 - v->x) * v->delta_dist_x;
-	}
-	if (v->ray_dir_y < 0)
-	{
-		*step_y = -1;
-		v->side_dist_y = (v->y - v->map_y) * v->delta_dist_y;
-	}
-	else
-	{
-		*step_y = 1;
-		v->side_dist_y = (v->map_y + 1.0 - v->y) * v->delta_dist_y;
-	}
-}
-// Perform DDA alghortim far calculating pixel positions
-static void	perform_dda(t_cub3d *cub3d, int step_x, int step_y)
-{
-	int		hit;
-
-	hit = 0;
-	while (hit == 0)
-	{
-		if (cub3d->v.side_dist_x < cub3d->v.side_dist_y)
+		if (angl > 0 && angl < M_PI)
 		{
-			cub3d->v.side_dist_x += cub3d->v.delta_dist_x;
-			cub3d->v.map_x += step_x;
-			cub3d->v.side = 0;
+			*inter += TILE_SIZE;
+			return (-1);
 		}
-		else
+		*step *= -1;
+	}
+	else
+	{
+		if (!((angl > (M_PI / 2)) && (angl < ((3 * M_PI) / 2))))
 		{
-			cub3d->v.side_dist_y += cub3d->v.delta_dist_y;
-			cub3d->v.map_x += step_y;
-			cub3d->v.side = 1;
+			*inter += TILE_SIZE;
+			return (-1);
 		}
-		if (cub3d->map.map[(int)cub3d->v.map_x][(int)cub3d->v.map_y] == '1')
-			hit = 1;
+		*step *= -1;
 	}
+	return (1);
 }
 
-void set_pixel(t_cub3d *cub3d, int x, int y, int color)
+/*Check if the coordinates x and y intersect with a wall
+ return 0 if a wall was hit or coordinates are out of bounds*/
+static int	wall_hit(float x, float y, t_cub3d *cub3d)
 {
-	int pixel = (y * cub3d->game.img.line_length) + (x * (cub3d->game.img.bpp / 8));
-	*(int *)(cub3d->game.img.img + pixel) = color;
+	int	x_m;
+	int	y_m;
+
+	if (x < 0 || y < 0)
+		return (0);
+	x_m = floor (x / TILE_SIZE);
+	y_m = floor (y / TILE_SIZE);
+	if (y_m >= cub3d->map.height || x_m >= cub3d->map.width)
+		return (0);
+	if (cub3d->map.map[y_m] && x_m <= (int)ft_strlen(cub3d->map.map[y_m]))
+		if (cub3d->map.map[y_m][x_m] == '1')
+			return (0);
+	return (1);
 }
 
-void draw_vertical_line(t_cub3d *cub3d, int x, int start, int end, int color)
+/*Find the distance with the nearest vertical wall intersection by
+ - Calculate the initial vertical intersection and step values
+ - Adjust the values based on the angle
+ - Looping until a wall is hit*/
+float	find_v_inter(t_cub3d *cub3d, float angl)
 {
-	int		y;
-	char	*pixel_addr;
+	float	v_x;
+	float	v_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
 
-	y = start;
-	while (y <= end)
+	x_step = TILE_SIZE;
+	y_step = TILE_SIZE * tan(angl);
+	v_x = floor(cub3d->p.p_x / TILE_SIZE) * TILE_SIZE;
+	pixel = intersection_check(angl, &v_x, &x_step, 0);
+	v_y = cub3d->p.p_y + (v_x - cub3d->p.p_x) * tan(angl);
+	if ((unit_circle(angl, 'x') && y_step < 0)
+		|| (!unit_circle(angl, 'x') && y_step > 0))
+		y_step *= -1;
+	while (wall_hit(v_x - pixel, v_y, cub3d))
 	{
-		pixel_addr = cub3d->game.img.addr + ((y) * cub3d->game.img.line_length + (x) * (cub3d->game.img.bpp / 8));
-		if (pixel_addr < cub3d->game.img.addr + cub3d->game.img.line_length * HEIGHT)
-			*(unsigned int *)pixel_addr = color;
-		y++;
+		v_x += x_step;
+		v_y += y_step;
 	}
+	return (sqrt(pow(v_x - cub3d->p.p_x, 2) + pow(v_y - cub3d->p.p_y, 2)));
 }
 
-void	raycasting(t_cub3d *cub3d)
+/*Find the distance with the nearest horizontal wall intersection by
+ - Calculate the initial horizontal intersection and step values
+ - Adjust the values based on the angle
+ - Looping until a wall is hit*/
+float	find_h_inter(t_cub3d *cub3d, float angl)
 {
-	int	x;
-	int	step_x;
-	int	step_y;
-	
-	x = 0;
-	step_x = 0;
-	step_y = 0;
-	while (x < WIDTH)
+	float	h_x;
+	float	h_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
+
+	y_step = TILE_SIZE;
+	x_step = TILE_SIZE / tan(angl);
+	h_y = floor(cub3d->p.p_y / TILE_SIZE) * TILE_SIZE;
+	pixel = intersection_check(angl, &h_y, &y_step, 1);
+	h_x = cub3d->p.p_x + (h_y - cub3d->p.p_y) / tan(angl);
+	if ((unit_circle(angl, 'y') && x_step > 0)
+		|| (!unit_circle(angl, 'y') && x_step < 0))
+		x_step *= -1;
+	while (wall_hit(h_x, h_y - pixel, cub3d))
 	{
-		cub3d->v.camera_x = 2 * x / (double) WIDTH - 1;
-		cub3d->v.ray_dir_x = cub3d->v.dir_x + cub3d->v.plane_x * cub3d->v.camera_x;
-		cub3d->v.ray_dir_y = cub3d->v.dir_y + cub3d->v.plane_y * cub3d->v.camera_x;
-		cub3d->v.map_x = (int)cub3d->v.x;
-		cub3d->v.map_y = (int)cub3d->v.y;
-		cub3d->v.delta_dist_x = calculate_delta(cub3d->v.ray_dir_x);
-		cub3d->v.delta_dist_y = calculate_delta(cub3d->v.ray_dir_y);
-		calculate_side_distance(&cub3d->v, &step_x, &step_y);
-		perform_dda(cub3d, step_x, step_y);
-		if (cub3d->v.side == 0)
-			cub3d->v.distance = (cub3d->v.side_dist_x - cub3d->v.delta_dist_x);
-		else
-			cub3d->v.distance = (cub3d->v.side_dist_y - cub3d->v.delta_dist_y);
-		cub3d->v.line_height = (int)(HEIGHT / cub3d->v.distance);
-		cub3d->v.draw_start = ((-cub3d->v.line_height) / 2) + (HEIGHT / 2);
-		if (cub3d->v.draw_start < 0)
-			cub3d->v.draw_start = 0;
-		cub3d->v.draw_end = (cub3d->v.line_height / 2) + (HEIGHT / 2);
-		if (cub3d->v.draw_end >= HEIGHT)
-			cub3d->v.draw_end = HEIGHT - 1;
-		draw_vertical_line(cub3d, x, cub3d->v.draw_start, cub3d->v.draw_end, 0xFF0000);
-		x++;
+		h_x += x_step;
+		h_y += y_step;
 	}
+	return (sqrt(pow(h_x - cub3d->p.p_x, 2) + pow(h_y - cub3d->p.p_y, 2)));
 }
-/*
-if (cub3d->v.ray_dir_x == 0)
-	cub3d->v.delta_dist_x = 1e30;
-else
-	cub3d->v.delta_dist_x = fabs(1 / cub3d->v.ray_dir_x);
-if (cub3d->v.ray_dir_y == 0)
-	cub3d->v.delta_dist_y = 1e30;
-else
-	cub3d->v.delta_dist_y = fabs(1 / cub3d->v.ray_dir_y);
-if (cub3d->v.ray_dir_x < 0)
-{
-	step_x = -1;
-	cub3d->v.side_dist_x = (cub3d->v.x - cub3d->v.map_x) * cub3d->v.delta_dist_x;
-}
-else
-{
-	step_x = 1;
-	cub3d->v.side_dist_x = (cub3d->v.map_x + 1.0 - cub3d->v.x) * cub3d->v.delta_dist_x;
-}
-if (cub3d->v.ray_dir_y < 0)
-{
-	step_y = -1;
-	cub3d->v.side_dist_y = (cub3d->v.y - cub3d->v.map_y) * cub3d->v.delta_dist_y;
-}
-else
-{
-	step_y = 1;
-	cub3d->v.side_dist_y = (cub3d->v.map_y + 1.0 - cub3d->v.y) * cub3d->v.delta_dist_y;
-}
-int		hit = 0;
-while (hit == 0)
-{
-if (cub3d->v.side_dist_x < cub3d->v.side_dist_y)
-{
-cub3d->v.side_dist_x += cub3d->v.delta_dist_x;
-cub3d->v.map_x += step_x;
-cub3d->v.side = 0;
-}
-else
-{
-cub3d->v.side_dist_y += cub3d->v.delta_dist_y;
-cub3d->v.map_y += step_y;
-cub3d->v.side = 1;
-}
-if (cub3d->map.map[(int)cub3d->v.map_x][(int)cub3d->v.map_y] != '0')
-hit = 1;
-}
-*/
