@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 08:45:05 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/01 10:30:24 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	render_wall(t_cub3d *cub3d, int ray)
 	double	t_pixel;
 
 	wall_h = (TILE_SIZE / cub3d->ray.distance) * cub3d->p.distance_to_plane;
-	b_pixel = (HEIGHT / 2) + (wall_h / 2);
-	t_pixel = (HEIGHT / 2) - (wall_h / 2);
+	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
+	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
 	if (b_pixel > HEIGHT)
 		b_pixel = HEIGHT;
 	if (t_pixel < 0)

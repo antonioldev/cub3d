@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 10:08:36 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:32:46 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ void	raycasting(t_cub3d *cub3d)
 		}
 		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl - \
 					cub3d->p.angle));
+		// printf("%f\n", cub3d->ray.distanece);
 		render_wall(cub3d, ray);
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
 	}
 }
 
+/*It keep rendering the map and minimap on display*/
 int	refresh_win(t_cub3d *cub3d)
 {
+	check_for_input(cub3d, 0, 0);
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);

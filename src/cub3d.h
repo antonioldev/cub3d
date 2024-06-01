@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 10:10:04 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:01:23 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_player
 {
 	int			p_x;
 	int			p_y;
-	int			height;
 	float		distance_to_plane;
 	double		angle;
 	float		fov_rd;
@@ -110,10 +109,7 @@ t_ray			initiate_ray(void);
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
 int				handle_input(int ks, t_cub3d *cub3d);
-void			ft_move_left(t_map *map);
-void			ft_move_right(t_map *map);
-void			ft_move_up(t_map *map);
-void			ft_move_down(t_map *map);
+void			check_for_input(t_cub3d *cub3d, double move_x, double move_y);
 
 //RENDER FOLDER
 int				refresh_win(t_cub3d *cub3d);
@@ -157,12 +153,9 @@ void			parsing_error(char **map, char *message);
 #  define ROTATION_SPEED 0.045
 # endif
 # ifndef PLAYER_SPEED
-#  define PLAYER_SPEED 4
+#  define PLAYER_SPEED 6
 # endif
 # ifndef PLAYER_HEIGHT
 #  define PLAYER_HEIGHT 32
 # endif
-// # ifndef M_PI
-// #  define MPI 3.14159265358979323846
-// # endif
 #endif

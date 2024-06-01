@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 17:03:19 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 10:14:36 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:45:35 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ void	clear_mini_map(t_mlx *game)
 {
 	int		x;
 	int		y;
-	int		*pixel_addr;
+	char	*pixel_addr;
 	t_img	*img;
 
 	img = &game->img_minimap;
-	y = HEIGHT;
-	while (y < HEIGHT + HEIGHT_MINI)
+	y = 0;
+	while (y < HEIGHT_MINI)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
 			pixel_addr = (int *)(img->addr + y * \
 					img->line_length + x * (img->bpp / 8));
-			*pixel_addr = 0x0;
+			*(unsigned int *)pixel_addr = 0x0;
 			x++;
 		}
 		y++;
@@ -94,18 +94,31 @@ int	get_color(t_cub3d *cub3d, int flag)
 	}
 }
 
+int	change_intesity(double distance)
+{
+	int		intensity;
+
+	if (distance < 500)
+		intensity = 1 / distance * distance;
+	else if (distance >= 500 && distance < 1000)
+		intensity = 0.75 / distance * distance;
+	else
+		intensity = 0.50 / distance * distance;
+	return (intensity);
+}
+
 /*Draw the 3d map using its address, each loop draw different parts of the map
 respectively cealing, walls, floor*/
 void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 {
 	int		i;
-
+	
 	i = 0;
 	while (i++ < t_pixel)
 		draw_pixel(cub3d, ray, 0xFFFFFF, i);
 	i = b_pixel;
 	while (i++ < HEIGHT)
-		draw_pixel(cub3d, ray, 0x808080, i);
+		draw_pixel(cub3d, ray, (0x808080), i);
 	while (t_pixel++ < b_pixel)
 		draw_pixel(cub3d, ray, get_color(cub3d, cub3d->ray.flag), t_pixel);
 }
