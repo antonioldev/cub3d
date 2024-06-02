@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 14:01:23 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/02 08:22:18 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ t_ray			initiate_ray(void);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
-int				handle_input(int ks, t_cub3d *cub3d);
+int				key_press(int ks, t_cub3d *cub3d);
+int				key_release(int ks, t_cub3d *cub3d);
 void			check_for_input(t_cub3d *cub3d, double move_x, double move_y);
 
 //RENDER FOLDER
@@ -150,10 +151,10 @@ void			parsing_error(char **map, char *message);
 #  define FOV 60
 # endif
 # ifndef ROTATION_SPEED
-#  define ROTATION_SPEED 0.045
+#  define ROTATION_SPEED 0.035
 # endif
 # ifndef PLAYER_SPEED
-#  define PLAYER_SPEED 6
+#  define PLAYER_SPEED 2
 # endif
 # ifndef PLAYER_HEIGHT
 #  define PLAYER_HEIGHT 32

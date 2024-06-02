@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 13:56:20 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/02 08:21:05 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	main(int argc, char **argv)
 	load_data(&cub3d, argc, argv);
 	mlx_loop_hook(cub3d.game.mlx, refresh_win, &cub3d);
 	mlx_hook(cub3d.game.win, 17, 1L << 0, x_pressed, &cub3d);
-	mlx_hook(cub3d.game.win, 3, 1L << 1, handle_input, &cub3d);
+	mlx_hook(cub3d.game.win, 2, 1L << 0, key_press, &cub3d);
+	mlx_hook(cub3d.game.win, 3, 1L << 1, key_release, &cub3d);
 	mlx_loop(cub3d.game.mlx);
 	ft_destroy_mlx(&cub3d.game);
 	return (EXIT_SUCCESS);

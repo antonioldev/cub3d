@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_movement.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:43:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 14:53:58 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/02 08:24:59 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	rotate_player(t_cub3d *cub3d, int i)
 		if (cub3d->p.angle < 0)
 			cub3d->p.angle += 2 * M_PI;
 	}
-	cub3d->p.rot = 0;
 }
 
 /*Calculate the movement of the player based on the moves*/
@@ -95,6 +94,4 @@ void	check_for_input(t_cub3d *cub3d, double move_x, double move_y)
 		move_y = -sin(cub3d->p.angle) * PLAYER_SPEED;
 	}
 	move_player(cub3d, move_x, move_y);
-	cub3d->p.u_d = 0;
-	cub3d->p.l_r = 0;
 }
