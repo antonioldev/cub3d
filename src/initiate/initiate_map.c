@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/30 17:41:03 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:00:52 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,15 +185,6 @@ char	**read_file(t_map *map, int fd)
 	}
 }
 
-void	create_map(t_map *map, int fd)
-{
-	char	**c_map;
-
-	map_init(map);
-	c_map = read_file(map, fd);
-	put_map(map, c_map);
-}
-
 void	map_init(t_map *map)
 {
 	map->no = NULL;
@@ -208,4 +199,40 @@ void	map_init(t_map *map)
 	map->map = 0;
 	map->x = 0;
 	map->y = 0;
+}
+
+void	create_map(t_map *map, int fd)
+{
+	char	**arr_file;
+	char	*str_file;
+	char	**c_map;
+	int		i;
+
+	map_init(map);
+	str_file = ft_read_from_file(fd, NULL);
+	arr_file = ft_split(str_file, '\n');
+	free(str_file);
+	i = 0;
+	while (arr_file[i])
+	{
+		if (is_fc(arr_file[i]))
+			set_fc(map, arr_file[i]); //TODO
+		else if (is_texture(arr_file[i]))
+			set_texture(map, arr_file[i]); //TODO
+		else if (is_map(arr_file[i]))
+			break ;
+		else if (is_empty(arr_file[i]))
+			;
+		else 
+			file_error();//TODO	
+		i++;
+	}
+	c_map = &(arr_file[i]);
+	if (!check_map(c_map, map))//TODO
+	{
+		free_double_array(arr_file);
+		perror("Error\nMap error\n");
+		exit (1);
+	}
+	free_double_array(arr_file);
 }

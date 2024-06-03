@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/30 17:03:37 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:33:13 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_cub3d
 char		*ft_read_from_file(int fd, char *s);
 int			ft_error(int argc, char **argv);
 char		*ft_read_from_file(int fd, char *s);
-void		map_init(t_map *map, int fd);
 int			check_borders(char	**map);
 int			count_lines(char **map);
 char		**format_map(char **map, int w);
