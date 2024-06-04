@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:04:34 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 09:01:20 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:16:36 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ float	find_v_inter(t_cub3d *cub3d, float angl)
 		v_x += x_step;
 		v_y += y_step;
 	}
+	cub3d->ray.intersect_x = v_x;
+	cub3d->ray.intersect_y = v_y;
 	return (sqrt(pow(v_x - cub3d->p.p_x, 2) + pow(v_y - cub3d->p.p_y, 2)));
 }
 
@@ -127,5 +129,7 @@ float	find_h_inter(t_cub3d *cub3d, float angl)
 		h_x += x_step;
 		h_y += y_step;
 	}
+	cub3d->ray.intersect_x = h_x;
+	cub3d->ray.intersect_y = h_y;
 	return (sqrt(pow(h_x - cub3d->p.p_x, 2) + pow(h_y - cub3d->p.p_y, 2)));
 }

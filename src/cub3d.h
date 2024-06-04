@@ -6,7 +6,7 @@
 /*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/02 08:22:18 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/04 18:17:54 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include <X11/keysym.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
+
+typedef enum e_orientation
+{
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}		t_orientation;
 
 typedef struct s_map
 {
@@ -70,10 +78,24 @@ typedef struct s_player
 	int			u_d;
 }		t_player;
 
+typedef struct s_texture
+{
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bpp;
+	int			line_length;
+	int			endian;
+} 		t_texture;
+
 typedef struct s_ray
 {
 	double		ray_ngl;
 	double		distance;
+	double		intersect_x;
+	double		intersect_y;
+	double		wall_x;
 	int			flag;
 }		t_ray;
 
@@ -83,6 +105,7 @@ typedef struct s_cub3d
 	t_map		map;
 	t_player	p;
 	t_ray		ray;
+	t_texture	textures[4];
 }		t_cub3d;
 
 //PARSING FOLDER
@@ -105,6 +128,7 @@ void			map_init(t_map *map, int fd);
 t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(void);
+void 			load_texture(t_texture *texture, t_mlx *game, char *filename, int i);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -125,10 +149,11 @@ float			nor_angle(float angle);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
-void			ft_destroy_mlx(t_mlx *game);
+void			ft_destroy_mlx(t_cub3d *cub3d);
 void			initiate_error_win(t_mlx game);
 void			initiate_error_img_minimap(t_mlx game);
 void			initiate_error_img_map(t_mlx game);
+void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
 void			parsing_error(char **map, char *message);
 
@@ -151,7 +176,7 @@ void			parsing_error(char **map, char *message);
 #  define FOV 60
 # endif
 # ifndef ROTATION_SPEED
-#  define ROTATION_SPEED 0.035
+#  define ROTATION_SPEED 0.025
 # endif
 # ifndef PLAYER_SPEED
 #  define PLAYER_SPEED 2

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_item.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/01 10:30:24 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:25:46 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,11 @@ void	render_wall(t_cub3d *cub3d, int ray)
 		b_pixel = HEIGHT;
 	if (t_pixel < 0)
 		t_pixel = 0;
+
+	// if (cub3d->ray.flag == 0)
+        cub3d->ray.wall_x = cub3d->ray.intersect_y;
+    // else
+    //     cub3d->ray.wall_x = cub3d->ray.intersect_x;
+	cub3d->ray.wall_x = fmod(cub3d->ray.wall_x, TILE_SIZE);
 	draw_map(cub3d, ray, t_pixel, b_pixel);
 }

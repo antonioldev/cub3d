@@ -6,7 +6,7 @@
 /*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/02 08:25:40 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/04 19:25:40 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	raycasting(t_cub3d *cub3d)
 	double	h_inter;
 	double	v_inter;
 	int		ray;
+	float	wall_x;
 
 	ray = 0;
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
@@ -27,7 +28,10 @@ void	raycasting(t_cub3d *cub3d)
 		h_inter = find_h_inter(cub3d, cub3d->ray.ray_ngl);
 		v_inter = find_v_inter(cub3d, cub3d->ray.ray_ngl);
 		if (v_inter <= h_inter)
+		{
 			cub3d->ray.distance = v_inter;
+			cub3d->ray.flag = 0;
+		}
 		else
 		{
 			cub3d->ray.distance = h_inter;

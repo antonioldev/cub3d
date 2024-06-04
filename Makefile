@@ -12,6 +12,7 @@ MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_map.c \
 				src/initiate/initiate_player.c \
 				src/initiate/initiate_ray.c \
+				src/initiate/initiate_texture.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
 				src/render/refresh_win.c \
