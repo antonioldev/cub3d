@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/03 16:33:13 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:58:05 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,25 @@ int			check_player(char **map);
 int			is_allowed_p(char c);
 int			is_allowed_all(char c);
 void		set_player_pos(t_map **map);
+void		create_map(t_map *map, int fd);
+
+//PARSING/parsing_colour.c
+int			is_rgb(char *line);
+int			is_fc(char *line);
+void		rgb_to_hex(char *line, unsigned int *colour);
+void		set_fc(t_map *map, char *line);
+//PARSING/parsing_texture.c
+int			check_texture(char *texture);
+int			is_texture(char *line);
+void		set_texture(t_map *map, char *texture);
+////////////////////////////
+void		free_t_map(t_map *map);
+
 
 
 
 //INITIATE FOLDER
-void		map_init(t_map *map, int fd);
+void		map_init(t_map *map);
 t_mlx		initiate_mlx(t_map *map);
 
 //INPUT FOLDER
@@ -101,6 +115,6 @@ void		clear_mini_map(t_cub3d *cub3d);
 int			ft_error(int argc, char **argv);
 void		ft_destroy_mlx(t_mlx *game);
 void		free_double_array(char **array);
-void		parsing_error(char **map, char *message);
+int			parsing_error(char *message);
 
 #endif

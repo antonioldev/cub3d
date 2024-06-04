@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:23:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/29 14:44:24 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:14:58 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,14 @@ int	check_player(char **map)
 				if (is_allowed_p(*line) && !flag)
 					flag = 1;
 				else if (is_allowed_p(*line) && flag)
-					parsing_error(map, "Error\nPlayer Error\n");
+					return (0);
 				line++;
 			}
 			map++;
 		}
 		if (!flag)
-			parsing_error(map, "Error\nPlayer Error\n");
+			return (0);
+
 	}
 	return (1);
 }
@@ -105,16 +106,16 @@ int	check_borders(char	**map)
 	int	lines;
 
 	if (!check_top(map[0]))
-		parsing_error(map, "Error\nIncorrect map format\n");
+		return (0);
 	i = 1;
 	lines = count_lines(map);
 	while (i < lines - 1)
 	{
 		if (!check_middle(map[i]))
-			parsing_error(map, "Error\nIncorrect map format\n");
+			return (0);
 		i++;
 	}
 	if (!check_top(map[lines - 1]))
-		parsing_error(map, "Error\nIncorrect map format\n");
+		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:14:59 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/29 14:43:17 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:13:44 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	check_zero(char **map, int w, int h)
 		{
 			if (map[i][j] == '0')
 				if (!check_spaces(map, i, j))
-					parsing_error(map, "Error\nMap Error\n");
+					return (0);
 			j++;
 		}
 		i++;

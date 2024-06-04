@@ -6,22 +6,22 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/03 17:00:52 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:13:57 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-char	**set_map(char **map, int w, int h)
-{
-	char	**new;
+// char	**set_map(char **map, int w, int h)
+// {
+// 	char	**new;
 
-	new = format_map(map, w);
-	check_player(new);
-	check_borders(new);
-	check_zero(new, w, h);
-	return (new);
-}
+// 	new = format_map(map, w);
+// 	check_player(new);
+// 	check_borders(new);
+// 	check_zero(new, w, h);
+// 	return (new);
+// }
 
 void	set_player_pos(t_map **map)
 {
@@ -47,49 +47,6 @@ void	set_player_pos(t_map **map)
 		i++;
 	}
 }
-//initialing map structure
-void	put_map(t_map *map, char **c_map)
-{
-	map->map = c_map;
-	map->width = count_colum(map->map);
-	map->height = count_lines(map->map);
-	map->map = set_map(map->map, map->width, map->height);
-	set_player_pos(&map);
-}
-
-char	*check_arg(char *filename)
-{
-	if (filename == NULL)
-		return (NULL);
-	else
-	{
-		if (access(filename, F_OK | R_OK) == -1) //TODO change access() to open()
-			return (NULL);
-		else
-			return (filename);
-	}
-	return (NULL);
-}
-
-int	check_num(char *num)
-{
-	int	number;
-	int	i;
-
-	i = 0;
-	while (num[i])
-	{
-		if (!ft_isdigit(num[i]))
-			return (-1);
-		i++;
-	}
-	if (i  > 3)
-		return (-1);
-	number = ft_atoi(num);
-	if (num < 0 || num > 255)
-		return (-1);
-	return (number);
-}
 
 int	double_array_len(char **arr)
 {
@@ -102,87 +59,6 @@ int	double_array_len(char **arr)
 		len++;
 	}
 	return (len);
-}
-
-int	check_rgb(char *rgb, int arr[3])
-{
-	char	**num;
-
-	num = ft_split(rgb, ',');
-	if (double_array_len(num) != 3)
-	{
-
-	}
-}
-
-int	file_line_map(char **temp_line, t_map *map)
-{
-	if (!ft_strncmp(temp_line[0], "F", 2))
-	{
-		if (check_rgb(temp_line[1], map->f) == -1)
-			return (-1);
-	}
-	if (!ft_strncmp(temp_line[0], "C", 2))
-	{
-		if (check_rgb(temp_line[1], map->c) == -1)
-			return (-1);
-	}
-	return (1);
-}
-
-int	file_line(char **temp_line, t_map *map)
-{
-	if (!ft_strncmp(temp_line[0], "NO", 3))
-	{
-		map->no = check_arg(temp_line[1]);
-		if (map->no == NULL)
-			return (-1);
-	}
-	if (!ft_strncmp(temp_line[0], "SO", 3))
-	{
-		map->so = check_arg(temp_line[1]);
-		if (map->so == NULL)
-			return (-1);
-	}
-	if (!ft_strncmp(temp_line[0], "WE", 3))
-	{
-		map->we = check_arg(temp_line[1]);
-		if (map->we == NULL)
-			return (-1);
-	}
-	if (!ft_strncmp(temp_line[0], "EA", 3))
-	{
-		map->ea = check_arg(temp_line[1]);
-		if (map->ea == NULL)
-			return (-1);
-	}
-	else 
-		return (file_line_map(temp_line, map));
-	return (1);
-}
-
-char	**read_file(t_map *map, int fd)
-{
-	char	*str;
-	char	**temp;
-	char	**temp_line;
-	int		i;
-
-	str = ft_read_from_file(fd, NULL);
-	temp = ft_split(str, '\n');
-	free(str);
-	i = 0;
-	while (temp[i])
-	{
-		temp_line = ft_split(temp[i], ' ');
-		if (file_line(temp_line, map) < 0)
-		{
-			free_double_array(temp);
-			free_double_array(temp_line);
-			perror("Error\nArgs error\n");
-			exit (1);
-		}
-	}
 }
 
 void	map_init(t_map *map)
@@ -201,6 +77,50 @@ void	map_init(t_map *map)
 	map->y = 0;
 }
 
+int	is_map(char *line)
+{
+	while (*line)
+	{
+		if (!is_allowed_all(*line))
+			return (0);
+		line++;
+	}
+	return (1);
+}
+
+int	is_empty(char *line)
+{
+	if (ft_strlen(line) == 0)
+		return (1);
+	return (0);
+}
+
+void	file_error(char **to_clean, t_map *map)
+{
+	free_double_array(to_clean);
+	perror("Error\nFile error\n");
+	free_t_map(map);
+	exit (1);
+}
+
+int	check_map(char **cur_map, t_map *map)
+{
+	char	**new;
+	int		ret;
+
+	ret = 1;
+	map->width = count_colum(cur_map);
+	map->height = count_lines(cur_map);
+
+	new = format_map(cur_map, map->width);
+	ret = check_player(new) && check_borders(new) \
+		&& check_zero(new, map->width, map->height);
+	map->map = new;
+	if (new == NULL)
+		return (0);
+	return (ret);
+}
+
 void	create_map(t_map *map, int fd)
 {
 	char	**arr_file;
@@ -216,23 +136,20 @@ void	create_map(t_map *map, int fd)
 	while (arr_file[i])
 	{
 		if (is_fc(arr_file[i]))
-			set_fc(map, arr_file[i]); //TODO
+			set_fc(map, arr_file[i]);
 		else if (is_texture(arr_file[i]))
-			set_texture(map, arr_file[i]); //TODO
+			set_texture(map, arr_file[i]);
 		else if (is_map(arr_file[i]))
 			break ;
 		else if (is_empty(arr_file[i]))
 			;
-		else 
-			file_error();//TODO	
+		else
+			file_error(arr_file, map);
 		i++;
 	}
 	c_map = &(arr_file[i]);
-	if (!check_map(c_map, map))//TODO
-	{
-		free_double_array(arr_file);
-		perror("Error\nMap error\n");
-		exit (1);
-	}
+	if (!check_map(c_map, map)) 
+		file_error(arr_file, map);
 	free_double_array(arr_file);
+	set_player_pos(&map);
 }
