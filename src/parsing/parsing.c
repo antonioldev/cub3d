@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:12:16 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/25 11:04:55 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:38:46 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ char	*ft_read_from_file(int fd, char *s)
 			s = (char *)malloc(ft_strlen(s2) + 1);
 			ft_strlcpy(s, s2, ft_strlen(s2) + 1);
 			free (s2);
+		}
+		else if (bytes_read == 0 && s == 0)
+		{
+			perror("Error\nEmpty map\n");
+			exit (1);
 		}
 	}
 	return (s);

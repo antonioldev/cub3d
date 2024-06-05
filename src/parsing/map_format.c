@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:01:17 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/29 14:44:41 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:28:45 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,15 @@ char	**format_map(char **map, int w)
 	lines = count_lines(map);
 	new = (char **)malloc((lines + 1) * sizeof(char *));
 	if (new == NULL)
-	{
-		free_double_array(map);
-		perror("Malloc error\n");
-		exit(1);
-	}
+		return (NULL);
 	i = 0;
 	while (i < lines)
 	{
+		if (ft_strlen(map[i]) == 0)
+			return (NULL);
 		new[i] = fill_string(map[i], w, map);
 		i++;
 	}
 	new[i] = NULL;
-	free_double_array(map);
 	return (new);
 }
