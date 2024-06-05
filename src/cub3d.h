@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 16:58:05 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:41:35 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include <X11/keysym.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
+
+typedef enum e_orientation
+{
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}		t_orientation;
 
 typedef struct s_map
 {
@@ -48,11 +56,11 @@ typedef struct s_map
 
 typedef struct s_img
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
+	void		*img;
+	char		*addr;
+	int			bpp;
+	int			line_length;
+	int			endian;
 }		t_img;
 
 typedef struct s_mlx
@@ -63,40 +71,51 @@ typedef struct s_mlx
 	t_img		img_minimap;
 }		t_mlx;
 
-typedef struct s_view
+typedef struct s_player
 {
-	double		x;//position player on grid
-	double		y;
-	double		dir_x;//diretion player on map
-	double		dir_y;
-	double		plane_x;//the 2d raycaster version of camera plane
-	double		plane_y;
-	double		map_x;
-	double		map_y;
-	int			pl_speed;
+	int			p_x;
+	int			p_y;
+	float		distance_to_plane;
+	double		angle;
+	float		fov_rd;
 	int			rot;
-	int			side;
-	double		rot_speed;
-	double		camera_x;//coordinate on the camera plane that the current x-coordinate of the screen represents
-	double		ray_dir_x;
-	double		ray_dir_y;
-	double		delta_dist_x;// distance the ray has to travel to go from 1 x-side to the next side
-	double		delta_dist_y;
-	double		side_dist_x;
-	double		side_dist_y;
+	int			l_r;
+	int			u_d;
+}		t_player;
+
+typedef struct s_texture
+{
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bpp;
+	int			line_length;
+	int			endian;
+}		t_texture;
+
+typedef struct s_ray
+{
 	double		ray_ngl;
 	double		distance;
+	double		distance_scale;
+	double		wall_x;
 	int			flag;
-	int			line_height;
-	int			draw_start;
-	int			draw_end;
-}		t_view;
+}		t_ray;
+
+typedef struct s_intersect
+{
+	double	inter;
+	double	offset;
+}		t_intersect;
 
 typedef struct s_cub3d
 {
 	t_mlx		game;
 	t_map		map;
-	t_view		v;
+	t_player	p;
+	t_ray		ray;
+	t_texture	textures[4];
 }		t_cub3d;
 
 //PARSING FOLDER
@@ -123,7 +142,6 @@ void		set_fc(t_map *map, char *line);
 int			check_texture(char *texture);
 int			is_texture(char *line);
 void		set_texture(t_map *map, char *texture);
-////////////////////////////
 void		free_t_map(t_map *map);
 
 
@@ -131,29 +149,41 @@ void		free_t_map(t_map *map);
 //INITIATE FOLDER
 void		map_init(t_map *map);
 t_mlx			initiate_mlx(void);
-t_view			initiate_player(t_map map);
+t_player		initiate_player(t_map map);
+t_ray			initiate_ray(t_player p);
+void			load_texture(t_texture *texture, t_mlx *game, \
+					char *filename, int i);
 
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
-int				handle_input(int ks, t_cub3d *cub3d);
-void			ft_move_left(t_map *map);
-void			ft_move_right(t_map *map);
-void			ft_move_up(t_map *map);
-void			ft_move_down(t_map *map);
+int				key_press(int ks, t_cub3d *cub3d);
+int				key_release(int ks, t_cub3d *cub3d);
+void			check_for_input(t_cub3d *cub3d, double move_x, double move_y);
 
 //RENDER FOLDER
-int				render_mini_map(t_cub3d *cub3d);
-int				render_map(t_cub3d *cub3d);
-void			raycasting(t_cub3d *cub3d);
+int				refresh_win(t_cub3d *cub3d);
 void			clear_mini_map(t_mlx *game);
+int				render_mini_map(t_cub3d *cub3d);
+void			draw_square_minimap(t_mlx *game, int w, int h, int color);
+void			find_h_inter(t_cub3d *cub3d, float angl, \
+					t_intersect *intersect);
+void			find_v_inter(t_cub3d *cub3d, float angl, \
+					t_intersect *intersect);
+void			render_wall(t_cub3d *cub3d, int ray);
+float			nor_angle(float angle);
+unsigned int	get_texture_color(t_texture texture, int x, int y);
+t_texture		get_texture(t_cub3d *cub3d, int flag);
+void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
-void			ft_destroy_mlx(t_mlx *game);
+void			ft_destroy_mlx(t_cub3d *cub3d);
 void			initiate_error_win(t_mlx game);
 void			initiate_error_img_minimap(t_mlx game);
 void			initiate_error_img_map(t_mlx game);
+void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
+void			free_double_array(char **array);
 void		free_double_array(char **array);
 int			parsing_error(char *message);
 
@@ -161,7 +191,7 @@ int			parsing_error(char *message);
 #  define WIDTH 800
 # endif
 # ifndef HEIGHT
-#  define HEIGHT 500
+#  define HEIGHT 600
 # endif
 # ifndef TILE_SIZE
 #  define TILE_SIZE 64
@@ -172,5 +202,16 @@ int			parsing_error(char *message);
 # ifndef PIXEL_MINI
 #  define PIXEL_MINI 4
 # endif
-
+# ifndef FOV
+#  define FOV 60
+# endif
+# ifndef ROTATION_SPEED
+#  define ROTATION_SPEED 0.005
+# endif
+# ifndef PLAYER_SPEED
+#  define PLAYER_SPEED 1
+# endif
+# ifndef PLAYER_HEIGHT
+#  define PLAYER_HEIGHT 32
+# endif
 #endif

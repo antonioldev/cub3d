@@ -6,67 +6,40 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:21:29 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/29 17:02:42 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/05 07:47:39 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	initiate_orientation(t_view *player, char c)
+/*Set the angle based on the player orientation*/
+double	calculate_angle(char c)
 {
 	if (c == 'N')
-	{
-		player->dir_x = 0;
-		player->dir_y = 1;
-	}
+		return ((3 * M_PI) / 2);
 	else if (c == 'S')
-	{
-		player->dir_x = 0;
-		player->dir_y = -1;
-	}
+		return (M_PI / 2);
 	else if (c == 'E')
-	{
-		player->dir_x = 1;
-		player->dir_y = 0;
-	}
-	else if (c == 'W')
-	{
-		player->dir_x = -1;
-		player->dir_y = 0;
-	}
+		return (0);
+	else
+		return (M_PI);
 }
 
-t_view	initiate_player(t_map map)
+/*Initiate the player struct
+ - Calculate the center of the tile
+ - Calculate the field of view in radians (convert degrees into radian)
+ - Set the player angle*/
+t_player	initiate_player(t_map map)
 {
-	t_view	player;
+	t_player	player;
 
-	player.x = map.x;
-	player.y = map.y;
-	initiate_orientation(&player, map.player_orientation);
-	// player.dir_x = 0; //TODO update with position
-	// player.dir_y = 1;
-	player.plane_x = 0;
-	player.plane_y = 0.66;
-	// player.pl_speed = 3;
-	// player.rot = 0;
-	// player.rot_speed = 0.020;
-	player.distance = 0;
-	player.flag = 0;
-	player.ray_ngl = 0;
-
-
-	// player.map_x = 0;
-	// player.map_y = 0;
-	// player.side = 0;
-	// player.camera_x = 0;//coordinate on the camera plane that the current x-coordinate of the screen represents
-	// player.ray_dir_x = 0;
-	// player.ray_dir_y = 0;
-	// player.delta_dist_x = 0;// distance the ray has to travel to go from 1 x-side to the next side
-	// player.delta_dist_y = 0;
-	// player.side_dist_x = 0;
-	// player.side_dist_y = 0;
-	// player.line_height = 0;
-	// player.draw_start = 0;
-	// player.draw_end = 0;
+	player.p_x = map.x * TILE_SIZE + TILE_SIZE / 2;
+	player.p_y = map.y * TILE_SIZE + TILE_SIZE / 2;
+	player.fov_rd = (FOV * M_PI) / 180;
+	player.distance_to_plane = (WIDTH / 2) / tan(player.fov_rd / 2);
+	player.angle = calculate_angle(map.player_orientation);
+	player.l_r = 0;
+	player.u_d = 0;
+	player.rot = 0;
 	return (player);
 }

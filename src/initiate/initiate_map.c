@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
 /*   Updated: 2024/06/04 17:13:57 by rtavabil         ###   ########.fr       */
@@ -61,6 +61,7 @@ int	double_array_len(char **arr)
 	return (len);
 }
 
+//initialing map structure
 void	map_init(t_map *map)
 {
 	map->no = NULL;
@@ -153,4 +154,3 @@ void	create_map(t_map *map, int fd)
 	free_double_array(arr_file);
 	set_player_pos(&map);
 }
-
