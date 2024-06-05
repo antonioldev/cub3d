@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 16:58:05 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:09:41 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 # include <X11/keysym.h>
 # include <math.h>
 # include "../libs/libft/libft.h"
+
+typedef	struct s_check
+{
+	int	no;
+	int	so;
+	int	we;
+	int	ea;
+	int	f;
+	int	c;
+}		t_check;
 
 typedef struct s_map
 {
