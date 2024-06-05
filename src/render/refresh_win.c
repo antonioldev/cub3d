@@ -3,40 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   refresh_win.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 19:25:40 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/05 14:33:42 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/*Set the distance and size of walls based on the intersection*/
+void	set_right_intersection(t_cub3d *cub3d, t_intersect inter, int flag)
+{
+	cub3d->ray.distance = inter.inter;
+	cub3d->ray.wall_x = inter.offset;
+	cub3d->ray.flag = flag;
+}
+
 /*For each ray calculate the vertical and horizontal intersection*/
 void	raycasting(t_cub3d *cub3d)
 {
-	double	h_inter;
-	double	v_inter;
-	int		ray;
-	float	wall_x;
+	t_intersect	h_inter;
+	t_intersect	v_inter;
+	int			ray;
+	float		wall_x;
 
 	ray = 0;
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
 	while (ray < WIDTH)
 	{
-		cub3d->ray.flag = 0;
-		h_inter = find_h_inter(cub3d, cub3d->ray.ray_ngl);
-		v_inter = find_v_inter(cub3d, cub3d->ray.ray_ngl);
-		if (v_inter <= h_inter)
-		{
-			cub3d->ray.distance = v_inter;
-			cub3d->ray.flag = 0;
-		}
+		find_v_inter(cub3d, cub3d->ray.ray_ngl, &v_inter);
+		find_h_inter(cub3d, cub3d->ray.ray_ngl, &h_inter);
+		if (v_inter.inter <= h_inter.inter)
+			set_right_intersection(cub3d, v_inter, 0);
 		else
-		{
-			cub3d->ray.distance = h_inter;
-			cub3d->ray.flag = 1;
-		}
+			set_right_intersection(cub3d, h_inter, 1);
 		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl - \
 					cub3d->p.angle));
 		render_wall(cub3d, ray);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 18:17:54 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/05 14:41:35 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,22 @@ typedef struct s_texture
 	int			bpp;
 	int			line_length;
 	int			endian;
-} 		t_texture;
+}		t_texture;
 
 typedef struct s_ray
 {
 	double		ray_ngl;
 	double		distance;
-	double		intersect_x;
-	double		intersect_y;
+	double		distance_scale;
 	double		wall_x;
 	int			flag;
 }		t_ray;
+
+typedef struct s_intersect
+{
+	double	inter;
+	double	offset;
+}		t_intersect;
 
 typedef struct s_cub3d
 {
@@ -127,8 +132,9 @@ void			set_player_pos(t_map **map);
 void			map_init(t_map *map, int fd);
 t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
-t_ray			initiate_ray(void);
-void 			load_texture(t_texture *texture, t_mlx *game, char *filename, int i);
+t_ray			initiate_ray(t_player p);
+void			load_texture(t_texture *texture, t_mlx *game, \
+					char *filename, int i);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -141,11 +147,15 @@ int				refresh_win(t_cub3d *cub3d);
 void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
-float			find_h_inter(t_cub3d *cub3d, float angl);
-float			find_v_inter(t_cub3d *cub3d, float angl);
+void			find_h_inter(t_cub3d *cub3d, float angl, \
+					t_intersect *intersect);
+void			find_v_inter(t_cub3d *cub3d, float angl, \
+					t_intersect *intersect);
 void			render_wall(t_cub3d *cub3d, int ray);
-void			draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel);
 float			nor_angle(float angle);
+unsigned int	get_texture_color(t_texture texture, int x, int y);
+t_texture		get_texture(t_cub3d *cub3d, int flag);
+void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -176,10 +186,10 @@ void			parsing_error(char **map, char *message);
 #  define FOV 60
 # endif
 # ifndef ROTATION_SPEED
-#  define ROTATION_SPEED 0.025
+#  define ROTATION_SPEED 0.005
 # endif
 # ifndef PLAYER_SPEED
-#  define PLAYER_SPEED 2
+#  define PLAYER_SPEED 1
 # endif
 # ifndef PLAYER_HEIGHT
 #  define PLAYER_HEIGHT 32

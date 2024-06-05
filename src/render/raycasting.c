@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:04:34 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 18:16:36 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/05 14:25:31 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	wall_hit(float x, float y, t_cub3d *cub3d)
  - Calculate the initial vertical intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-float	find_v_inter(t_cub3d *cub3d, float angl)
+void	find_v_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 {
 	float	v_x;
 	float	v_y;
@@ -99,16 +99,16 @@ float	find_v_inter(t_cub3d *cub3d, float angl)
 		v_x += x_step;
 		v_y += y_step;
 	}
-	cub3d->ray.intersect_x = v_x;
-	cub3d->ray.intersect_y = v_y;
-	return (sqrt(pow(v_x - cub3d->p.p_x, 2) + pow(v_y - cub3d->p.p_y, 2)));
+	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2) + \
+			pow(v_y - cub3d->p.p_y, 2));
+	intersect->offset = v_y;
 }
 
 /*Find the distance with the nearest horizontal wall intersection by
  - Calculate the initial horizontal intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-float	find_h_inter(t_cub3d *cub3d, float angl)
+void	find_h_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 {
 	float	h_x;
 	float	h_y;
@@ -129,7 +129,7 @@ float	find_h_inter(t_cub3d *cub3d, float angl)
 		h_x += x_step;
 		h_y += y_step;
 	}
-	cub3d->ray.intersect_x = h_x;
-	cub3d->ray.intersect_y = h_y;
-	return (sqrt(pow(h_x - cub3d->p.p_x, 2) + pow(h_y - cub3d->p.p_y, 2)));
+	intersect->inter = sqrt(pow(h_x - cub3d->p.p_x, 2) + \
+			pow(h_y - cub3d->p.p_y, 2));
+	intersect->offset = h_x;
 }
