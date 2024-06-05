@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 15:56:54 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:16:07 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,20 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	load_texture(&cub3d->textures[EAST], &cub3d->game, "./texture/wall_E.xpm", EAST);
 }
 
-int	mouse_hook(t_cub3d *cub3d)
-{
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
 
 	load_data(&cub3d, argc, argv);
 	mlx_loop_hook(cub3d.game.mlx, refresh_win, &cub3d);
+	
 	mlx_hook(cub3d.game.win, 17, 1L << 0, x_pressed, &cub3d);
 	mlx_hook(cub3d.game.win, 2, 1L << 0, key_press, &cub3d);
 	mlx_hook(cub3d.game.win, 3, 1L << 1, key_release, &cub3d);
-	mlx_mouse_hook(cub3d.game.win, mouse_hook, &cub3d);
 	mlx_loop(cub3d.game.mlx);
 	ft_destroy_mlx(&cub3d);
 	return (EXIT_SUCCESS);
 }
+
+//int x; int y;
+//mlx_mouse_get_pos(cub3d.game.mlx ,cub3d.game.win, &x, &y);
