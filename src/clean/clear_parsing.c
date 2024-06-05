@@ -13,11 +13,10 @@
 #include "../cub3d.h"
 
 /*Throw an error and exit the program if there is a parsing error*/
-void	parsing_error(char **map, char *message)
+int	parsing_error(char *message)
 {
 	perror(message);
-	free_double_array(map);
-	exit (1);
+	return (0);
 }
 
 /*Free memory for a double array*/

@@ -35,18 +35,23 @@ typedef enum e_orientation
 
 typedef struct s_map
 {
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	int			f[3];
-	int			c[3];
-	int			x;
-	int			y;
-	int			width;
-	int			height;
-	char		**map;
-	char		player_orientation;
+	//should contain path to texture that should be set on a given direction
+	//will be set to NULL in case nothing was given
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+
+	//each number will be set to -1 in case nothing was given
+	unsigned int	f;
+	unsigned int	c;
+	int				x;
+	int				y;
+	int				width;
+	int				height;
+	//char table containing map
+	char			**map;
+	char			player_orientation;
 }		t_map;
 
 typedef struct s_img
@@ -114,27 +119,41 @@ typedef struct s_cub3d
 }		t_cub3d;
 
 //PARSING FOLDER
-char			*ft_read_from_file(int fd, char *s);
-int				ft_error(int argc, char **argv);
-char			*ft_read_from_file(int fd, char *s);
-void			map_init(t_map *map, int fd);
-int				check_borders(char	**map);
-int				count_lines(char **map);
-char			**format_map(char **map, int w);
-int				count_colum(char **map);
-int				check_zero(char **map, int w, int h);
-int				check_player(char **map);
-int				is_allowed_p(char c);
-int				is_allowed_all(char c);
-void			set_player_pos(t_map **map);
+char		*ft_read_from_file(int fd, char *s);
+int			ft_error(int argc, char **argv);
+char		*ft_read_from_file(int fd, char *s);
+int			check_borders(char	**map);
+int			count_lines(char **map);
+char		**format_map(char **map, int w);
+int			count_colum(char **map);
+int			check_zero(char **map, int w, int h);
+int			check_player(char **map);
+int			is_allowed_p(char c);
+int			is_allowed_all(char c);
+void		set_player_pos(t_map **map);
+void		create_map(t_map *map, int fd);
+
+//PARSING/parsing_colour.c
+int			is_rgb(char *line);
+int			is_fc(char *line);
+void		rgb_to_hex(char *line, unsigned int *colour);
+void		set_fc(t_map *map, char *line);
+//PARSING/parsing_texture.c
+int			check_texture(char *texture);
+int			is_texture(char *line);
+void		set_texture(t_map *map, char *texture);
+void		free_t_map(t_map *map);
+
+
 
 //INITIATE FOLDER
-void			map_init(t_map *map, int fd);
+void		map_init(t_map *map);
 t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(t_player p);
 void			load_texture(t_texture *texture, t_mlx *game, \
 					char *filename, int i);
+
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -165,7 +184,8 @@ void			initiate_error_img_minimap(t_mlx game);
 void			initiate_error_img_map(t_mlx game);
 void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
-void			parsing_error(char **map, char *message);
+void		free_double_array(char **array);
+int			parsing_error(char *message);
 
 # ifndef WIDTH
 #  define WIDTH 800
