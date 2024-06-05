@@ -3,28 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   clear_mini_map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:48:08 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 10:05:46 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:27:26 by antonio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*Fill the mini map area with black pixels*/
-void	clear_mini_map(t_cub3d *cub3d)
+void	clear_mini_map(t_mlx *game)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	int		*pixel_addr;
+	t_img	img;
 
+	img = game->img_minimap;
 	y = 0;
-	while (y < cub3d->game.height_minimap)
+	while (y < HEIGHT_MINI)
 	{
 		x = 0;
-		while (x < cub3d->game.width)
+		while (x < WIDTH)
 		{
-			mlx_pixel_put(cub3d->game.mlx, cub3d->game.win, x, y, 0x0);
+			pixel_addr = (int *)(img.addr + y * \
+					img.line_length + x * (img.bpp / 8));
+			*pixel_addr = 0x0;
 			x++;
 		}
 		y++;

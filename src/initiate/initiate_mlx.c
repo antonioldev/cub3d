@@ -6,42 +6,45 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:13:10 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/25 09:03:09 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:09:56 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static void	load_images(t_mlx *game, t_map *map)
+static char	*get_address(t_img *img)
 {
-	int	img_w;
-	int	img_h;
+	return (mlx_get_data_addr(img->img, &img->bpp, \
+		&img->line_length, &img->endian));
+}
 
-	return ;//testing
-	game->img_n = mlx_xpm_file_to_image(game->mlx, map->no, &img_w, &img_h);
-	game->img_s = mlx_xpm_file_to_image(game->mlx, map->so, &img_w, &img_h);
-	game->img_w = mlx_xpm_file_to_image(game->mlx, map->we, &img_w, &img_h);
-	game->img_e = mlx_xpm_file_to_image(game->mlx, map->ea, &img_w, &img_h);
+static void	init_mlx_args(t_mlx *game)
+{
+	game->mlx = NULL;
+	game->win = NULL;
+	game->img.img = NULL;
+	game->img_minimap.img = NULL;
 }
 
 /*Allocate memory for mlx and create the window*/
-t_mlx	initiate_mlx(t_map *map)
+t_mlx	initiate_mlx(void)
 {
 	t_mlx	game;
 
+	init_mlx_args(&game);
 	game.mlx = mlx_init();
 	if (game.mlx == NULL)
 		exit(EXIT_FAILURE);
-	game.height = 600;
-	game.width = 800;
-	game.height_minimap = 100;
-	game.size_minimap = 4;
-	game.win = mlx_new_window(game.mlx, game.width, game.height, "MAZE");
+	game.win = mlx_new_window(game.mlx, WIDTH, HEIGHT + HEIGHT_MINI, "MAZE");
 	if (game.win == NULL)
-	{
-		free(game.mlx);
-		exit (EXIT_FAILURE);
-	}
-	load_images(&game, map);
+		initiate_error_win(game);
+	game.img_minimap.img = mlx_new_image(game.mlx, WIDTH, HEIGHT_MINI);
+	if (game.img_minimap.img == NULL)
+		initiate_error_img_minimap(game);
+	game.img_minimap.addr = get_address(&game.img_minimap);
+	game.img.img = mlx_new_image(game.mlx, WIDTH, HEIGHT);
+	if (game.img.img == NULL)
+		initiate_error_img_map(game);
+	game.img.addr = get_address(&game.img);
 	return (game);
 }

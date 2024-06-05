@@ -153,3 +153,4 @@ void	create_map(t_map *map, int fd)
 	free_double_array(arr_file);
 	set_player_pos(&map);
 }
+

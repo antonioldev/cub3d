@@ -10,13 +10,17 @@ endif
 MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_mlx.c \
 				src/initiate/initiate_map.c \
+				src/initiate/initiate_player.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
+				src/render/render_map.c \
 				src/render/render_mini_map.c \
 				src/render/clear_mini_map.c \
+				src/render/raycasting.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
+				src/clean/error_init_mlx.c \
 				src/clean/clear_mlx.c \
 				src/parsing/map_format.c \
 				src/parsing/check_map1.c \
@@ -109,5 +113,11 @@ re: fclean all
 
 norminette:
 	norminette src/ libs/
+
+lunch_valgrind:
+	valgrind --leak-check=full -s ./cub3D maps/map.cub
+
+lunch:
+	./cub3D maps/map.cub
 
 .PHONY: all clean fclean re libft test run_tests coverage coverage_clean
