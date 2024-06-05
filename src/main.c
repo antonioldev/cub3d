@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 16:59:46 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/05 12:21:26 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 
 	fd = ft_error(argc, argv);
 	create_map(&(cub3d->map), fd);
-	output_tmap(&(cub3d->map));
+	//output_tmap(&(cub3d->map));
 	cub3d->game = initiate_mlx();
 	cub3d->v = initiate_player(cub3d->map);
 }
