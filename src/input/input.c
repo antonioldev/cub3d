@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:18:53 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/02 08:24:31 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/06 07:29:34 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ int	key_release(int ks, t_cub3d *cub3d)
 		cub3d->p.l_r = 0;
 	if (ks == XK_Left || ks == XK_Right)
 		cub3d->p.rot = 0;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/05 14:25:06 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:47:48 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,31 @@ void	load_texture(t_texture *texture, t_mlx *game, char *filename, int i)
 		initiate_error_texture(game, texture, i);
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, \
 			&texture->line_length, &texture->endian);
+}
+
+static char	int_to_char(int	i)
+{
+	if (i >= 0 && i <= 9)
+		return (i + '0');
+	return ('\0');
+}
+
+void	load_all_texture(t_cub3d *cub3d)
+{
+	int		i;
+	char	*path;
+	
+	i = 0;
+	path = ft_strdup("./texture/bonus/frame_0.xpm");
+	load_texture(&cub3d->textures[NORTH], &cub3d->game, "./texture/wall_N.xpm", NORTH);
+	load_texture(&cub3d->textures[SOUTH], &cub3d->game, "./texture/wall_S.xpm", SOUTH);
+	load_texture(&cub3d->textures[WEST], &cub3d->game, "./texture/wall_W.xpm", WEST);
+	load_texture(&cub3d->textures[EAST], &cub3d->game, "./texture/wall_E.xpm", EAST);
+	while (i < FRAME_SPRITE)
+	{
+		path[22] = int_to_char(i);
+		load_texture(&cub3d->bonus_texture[i], &cub3d->game, path, i);
+		i++;
+	}
+	free (path);	
 }

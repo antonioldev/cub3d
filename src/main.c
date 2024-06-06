@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 16:16:07 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:27:38 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,13 @@
 void	load_data(t_cub3d *cub3d, int argc, char **argv)
 {
 	int	fd;
-	int	i;
 
 	fd = ft_error(argc, argv);
 	create_map(&cub3d->map, fd);
 	cub3d->game = initiate_mlx();
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
-	load_texture(&cub3d->textures[NORTH], &cub3d->game, "./texture/wall_N.xpm", NORTH);
-	load_texture(&cub3d->textures[SOUTH], &cub3d->game, "./texture/wall_S.xpm", SOUTH);
-	load_texture(&cub3d->textures[WEST], &cub3d->game, "./texture/wall_W.xpm", WEST);
-	load_texture(&cub3d->textures[EAST], &cub3d->game, "./texture/wall_E.xpm", EAST);
+	load_all_texture(cub3d); 
 }
 
 int	main(int argc, char **argv)

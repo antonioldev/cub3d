@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 14:41:35 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:18:34 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,43 +116,43 @@ typedef struct s_cub3d
 	t_player	p;
 	t_ray		ray;
 	t_texture	textures[4];
+	t_texture	bonus_texture[8];
 }		t_cub3d;
 
 //PARSING FOLDER
-char		*ft_read_from_file(int fd, char *s);
-int			ft_error(int argc, char **argv);
-char		*ft_read_from_file(int fd, char *s);
-int			check_borders(char	**map);
-int			count_lines(char **map);
-char		**format_map(char **map, int w);
-int			count_colum(char **map);
-int			check_zero(char **map, int w, int h);
-int			check_player(char **map);
-int			is_allowed_p(char c);
-int			is_allowed_all(char c);
-void		set_player_pos(t_map **map);
-void		create_map(t_map *map, int fd);
+char			*ft_read_from_file(int fd, char *s);
+int				ft_error(int argc, char **argv);
+char			*ft_read_from_file(int fd, char *s);
+int				check_borders(char	**map);
+int				count_lines(char **map);
+char			**format_map(char **map, int w);
+int				count_colum(char **map);
+int				check_zero(char **map, int w, int h);
+int				check_player(char **map);
+int				is_allowed_p(char c);
+int				is_allowed_all(char c);
+void			set_player_pos(t_map **map);
+void			create_map(t_map *map, int fd);
 
 //PARSING/parsing_colour.c
-int			is_rgb(char *line);
-int			is_fc(char *line);
-void		rgb_to_hex(char *line, unsigned int *colour);
-void		set_fc(t_map *map, char *line);
+int				is_rgb(char *line);
+int				is_fc(char *line);
+void			rgb_to_hex(char *line, unsigned int *colour);
+void			set_fc(t_map *map, char *line);
 //PARSING/parsing_texture.c
-int			check_texture(char *texture);
-int			is_texture(char *line);
-void		set_texture(t_map *map, char *texture);
-void		free_t_map(t_map *map);
+int				check_texture(char *texture);
+int				is_texture(char *line);
+void			set_texture(t_map *map, char *texture);
+void			free_t_map(t_map *map);
 
 
 
 //INITIATE FOLDER
-void		map_init(t_map *map);
+void			map_init(t_map *map);
 t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(t_player p);
-void			load_texture(t_texture *texture, t_mlx *game, \
-					char *filename, int i);
+void			load_all_texture(t_cub3d *cub3d);
 
 
 //INPUT FOLDER
@@ -213,5 +213,8 @@ int			parsing_error(char *message);
 # endif
 # ifndef PLAYER_HEIGHT
 #  define PLAYER_HEIGHT 32
+# endif
+# ifndef FRAME_SPRITE
+#  define FRAME_SPRITE 8
 # endif
 #endif

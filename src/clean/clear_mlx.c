@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:03:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 15:14:02 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:48:00 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	ft_destroy_mlx(t_cub3d *cub3d)
 {
 	int	i;
 
-	i = 0;
-	while (i < 4)
-	{
+	i = -1;
+	while (++i < 4)
 		mlx_destroy_image(cub3d->game.mlx, cub3d->textures[i].img);
-		i++;
-	}
+	i = -1;
+	while (++i < FRAME_SPRITE)
+		mlx_destroy_image(cub3d->game.mlx, cub3d->bonus_texture[i].img);
 	mlx_destroy_image(cub3d->game.mlx, cub3d->game.img_minimap.img);
 	mlx_destroy_image(cub3d->game.mlx, cub3d->game.img.img);
 	mlx_destroy_window(cub3d->game.mlx, cub3d->game.win);

@@ -1,7 +1,7 @@
 NAME    		= cub3D
 CC      		= gcc
 LFLAGS  		= -lgcov
-CFLAGS  		= -g #-Wall -Wextra -Werror
+CFLAGS  		= -g -Wall -Wextra -Werror
 
 ifdef COV
     CFLAGS += -fprofile-arcs -ftest-coverage
