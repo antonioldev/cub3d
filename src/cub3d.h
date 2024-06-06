@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 07:18:34 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 08:22:42 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,12 @@ int				is_texture(char *line);
 void			set_texture(t_map *map, char *texture);
 void			free_t_map(t_map *map);
 
-
-
 //INITIATE FOLDER
 void			map_init(t_map *map);
 t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(t_player p);
 void			load_all_texture(t_cub3d *cub3d);
-
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -184,8 +181,8 @@ void			initiate_error_img_minimap(t_mlx game);
 void			initiate_error_img_map(t_mlx game);
 void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
-void		free_double_array(char **array);
-int			parsing_error(char *message);
+void			free_double_array(char **array);
+int				parsing_error(char *message);
 
 # ifndef WIDTH
 #  define WIDTH 800
@@ -201,6 +198,9 @@ int			parsing_error(char *message);
 # endif
 # ifndef PIXEL_MINI
 #  define PIXEL_MINI 4
+# endif
+# ifndef DISTANCE_WALL
+#  define DISTANCE_WALL 10
 # endif
 # ifndef FOV
 #  define FOV 60

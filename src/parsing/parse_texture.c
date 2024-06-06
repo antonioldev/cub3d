@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:51:37 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/04 16:26:40 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/06 08:24:21 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_texture(char *texture)
 	int		fd;
 	int		bytes;
 	char	buffer[4];
-	
+
 	fd = open(texture, O_RDONLY);
 	if (fd == -1)
 		return (0);

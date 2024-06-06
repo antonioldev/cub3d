@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_movement.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 15:43:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/02 08:24:59 by antonio          ###   ########.fr       */
+/*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/06 10:25:26 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,27 @@ static void	rotate_player(t_cub3d *cub3d, int i)
 /*Calculate the movement of the player based on the moves*/
 static void	move_player(t_cub3d *cub3d, double move_x, double move_y)
 {
-	int		map_y;
-	int		map_x;
-	int		new_x;
-	int		new_y;
+	int	map_left;
+	int	map_right;
+	int	map_top;
+	int	map_bottom;
+	int	new_cord[2];
 
-	new_x = roundf(cub3d->p.p_x + move_x);
-	new_y = roundf(cub3d->p.p_y + move_y);
-	map_x = (new_x / TILE_SIZE);
-	map_y = (new_y / TILE_SIZE);
-	if (cub3d->map.map[map_y][map_x] != '1' && \
-	(cub3d->map.map[map_y][cub3d->p.p_x / TILE_SIZE] != '1' && \
-	cub3d->map.map[cub3d->p.p_y / TILE_SIZE][map_x] != '1'))
+	new_cord[0] = roundf(cub3d->p.p_x + move_x);
+	new_cord[1] = roundf(cub3d->p.p_y + move_y);
+	map_left = (new_cord[0] - DISTANCE_WALL) / TILE_SIZE;
+	map_right = (new_cord[0] + DISTANCE_WALL) / TILE_SIZE;
+	map_top = (new_cord[1] - DISTANCE_WALL) / TILE_SIZE;
+	map_bottom = (new_cord[1] + DISTANCE_WALL) / TILE_SIZE;
+	if (cub3d->map.map[map_top][map_left] != '1' && \
+		cub3d->map.map[map_top][map_right] != '1' && \
+		cub3d->map.map[map_bottom][map_left] != '1' && \
+		cub3d->map.map[map_bottom][map_right] != '1')
 	{
-		update_player_position_map(cub3d, map_y, map_x);
-		cub3d->p.p_x = new_x;
-		cub3d->p.p_y = new_y;
+		update_player_position_map(cub3d, new_cord[1] / TILE_SIZE, \
+			new_cord[0] / TILE_SIZE);
+		cub3d->p.p_x = new_cord[0];
+		cub3d->p.p_y = new_cord[1];
 	}
 }
 

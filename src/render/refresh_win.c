@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 07:54:11 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 09:36:42 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	raycasting(t_cub3d *cub3d)
 	t_intersect	h_inter;
 	t_intersect	v_inter;
 	int			ray;
-	//float		wall_x;
 
 	ray = 0;
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
@@ -57,7 +56,7 @@ int	refresh_win(t_cub3d *cub3d)
 		cub3d->game.img.img, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img_minimap.img, 0, HEIGHT);
-	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
-		cub3d->bonus_texture[0].img, 50, 20);
+	// mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
+	// 	cub3d->bonus_texture[0].img, 50, 20);
 	return (0);
 }

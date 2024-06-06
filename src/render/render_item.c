@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 14:39:51 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:25:57 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 	i = -1;
 	texture = get_texture(cub3d, cub3d->ray.flag);
 	while (++i < t_pixel)
-		draw_pixel(cub3d, ray, 0xFFFFFF, i);
+		draw_pixel(cub3d, ray, 0xFFFFFF, i);//Change cealing color
 	i = t_pixel - 1;
-	while (++i <= b_pixel)
+	while (++i < b_pixel)
 	{
 		y = ((i - t_pixel) * texture.height) / (b_pixel - t_pixel);
 		color = get_texture_color(texture, cub3d->ray.wall_x, y);
 		draw_pixel(cub3d, ray, color, i);
 	}
 	i = b_pixel - 1;
-	while (++i <= HEIGHT)
+	while (++i < HEIGHT)
 		draw_pixel(cub3d, ray, (0xFFFFFF), i);
 }
 
@@ -57,10 +57,10 @@ void	render_wall(t_cub3d *cub3d, int ray)
 	wall_h = cub3d->ray.distance_scale / cub3d->ray.distance;
 	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
 	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
-	if (b_pixel > HEIGHT)
-		b_pixel = HEIGHT;
-	if (t_pixel < 0)
-		t_pixel = 0;
+	// if (b_pixel > HEIGHT)
+	// 	b_pixel = HEIGHT;
+	// if (t_pixel < 0)
+	// 	t_pixel = 0;
 	cub3d->ray.wall_x = fmod(cub3d->ray.wall_x, TILE_SIZE);
 	draw_map(cub3d, ray, t_pixel, b_pixel);
 }

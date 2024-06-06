@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:23:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/04 17:14:58 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/06 08:23:21 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	check_player(char **map)
 		}
 		if (!flag)
 			return (0);
-
 	}
 	return (1);
 }
