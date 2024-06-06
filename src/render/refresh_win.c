@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 07:54:11 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 08:21:53 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	raycasting(t_cub3d *cub3d)
 	t_intersect	h_inter;
 	t_intersect	v_inter;
 	int			ray;
-	//float		wall_x;
 
 	ray = 0;
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);

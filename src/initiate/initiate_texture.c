@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/06 07:47:48 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 08:25:31 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	load_texture(t_texture *texture, t_mlx *game, char *filename, int i)
 			&texture->line_length, &texture->endian);
 }
 
-static char	int_to_char(int	i)
+static char	int_to_char(int i)
 {
 	if (i >= 0 && i <= 9)
 		return (i + '0');
@@ -33,7 +33,7 @@ void	load_all_texture(t_cub3d *cub3d)
 {
 	int		i;
 	char	*path;
-	
+
 	i = 0;
 	path = ft_strdup("./texture/bonus/frame_0.xpm");
 	load_texture(&cub3d->textures[NORTH], &cub3d->game, "./texture/wall_N.xpm", NORTH);
@@ -46,5 +46,5 @@ void	load_all_texture(t_cub3d *cub3d)
 		load_texture(&cub3d->bonus_texture[i], &cub3d->game, path, i);
 		i++;
 	}
-	free (path);	
+	free (path);
 }
