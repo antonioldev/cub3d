@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 08:27:54 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:25:26 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static void	move_player(t_cub3d *cub3d, double move_x, double move_y)
 		cub3d->map.map[map_bottom][map_left] != '1' && \
 		cub3d->map.map[map_bottom][map_right] != '1')
 	{
-		update_player_position_map(cub3d, new_cord[0] / TILE_SIZE, \
-			new_cord[1] / TILE_SIZE);
+		update_player_position_map(cub3d, new_cord[1] / TILE_SIZE, \
+			new_cord[0] / TILE_SIZE);
 		cub3d->p.p_x = new_cord[0];
 		cub3d->p.p_y = new_cord[1];
 	}

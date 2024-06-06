@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:13:06 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 14:41:23 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:27:12 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ void	draw_pixel(t_cub3d *cub3d, int ray, int color, int i)
 {
 	char	*pixel_addr;
 
-	pixel_addr = cub3d->game.img.addr + (i * cub3d->game.img.line_length + \
+	if (i >= 0 && i < HEIGHT)
+	{
+		pixel_addr = cub3d->game.img.addr + (i * cub3d->game.img.line_length + \
 			ray * (cub3d->game.img.bpp / 8));
-	if (pixel_addr < cub3d->game.img.addr + cub3d->game.img.line_length * \
-			HEIGHT)
-		*(unsigned int *)pixel_addr = color;
+		if (pixel_addr < cub3d->game.img.addr + cub3d->game.img.line_length * \
+				HEIGHT)
+			*(unsigned int *)pixel_addr = color;
+	}
 }
 
 /*Get the right color for the walls, in order W E S N
