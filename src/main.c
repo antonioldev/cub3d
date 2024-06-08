@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 08:23:57 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:02:33 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
 	load_all_texture(cub3d);
+	cub3d->num_coins = 2;//to change
+	cub3d->coins = (t_sprite *)malloc(cub3d->num_coins * sizeof(t_sprite));
+	initiate_sprite(cub3d, 0, 5, 3);
+	initiate_sprite(cub3d, 1, 5, 2);
 }
 
 int	main(int argc, char **argv)

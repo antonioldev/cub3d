@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 09:36:42 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:52:06 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	raycasting(t_cub3d *cub3d)
 			set_right_intersection(cub3d, h_inter, 1);
 		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl - \
 					cub3d->p.angle));
-		render_wall(cub3d, ray);
+		render_enviroment(cub3d, ray);
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
 	}
@@ -52,11 +52,10 @@ int	refresh_win(t_cub3d *cub3d)
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);
+	render_sprite(cub3d, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img.img, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img_minimap.img, 0, HEIGHT);
-	// mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
-	// 	cub3d->bonus_texture[0].img, 50, 20);
 	return (0);
 }

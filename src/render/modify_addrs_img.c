@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:13:06 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 10:27:12 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:43:54 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ t_texture	get_texture(t_cub3d *cub3d, int flag)
 }
 
 /*Assign the proper color to a specific pixel*/
-unsigned int	get_texture_color(t_texture texture, int x, int y)
+unsigned int	get_tex_color(t_texture texture, int x, int y)
 {
 	int		offset;
 	char	*texture_addr;

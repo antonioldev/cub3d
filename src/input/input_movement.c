@@ -6,11 +6,20 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 10:25:26 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:46:40 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+/*Check if player can move to new position*/
+int	cant_go(char **map, int dir, int left, int right)
+{
+	if ((map[dir][left] != '1' && map[dir][right] != '1')
+		&& (map[dir][left] != 'C' && map[dir][right] != 'C'))
+		return (1);
+	return (0);
+}
 
 /*Update the player position in map array*/
 static void	update_player_position_map(t_cub3d *cub3d, int y, int x)
@@ -61,10 +70,8 @@ static void	move_player(t_cub3d *cub3d, double move_x, double move_y)
 	map_right = (new_cord[0] + DISTANCE_WALL) / TILE_SIZE;
 	map_top = (new_cord[1] - DISTANCE_WALL) / TILE_SIZE;
 	map_bottom = (new_cord[1] + DISTANCE_WALL) / TILE_SIZE;
-	if (cub3d->map.map[map_top][map_left] != '1' && \
-		cub3d->map.map[map_top][map_right] != '1' && \
-		cub3d->map.map[map_bottom][map_left] != '1' && \
-		cub3d->map.map[map_bottom][map_right] != '1')
+	if (cant_go(cub3d->map.map, map_top, map_left, map_right)
+		&& cant_go(cub3d->map.map, map_bottom, map_left, map_right))
 	{
 		update_player_position_map(cub3d, new_cord[1] / TILE_SIZE, \
 			new_cord[0] / TILE_SIZE);

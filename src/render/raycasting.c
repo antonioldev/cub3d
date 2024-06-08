@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 11:04:34 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 14:25:31 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 08:37:41 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	intersection_check(float angl, float *inter,
 
 /*Check if the coordinates x and y intersect with a wall
  return 0 if a wall was hit or coordinates are out of bounds*/
-static int	wall_hit(float x, float y, t_cub3d *cub3d)
+static int	is_hit(float x, float y, t_cub3d *cub3d, char type)
 {
 	int	x_m;
 	int	y_m;
@@ -69,8 +69,10 @@ static int	wall_hit(float x, float y, t_cub3d *cub3d)
 	if (y_m >= cub3d->map.height || x_m >= cub3d->map.width)
 		return (0);
 	if (cub3d->map.map[y_m] && x_m <= (int)ft_strlen(cub3d->map.map[y_m]))
-		if (cub3d->map.map[y_m][x_m] == '1')
+	{
+		if (cub3d->map.map[y_m][x_m] == type)
 			return (0);
+	}
 	return (1);
 }
 
@@ -94,7 +96,7 @@ void	find_v_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 	if ((unit_circle(angl, 'x') && y_step < 0)
 		|| (!unit_circle(angl, 'x') && y_step > 0))
 		y_step *= -1;
-	while (wall_hit(v_x - pixel, v_y, cub3d))
+	while (is_hit(v_x - pixel, v_y, cub3d, '1'))
 	{
 		v_x += x_step;
 		v_y += y_step;
@@ -124,7 +126,7 @@ void	find_h_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 	if ((unit_circle(angl, 'y') && x_step > 0)
 		|| (!unit_circle(angl, 'y') && x_step < 0))
 		x_step *= -1;
-	while (wall_hit(h_x, h_y - pixel, cub3d))
+	while (is_hit(h_x, h_y - pixel, cub3d, '1'))
 	{
 		h_x += x_step;
 		h_y += y_step;
