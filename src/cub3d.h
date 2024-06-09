@@ -196,7 +196,7 @@ float			nor_angle(float angle);
 unsigned int	get_tex_color(t_texture texture, int x, int y);
 t_texture		get_texture(t_cub3d *cub3d, int flag);
 void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
-void			render_sprite(t_cub3d *cub3d, int i);
+void			render_sprite(t_cub3d *cub3d, int i, int dir);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);

@@ -43,10 +43,11 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
 	load_all_texture(cub3d);
-	cub3d->num_coins = 2;//to change
-	cub3d->coins = (t_sprite *)malloc(cub3d->num_coins * sizeof(t_sprite));
-	initiate_sprite(cub3d, 0, 5, 3);
-	initiate_sprite(cub3d, 1, 5, 2);
+	cub3d->map.map[2][2] = 'C';//testing
+	cub3d->map.map[3][2] = 'C';
+	// cub3d->map.map[2][11] = 'C';
+	// cub3d->map.map[2][13] = 'C';
+	initiate_sprite(cub3d, 0, 0, 0);
 }
 
 int	main(int argc, char **argv)

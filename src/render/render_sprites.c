@@ -1,19 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render_sprites.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/08 09:15:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 16:10:38 by alimotta         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../cub3d.h"
 
-static void	update_counter(t_cub3d *cub3d)
+static void	update_counter(t_cub3d *cub3d, int *i, int *dir)
 {
+	double	angle;
+
+	angle = cub3d->p.angle;
 	cub3d->bonus_texture->counter++;
 	if (cub3d->bonus_texture->counter == 40)
 	{
@@ -21,6 +12,17 @@ static void	update_counter(t_cub3d *cub3d)
 		cub3d->bonus_texture->counter = 0;
 		if (cub3d->bonus_texture->load >= FRAME_SPRITE)
 			cub3d->bonus_texture->load = 0;
+	}
+	// if ((angle >= 4 && angle <= 5) || (angle >= 2.5 && angle <= 3.7))
+	if (angle >= 2.5 && angle <= 5)
+	{
+		*i = 0;
+		*dir = 1;
+	}
+	else
+	{
+		*i = cub3d->num_coins - 1;
+		*dir = -1;
 	}
 }
 
@@ -71,7 +73,7 @@ static void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 static void	calculate_sprite(t_cub3d *cub3d, t_sprite *sprite, float angle_diff)
 {
 	sprite->distance = sqrt(pow(sprite->d_x, 2) + pow(sprite->d_y, 2));
-	sprite->distance_to_plane = (WIDTH / 2) / tan(cub3d->p.fov_rd / 2);
+	sprite->distance_to_plane = (WIDTH >> 1) / tan(cub3d->p.fov_rd / 2);
 	sprite->sprite_h = ((TILE_SIZE / sprite->distance) \
 		* sprite->distance_to_plane) * 0.5;
 	sprite->sprite_w = sprite->sprite_h;
@@ -93,16 +95,16 @@ static void	calculate_sprite(t_cub3d *cub3d, t_sprite *sprite, float angle_diff)
 }
 
 /*Check if sprite is in FOV of camera*/
-void	render_sprite(t_cub3d *cub3d, int i)
+void	render_sprite(t_cub3d *cub3d, int i, int dir)
 {
 	t_sprite	*sprite;
 	double		sprite_angle;
 	double		angle_diff;
 	double		left_bound;
 	double		right_bound;
-	
-	update_counter(cub3d);
-	while (i < cub3d->num_coins)
+
+	update_counter(cub3d, &i, &dir);
+	while (i >= 0 && i < cub3d->num_coins)
 	{
 		sprite = &cub3d->coins[i];
 		sprite->d_x = sprite->x - cub3d->p.p_x;
@@ -113,9 +115,10 @@ void	render_sprite(t_cub3d *cub3d, int i)
 		left_bound = nor_angle(-(cub3d->p.fov_rd / 2.0));
 		right_bound = nor_angle(cub3d->p.fov_rd / 2.0);
 		if ((left_bound < right_bound && angle_diff >= left_bound
-				&& angle_diff <= right_bound) || (left_bound > right_bound
+				&& angle_diff <= right_bound && angle_diff > 0)
+			|| (left_bound > right_bound
 				&& (angle_diff >= left_bound || angle_diff <= right_bound)))
 			calculate_sprite(cub3d, sprite, angle_diff);
-		i++;
+		i += dir;
 	}
 }

@@ -52,7 +52,7 @@ int	refresh_win(t_cub3d *cub3d)
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);
-	render_sprite(cub3d, 0);
+	render_sprite(cub3d, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img.img, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
