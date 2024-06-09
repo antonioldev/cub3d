@@ -21,6 +21,7 @@ MAIN_SRCS	=	src/main.c \
 				src/render/raycasting.c \
 				src/render/render_enviroment.c \
 				src/render/modify_addrs_img.c \
+				src/render/modify_addrs_img_minimap.c \
 				src/render/render_sprites.c \
 				src/input/input.c \
 				src/input/input_movement.c \

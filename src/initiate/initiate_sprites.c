@@ -31,7 +31,7 @@ static int	count_coins(t_cub3d *cub3d, int y, int x)
 	return (count);
 }
 
-void	initiate_sprite(t_cub3d *cub3d,int i, int x, int y)
+void	initiate_sprite(t_cub3d *cub3d, int i, int x, int y)
 {
 	if (i == 1 || x == 1 || y == 1)
 		return ;
@@ -52,5 +52,31 @@ void	initiate_sprite(t_cub3d *cub3d,int i, int x, int y)
 			x++;
 		}
 		y++;
+	}
+}
+
+/*Update the counter for the sprites animation*/
+void	update_counter(t_cub3d *cub3d, int *i, int *dir)
+{
+	double	angle;
+
+	angle = cub3d->p.angle;
+	cub3d->bonus_texture->counter++;
+	if (cub3d->bonus_texture->counter == 40)
+	{
+		cub3d->bonus_texture->load++;
+		cub3d->bonus_texture->counter = 0;
+		if (cub3d->bonus_texture->load >= FRAME_SPRITE)
+			cub3d->bonus_texture->load = 0;
+	}
+	if (angle >= 2.5 && angle <= 5)
+	{
+		*i = 0;
+		*dir = 1;
+	}
+	else
+	{
+		*i = cub3d->num_coins - 1;
+		*dir = -1;
 	}
 }

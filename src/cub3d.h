@@ -118,6 +118,8 @@ typedef struct s_sprite
 	int			y;
 	double		d_x;
 	double		d_y;
+	double		delta_x;
+	double		delta_y;
 	double		distance;
 	double		distance_to_plane;
 	int			sprite_h;
@@ -174,7 +176,8 @@ t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(t_player p);
 void			load_all_texture(t_cub3d *cub3d);
-void			initiate_sprite(t_cub3d *cub3d,int i, int x, int y);
+void			initiate_sprite(t_cub3d *cub3d, int i, int x, int y);
+void			update_counter(t_cub3d *cub3d, int *i, int *dir);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -187,15 +190,17 @@ int				refresh_win(t_cub3d *cub3d);
 void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
-void			find_h_inter(t_cub3d *cub3d, float angl, \
-					t_intersect *intersect);
-void			find_v_inter(t_cub3d *cub3d, float angl, \
-					t_intersect *intersect);
+void			find_h_inter(t_cub3d *cub3d, float angl,
+					t_intersect *intersect, char type);
+void			find_v_inter(t_cub3d *cub3d, float angl,
+					t_intersect *intersect, char type);
 void			render_enviroment(t_cub3d *cub3d, int ray);
 float			nor_angle(float angle);
 unsigned int	get_tex_color(t_texture texture, int x, int y);
 t_texture		get_texture(t_cub3d *cub3d, int flag);
 void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
+void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
+					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
 
 //CLEAN FOLDER
@@ -225,7 +230,7 @@ int				parsing_error(char *message);
 #  define PIXEL_MINI 4
 # endif
 # ifndef DISTANCE_WALL
-#  define DISTANCE_WALL 10
+#  define DISTANCE_WALL 5
 # endif
 # ifndef FOV
 #  define FOV 60

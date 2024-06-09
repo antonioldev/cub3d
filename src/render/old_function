@@ -1,0 +1,29 @@
+/*Check if the sprite is in the FOV of camera*/
+// bool	is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite)
+// {
+// 	float	current_x;
+// 	float	current_y;
+// 	int		nxt_x;
+// 	int		nxt_y;
+
+// 	current_x = cub3d->p.p_x;
+// 	current_y = cub3d->p.p_y;
+// 	while ((current_x > 0 && current_x < cub3d->map.width * TILE_SIZE)
+// 		&& (current_y > 0 && current_y < cub3d->map.height * TILE_SIZE))
+// 	{
+// 		if (sprite->d_x > 0)
+// 			nxt_x = (int)current_x + TILE_SIZE;
+// 		else
+// 			nxt_x = (int)current_x - TILE_SIZE;
+// 		nxt_y = current_y + (nxt_x - current_x) * sprite->d_y / sprite->d_x;
+// 		if ((nxt_y / TILE_SIZE < 0 || nxt_y / TILE_SIZE >= cub3d->map.height 
+// 			|| nxt_x / TILE_SIZE < 0 || nxt_x / TILE_SIZE >= cub3d->map.width) 
+// 			|| (cub3d->map.map[nxt_y / TILE_SIZE][nxt_x / TILE_SIZE] == '1'))
+// 			return (false);
+// 		if (cub3d->map.map[nxt_y / TILE_SIZE][nxt_x / TILE_SIZE] == 'C')
+// 			return (true);
+// 		current_x = nxt_x;
+// 		current_y = nxt_y;
+// 	}
+// 	return (true);
+// }

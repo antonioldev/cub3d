@@ -80,7 +80,8 @@ static int	is_hit(float x, float y, t_cub3d *cub3d, char type)
  - Calculate the initial vertical intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-void	find_v_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
+void	find_v_inter(t_cub3d *cub3d, float angl,
+	t_intersect *intersect, char type)
 {
 	float	v_x;
 	float	v_y;
@@ -96,7 +97,7 @@ void	find_v_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 	if ((unit_circle(angl, 'x') && y_step < 0)
 		|| (!unit_circle(angl, 'x') && y_step > 0))
 		y_step *= -1;
-	while (is_hit(v_x - pixel, v_y, cub3d, '1'))
+	while (is_hit(v_x - pixel, v_y, cub3d, type))
 	{
 		v_x += x_step;
 		v_y += y_step;
@@ -110,7 +111,8 @@ void	find_v_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
  - Calculate the initial horizontal intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-void	find_h_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
+void	find_h_inter(t_cub3d *cub3d, float angl,
+	t_intersect *intersect, char type)
 {
 	float	h_x;
 	float	h_y;
@@ -126,7 +128,7 @@ void	find_h_inter(t_cub3d *cub3d, float angl, t_intersect *intersect)
 	if ((unit_circle(angl, 'y') && x_step > 0)
 		|| (!unit_circle(angl, 'y') && x_step < 0))
 		x_step *= -1;
-	while (is_hit(h_x, h_y - pixel, cub3d, '1'))
+	while (is_hit(h_x, h_y - pixel, cub3d, type))
 	{
 		h_x += x_step;
 		h_y += y_step;

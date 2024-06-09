@@ -24,7 +24,7 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 	i = -1;
 	texture = get_texture(cub3d, cub3d->ray.flag);
 	while (++i < t_pixel)
-		draw_pixel(cub3d, ray, 0xFFFFFF, i);//Change cealing color
+		draw_pixel(cub3d, ray, cub3d->map.c, i);
 	i = t_pixel - 1;
 	while (++i < b_pixel)
 	{
@@ -34,7 +34,7 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 	}
 	i = b_pixel - 1;
 	while (++i < HEIGHT)
-		draw_pixel(cub3d, ray, (0x808080), i);
+		draw_pixel(cub3d, ray, cub3d->map.f, i);
 }
 
 /*Normalize the angle do be in range 0-360degree to avoid the fish eye effect*/

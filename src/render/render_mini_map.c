@@ -19,6 +19,8 @@ static int	pick_color(char c)
 		return (0x696969);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'P')
 		return (0xff0000);
+	else if (c == 'C')
+		return (0xFFFF00);
 	else
 		return (0x0);
 }

@@ -12,55 +12,6 @@
 
 #include "../cub3d.h"
 
-/*Fill the mini map area with black pixels*/
-void	clear_mini_map(t_mlx *game)
-{
-	int		x;
-	int		y;
-	char	*pixel_addr;
-	t_img	*img;
-
-	img = &game->img_minimap;
-	y = 0;
-	while (y < HEIGHT_MINI)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			pixel_addr = (img->addr + y * \
-					img->line_length + x * (img->bpp / 8));
-			*(unsigned int *)pixel_addr = 0x0;
-			x++;
-		}
-		y++;
-	}
-}
-
-/*Draw more pixel for each part of the map*/
-void	draw_square_minimap(t_mlx *game, int w, int h, int color)
-{
-	int		i;
-	int		j;
-	char	*pixel_addr;
-
-	i = 0;
-	while (i < PIXEL_MINI)
-	{
-		j = 0;
-		while (j < PIXEL_MINI)
-		{
-			pixel_addr = game->img_minimap.addr + ((h + i) * \
-					game->img_minimap.line_length + (w + j) * \
-					(game->img_minimap.bpp / 8));
-			if (pixel_addr < game->img_minimap.addr + \
-					game->img_minimap.line_length * HEIGHT_MINI)
-				*(unsigned int *)pixel_addr = color;
-			j++;
-		}
-		i++;
-	}
-}
-
 /*Assign the proper color to a specific pixel*/
 void	draw_pixel(t_cub3d *cub3d, int ray, int color, int i)
 {
@@ -128,4 +79,47 @@ unsigned int	get_tex_color(t_texture texture, int x, int y)
 	offset = y * texture.line_length + x * (texture.bpp / 8);
 	texture_addr = texture.addr + offset;
 	return (*(unsigned int *)texture_addr);
+}
+
+/*Check the color of the pixel and return it if not transparent*/
+static void	draw_pixel_sprite(t_cub3d *cub3d, unsigned int color, int x, int y)
+{
+	int	pixel_index;
+
+	if (color == 0xff000000)
+		return ;
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	{
+		pixel_index = (y * WIDTH + x) * (cub3d->game.img.bpp / 8);
+		*(unsigned int *)(cub3d->game.img.addr + pixel_index) = color;
+	}
+}
+
+/*Calculate the pixel that needs to be render*/
+void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
+	int texture_y)
+{
+	int				i;
+	int				j;
+
+	i = sprite->l_pixel;
+	while (i <= sprite->r_pixel)
+	{
+		if (i < 0 || i >= WIDTH)
+			continue ;
+		j = sprite->t_pixel;
+		while (j < sprite->b_pixel)
+		{
+			if (j < 0 || j >= HEIGHT)
+				continue ;
+			texture_x = (int)((i - (sprite->sprite_screen_x - \
+				sprite->sprite_w / 2)) * TILE_SIZE / sprite->sprite_w);
+			texture_y = (int)((j - sprite->t_pixel)
+					* TILE_SIZE / sprite->sprite_h);
+			draw_pixel_sprite(cub3d, get_tex_color(sprite->textures
+				[cub3d->bonus_texture->load], texture_x, texture_y), i, j);
+			j++;
+		}
+		i++;
+	}
 }

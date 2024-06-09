@@ -43,8 +43,8 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
 	load_all_texture(cub3d);
-	cub3d->map.map[2][2] = 'C';//testing
-	cub3d->map.map[3][2] = 'C';
+	cub3d->map.map[1][1] = 'C';//testing
+	cub3d->map.map[1][9] = 'C';
 	// cub3d->map.map[2][11] = 'C';
 	// cub3d->map.map[2][13] = 'C';
 	initiate_sprite(cub3d, 0, 0, 0);
