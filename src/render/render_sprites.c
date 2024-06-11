@@ -135,7 +135,7 @@ void	render_sprite(t_cub3d *cub3d, int i, int dir)
 		angle_diff = nor_angle(sprite_angle - cub3d->p.angle);
 		sprite->distance = sqrt(pow(sprite->d_x, 2) + pow(sprite->d_y, 2));
 		if (((angle_diff >= -0.6 && angle_diff <= 0.6) || (angle_diff >= 5.7))
-			&& is_sprite_visible(cub3d, sprite, \
+			&& is_sprite_visible(cub3d, sprite, 
 			(int)(cub3d->p.p_x / TILE_SIZE), (int)(cub3d->p.p_y / TILE_SIZE)))
 			calculate_sprite(cub3d, sprite, angle_diff);
 		i += dir;

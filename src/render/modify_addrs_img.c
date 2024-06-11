@@ -117,7 +117,7 @@ void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 			texture_y = (int)((j - sprite->t_pixel)
 					* TILE_SIZE / sprite->sprite_h);
 			draw_pixel_sprite(cub3d, get_tex_color(sprite->textures
-				[cub3d->bonus_texture->load], texture_x, texture_y), i, j);
+				[cub3d->bonus_coins->load], texture_x, texture_y), i, j);
 			j++;
 		}
 		i++;

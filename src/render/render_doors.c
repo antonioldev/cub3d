@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_enviroment.c                                :+:      :+:    :+:   */
+/*   render_doors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:44:52 by alimotta         ###   ########.fr       */
+/*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/08 15:52:06 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	check_doors(t_cub3d *cub3d)
+{
+	t_door	*door;
+	int		i;
+
+	i = 0;
+	while (i < cub3d->num_doors)
+	{
+		door = &cub3d->doors[i];
+		door->d_x = cub3d->p.p_x - door->x;
+		door->d_y = cub3d->p.p_y - door->y;
+		door->distance_to_player = sqrt(door->d_x * door->d_x + door->d_y * door->d_y);
+		if (door->distance_to_player < DOOR_OPEN_DISTANCE)
+		{
+			if (door->state == DOOR_CLOSED)
+				door->state = DOOR_OPENING;
+		}
+		else
+		{
+			if (door->state == DOOR_OPEN)
+				door->state = DOOR_CLOSED;
+		}
+		i++;
+	}
+}
 
 /*Draw the 3d map using its address, each loop draw different parts of the map
 respectively cealing, walls, floor*/
@@ -21,10 +47,7 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 	unsigned int	color;
 	t_texture		texture;
 
-	i = -1;
-	texture = get_texture(cub3d, cub3d->ray.flag);
-	while (++i < t_pixel)
-		draw_pixel(cub3d, ray, cub3d->map.c, i);
+	texture = cub3d->bonus_door;
 	i = t_pixel - 1;
 	while (++i < b_pixel)
 	{
@@ -32,23 +55,10 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 		color = get_tex_color(texture, cub3d->ray.wall_w, y);
 		draw_pixel(cub3d, ray, color, i);
 	}
-	i = b_pixel - 1;
-	while (++i < HEIGHT)
-		draw_pixel(cub3d, ray, cub3d->map.f, i);
 }
 
-/*Normalize the angle do be in range 0-360degree to avoid the fish eye effect*/
-float	nor_angle(float angle)
-{
-	if (angle < 0)
-		angle += (2 * M_PI);
-	if (angle >= 2 * M_PI)
-		angle -= (2 * M_PI);
-	return (angle);
-}
-
-/*Calculate the wall height and the top and bottom pixel for the wall*/
-void	render_enviroment(t_cub3d *cub3d, int ray)
+/*Calculate the door height and the top and bottom pixel for the wall*/
+void	render_door(t_cub3d *cub3d, int ray)
 {
 	double	wall_h;
 	double	b_pixel;

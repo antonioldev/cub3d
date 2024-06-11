@@ -37,7 +37,7 @@ void	ft_destroy_mlx(t_cub3d *cub3d)
 		mlx_destroy_image(cub3d->game.mlx, cub3d->textures[i].img);
 	i = -1;
 	while (++i < FRAME_SPRITE)
-		mlx_destroy_image(cub3d->game.mlx, cub3d->bonus_texture[i].img);
+		mlx_destroy_image(cub3d->game.mlx, cub3d->bonus_coins[i].img);
 	mlx_destroy_image(cub3d->game.mlx, cub3d->game.img_minimap.img);
 	mlx_destroy_image(cub3d->game.mlx, cub3d->game.img.img);
 	mlx_destroy_window(cub3d->game.mlx, cub3d->game.win);

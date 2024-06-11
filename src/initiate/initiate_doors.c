@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initiate_sprites.c                                 :+:      :+:    :+:   */
+/*   initiate_doors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "../cub3d.h"
 
 /*Count the number of sprites on the map*/
-static int	count_coins(t_cub3d *cub3d, int y, int x, char coin)
+static int	count_doors(t_cub3d *cub3d, int y, int x, char door)
 {
 	int	count;
 
@@ -23,7 +23,7 @@ static int	count_coins(t_cub3d *cub3d, int y, int x, char coin)
 		x = 0;
 		while (x < cub3d->map.width)
 		{
-			if (cub3d->map.map[y][x] == coin)
+			if (cub3d->map.map[y][x] == door)
 				count++;
 			x++;
 		}
@@ -33,55 +33,28 @@ static int	count_coins(t_cub3d *cub3d, int y, int x, char coin)
 }
 
 /*Allocate memory for sprites and find position on the map*/
-void	initiate_sprite(t_cub3d *cub3d, int i, int x, int y)
+void	initiate_doors(t_cub3d *cub3d, int i, int x, int y)
 {
-	// if (i == 1 || x == 1 || y == 1)
-	// 	return ;
-	char	coin;
+	char	door;
 
-	coin = 'C';
-	cub3d->num_coins = count_coins(cub3d, 0, 0, coin);
-	cub3d->coins = (t_sprite *)malloc(cub3d->num_coins * sizeof(t_sprite));
+	door = 'D';
+	cub3d->num_doors = count_doors(cub3d, 0, 0, door);
+	cub3d->doors = (t_door *)malloc(cub3d->num_doors * sizeof(t_door));
 	while (y < cub3d->map.height)
 	{
 		x = 0;
 		while (x < cub3d->map.width)
 		{
-			if (cub3d->map.map[y][x] == coin)
+			if (cub3d->map.map[y][x] == door)
 			{
-				cub3d->coins[i].x = x * TILE_SIZE + TILE_SIZE / 2;
-				cub3d->coins[i].y = y * TILE_SIZE + TILE_SIZE / 2;
-				cub3d->coins[i].textures = cub3d->bonus_coins;
+				cub3d->doors[i].x = x * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->doors[i].y = y * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->doors[i].texture = cub3d->bonus_door;
+				cub3d->doors[i].state = DOOR_CLOSED;
 				i++;
 			}
 			x++;
 		}
 		y++;
-	}
-}
-
-/*Update the counter for the sprites animation*/
-void	update_counter(t_cub3d *cub3d, int *i, int *dir)
-{
-	double	angle;
-
-	angle = cub3d->p.angle;
-	cub3d->bonus_coins->counter++;
-	if (cub3d->bonus_coins->counter == 40)
-	{
-		cub3d->bonus_coins->load++;
-		cub3d->bonus_coins->counter = 0;
-		if (cub3d->bonus_coins->load >= FRAME_SPRITE)
-			cub3d->bonus_coins->load = 0;
-	}
-	if (angle >= 2.5 && angle <= 5)
-	{
-		*i = 0;
-		*dir = 1;
-	}
-	else
-	{
-		*i = cub3d->num_coins - 1;
-		*dir = -1;
 	}
 }

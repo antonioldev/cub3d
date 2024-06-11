@@ -16,7 +16,7 @@
 void	set_right_intersection(t_cub3d *cub3d, t_intersect inter, int flag)
 {
 	cub3d->ray.distance = inter.inter;
-	cub3d->ray.wall_x = inter.offset;
+	cub3d->ray.wall_w = inter.offset;
 	cub3d->ray.flag = flag;
 }
 
@@ -39,7 +39,7 @@ void	raycasting(t_cub3d *cub3d, char type)
 			set_right_intersection(cub3d, h_inter, 1);
 		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl - \
 					cub3d->p.angle));
-		if (type == '1')
+		// if (type == '1')
 			render_enviroment(cub3d, ray);
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
@@ -50,6 +50,7 @@ void	raycasting(t_cub3d *cub3d, char type)
 int	refresh_win(t_cub3d *cub3d)
 {
 	check_for_input(cub3d, 0, 0);
+	check_doors(cub3d);
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d, '1');

@@ -14,6 +14,7 @@ MAIN_SRCS	=	src/main.c \
 				src/initiate/initiate_ray.c \
 				src/initiate/initiate_texture.c \
 				src/initiate/initiate_sprites.c \
+				src/initiate/initiate_doors.c \
 				src/parsing/check_map.c \
 				src/parsing/parsing.c \
 				src/render/refresh_win.c \
@@ -23,6 +24,7 @@ MAIN_SRCS	=	src/main.c \
 				src/render/modify_addrs_img.c \
 				src/render/modify_addrs_img_minimap.c \
 				src/render/render_sprites.c \
+				src/render/render_doors.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
