@@ -116,6 +116,8 @@ typedef struct s_sprite
 {
 	int			x;
 	int			y;
+	int			p_x;
+	int			p_y;
 	double		d_x;
 	double		d_y;
 	double		delta_x;
@@ -129,6 +131,7 @@ typedef struct s_sprite
 	int			l_pixel;
 	int			r_pixel;
 	int			sprite_screen_x;
+	bool		is_visible;
 	t_texture	*textures;
 }		t_sprite;
 
@@ -139,6 +142,17 @@ typedef struct s_door
 	double		d_x;
 	double		d_y;
 	double		state;
+	double		delta_x;
+	double		delta_y;
+	double		distance;
+	double		distance_to_plane;
+	int			sprite_h;
+	int			sprite_w;
+	int			t_pixel;
+	int			b_pixel;
+	int			l_pixel;
+	int			r_pixel;
+	int			sprite_screen_x;
 	double		distance_to_player;
 	t_texture	texture;
 }		t_door;
@@ -192,6 +206,7 @@ t_ray			initiate_ray(t_player p);
 void			load_all_texture(t_cub3d *cub3d);
 void			initiate_sprite(t_cub3d *cub3d, int i, int x, int y);
 void			update_counter(t_cub3d *cub3d, int *i, int *dir);
+void			initiate_doors(t_cub3d *cub3d, int i, int x, int y);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -217,7 +232,7 @@ void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
 void			check_doors(t_cub3d *cub3d);
-void	render_door(t_cub3d *cub3d, int ray);
+void			render_door(t_cub3d *cub3d, int i, int dir);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -229,8 +244,6 @@ void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
 void			free_double_array(char **array);
 int				parsing_error(char *message);
-
-
 
 #define DOOR_CLOSED 0
 #define DOOR_OPENING 1

@@ -39,8 +39,7 @@ void	raycasting(t_cub3d *cub3d, char type)
 			set_right_intersection(cub3d, h_inter, 1);
 		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl - \
 					cub3d->p.angle));
-		// if (type == '1')
-			render_enviroment(cub3d, ray);
+		render_enviroment(cub3d, ray);
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
 	}
@@ -55,6 +54,7 @@ int	refresh_win(t_cub3d *cub3d)
 	render_mini_map(cub3d);
 	raycasting(cub3d, '1');
 	render_sprite(cub3d, 0, 0);
+	render_door(cub3d, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img.img, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,

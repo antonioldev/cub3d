@@ -100,9 +100,9 @@ bool	is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite,
 	while (map_x >= 0 && map_x < cub3d->map.width && map_y >= 0
 		&& map_y < cub3d->map.height)
 	{
-		if (cub3d->map.map[map_y][map_x] == '1')
+		if (cub3d->map.map[map_y][map_x] == '1')//add door
 			return (false);
-		if (cub3d->map.map[map_y][map_x] == 'C')
+		if (map_y == sprite->y && map_x == sprite->x)
 			return (true);
 		if (side_dist_x < side_dist_y)
 		{
@@ -127,8 +127,8 @@ void	render_sprite(t_cub3d *cub3d, int i, int dir)
 	while (i >= 0 && i < cub3d->num_coins)
 	{
 		sprite = &cub3d->coins[i];
-		sprite->d_x = sprite->x - cub3d->p.p_x;
-		sprite->d_y = sprite->y - cub3d->p.p_y;
+		sprite->d_x = sprite->p_x - cub3d->p.p_x;
+		sprite->d_y = sprite->p_y - cub3d->p.p_y;
 		sprite->delta_x = fabs(1 / sprite->d_x);
 		sprite->delta_y = fabs(1 / sprite->d_y);
 		sprite_angle = atan2(sprite->d_y, sprite->d_x);

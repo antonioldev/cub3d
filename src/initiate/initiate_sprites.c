@@ -35,8 +35,6 @@ static int	count_coins(t_cub3d *cub3d, int y, int x, char coin)
 /*Allocate memory for sprites and find position on the map*/
 void	initiate_sprite(t_cub3d *cub3d, int i, int x, int y)
 {
-	// if (i == 1 || x == 1 || y == 1)
-	// 	return ;
 	char	coin;
 
 	coin = 'C';
@@ -49,9 +47,12 @@ void	initiate_sprite(t_cub3d *cub3d, int i, int x, int y)
 		{
 			if (cub3d->map.map[y][x] == coin)
 			{
-				cub3d->coins[i].x = x * TILE_SIZE + TILE_SIZE / 2;
-				cub3d->coins[i].y = y * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->coins[i].x = x;
+				cub3d->coins[i].y = y;
+				cub3d->coins[i].p_x = x * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->coins[i].p_y = y * TILE_SIZE + TILE_SIZE / 2;
 				cub3d->coins[i].textures = cub3d->bonus_coins;
+				cub3d->coins[i].is_visible = true;
 				i++;
 			}
 			x++;

@@ -45,10 +45,11 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	load_all_texture(cub3d);
 	cub3d->map.map[1][5] = 'C';//testing
 	cub3d->map.map[1][9] = 'C';
-	// cub3d->map.map[2][11] = 'C';
-	// cub3d->map.map[2][13] = 'C';
-	cub3d->map.map[3][32] = 'D';
+	cub3d->map.map[2][11] = 'C';
+	cub3d->map.map[2][13] = 'C';
+	// cub3d->map.map[3][10] = 'D';
 	initiate_sprite(cub3d, 0, 0, 0);
+	initiate_doors(cub3d, 0, 0, 0);
 }
 
 int	main(int argc, char **argv)
