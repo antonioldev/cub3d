@@ -68,8 +68,8 @@ void	map_init(t_map *map)
 	map->so = NULL;
 	map->we = NULL;
 	map->ea = NULL;
-	map->c = 0; //set to default
-	map->f = 0; //set to default
+	map->c = 0xE0FFFF;
+	map->f = 0x808080;
 	map->map = NULL;
 	map->width = 0;
 	map->height = 0;
@@ -112,7 +112,6 @@ int	check_map(char **cur_map, t_map *map)
 	ret = 1;
 	map->width = count_colum(cur_map);
 	map->height = count_lines(cur_map);
-
 	new = format_map(cur_map, map->width);
 	ret = check_player(new) && check_borders(new) \
 		&& check_zero(new, map->width, map->height);
@@ -149,7 +148,7 @@ void	create_map(t_map *map, int fd)
 		i++;
 	}
 	c_map = &(arr_file[i]);
-	if (!check_map(c_map, map)) 
+	if (!check_map(c_map, map))
 		file_error(arr_file, map);
 	free_double_array(arr_file);
 	set_player_pos(&map);

@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 08:22:42 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:54:05 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <string.h>
 # include <X11/keysym.h>
 # include <math.h>
+# include <stdbool.h>
 # include "../libs/libft/libft.h"
 
 typedef enum e_orientation
@@ -83,6 +84,21 @@ typedef struct s_player
 	int			u_d;
 }		t_player;
 
+typedef struct s_ray
+{
+	double		ray_ngl;
+	double		distance;
+	double		distance_scale;
+	double		wall_w;
+	int			flag;
+}		t_ray;
+
+typedef struct s_intersect
+{
+	double		inter;
+	double		offset;
+}		t_intersect;
+
 typedef struct s_texture
 {
 	void		*img;
@@ -92,22 +108,54 @@ typedef struct s_texture
 	int			bpp;
 	int			line_length;
 	int			endian;
+	int			counter;
+	int			load;
 }		t_texture;
 
-typedef struct s_ray
+typedef struct s_sprite
 {
-	double		ray_ngl;
+	int			x;
+	int			y;
+	int			p_x;
+	int			p_y;
+	double		d_x;
+	double		d_y;
+	double		delta_x;
+	double		delta_y;
 	double		distance;
-	double		distance_scale;
-	double		wall_x;
-	int			flag;
-}		t_ray;
+	double		distance_to_plane;
+	int			sprite_h;
+	int			sprite_w;
+	int			t_pixel;
+	int			b_pixel;
+	int			l_pixel;
+	int			r_pixel;
+	int			sprite_screen_x;
+	bool		is_visible;
+	t_texture	*textures;
+}		t_sprite;
 
-typedef struct s_intersect
+typedef struct s_door
 {
-	double	inter;
-	double	offset;
-}		t_intersect;
+	double		x;
+	double		y;
+	double		d_x;
+	double		d_y;
+	double		state;
+	double		delta_x;
+	double		delta_y;
+	double		distance;
+	double		distance_to_plane;
+	int			sprite_h;
+	int			sprite_w;
+	int			t_pixel;
+	int			b_pixel;
+	int			l_pixel;
+	int			r_pixel;
+	int			sprite_screen_x;
+	double		distance_to_player;
+	t_texture	texture;
+}		t_door;
 
 typedef struct s_cub3d
 {
@@ -116,7 +164,12 @@ typedef struct s_cub3d
 	t_player	p;
 	t_ray		ray;
 	t_texture	textures[4];
-	t_texture	bonus_texture[8];
+	t_texture	bonus_coins[8];
+	t_texture	bonus_door;
+	int			num_coins;
+	int			num_doors;
+	t_door		*doors;
+	t_sprite	*coins;	
 }		t_cub3d;
 
 //PARSING FOLDER
@@ -151,6 +204,9 @@ t_mlx			initiate_mlx(void);
 t_player		initiate_player(t_map map);
 t_ray			initiate_ray(t_player p);
 void			load_all_texture(t_cub3d *cub3d);
+void			initiate_sprite(t_cub3d *cub3d, int i, int x, int y);
+void			update_counter(t_cub3d *cub3d, int *i, int *dir);
+void			initiate_doors(t_cub3d *cub3d, int i, int x, int y);
 
 //INPUT FOLDER
 int				x_pressed(t_cub3d *cub3d);
@@ -163,15 +219,20 @@ int				refresh_win(t_cub3d *cub3d);
 void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
-void			find_h_inter(t_cub3d *cub3d, float angl, \
-					t_intersect *intersect);
-void			find_v_inter(t_cub3d *cub3d, float angl, \
-					t_intersect *intersect);
-void			render_wall(t_cub3d *cub3d, int ray);
+void			find_h_inter(t_cub3d *cub3d, float angl,
+					t_intersect *intersect, char type);
+void			find_v_inter(t_cub3d *cub3d, float angl,
+					t_intersect *intersect, char type);
+void			render_enviroment(t_cub3d *cub3d, int ray);
 float			nor_angle(float angle);
-unsigned int	get_texture_color(t_texture texture, int x, int y);
+unsigned int	get_tex_color(t_texture texture, int x, int y);
 t_texture		get_texture(t_cub3d *cub3d, int flag);
 void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
+void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
+					int texture_y);
+void			render_sprite(t_cub3d *cub3d, int i, int dir);
+void			check_doors(t_cub3d *cub3d);
+void			render_door(t_cub3d *cub3d, int i, int dir);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -183,6 +244,12 @@ void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
 void			free_double_array(char **array);
 int				parsing_error(char *message);
+
+#define DOOR_CLOSED 0
+#define DOOR_OPENING 1
+#define DOOR_OPEN 2
+#define DOOR_OPEN_DISTANCE 1.0
+
 
 # ifndef WIDTH
 #  define WIDTH 800
@@ -200,7 +267,7 @@ int				parsing_error(char *message);
 #  define PIXEL_MINI 4
 # endif
 # ifndef DISTANCE_WALL
-#  define DISTANCE_WALL 10
+#  define DISTANCE_WALL 5
 # endif
 # ifndef FOV
 #  define FOV 60
@@ -215,6 +282,6 @@ int				parsing_error(char *message);
 #  define PLAYER_HEIGHT 32
 # endif
 # ifndef FRAME_SPRITE
-#  define FRAME_SPRITE 8
+#  define FRAME_SPRITE 6
 # endif
 #endif
