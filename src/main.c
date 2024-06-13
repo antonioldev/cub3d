@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 16:02:33 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:01:05 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,21 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 {
 	int	fd;
 
+	if (!check_extension(argv[1]))
+	{
+		perror("Error\nExtension error\n");
+		exit (1);
+	}
 	fd = ft_error(argc, argv);
 	create_map(&cub3d->map, fd);
 	cub3d->game = initiate_mlx();
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
 	load_all_texture(cub3d);
-	cub3d->map.map[1][5] = 'C';//testing
-	cub3d->map.map[1][9] = 'C';
-	cub3d->map.map[2][11] = 'C';
-	cub3d->map.map[2][13] = 'C';
+	// cub3d->map.map[1][5] = 'C';//testing
+	// cub3d->map.map[1][9] = 'C';
+	// cub3d->map.map[2][11] = 'C';
+	// cub3d->map.map[2][13] = 'C';
 	// cub3d->map.map[3][10] = 'D';
 	initiate_sprite(cub3d, 0, 0, 0);
 	initiate_doors(cub3d, 0, 0, 0);

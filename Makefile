@@ -35,7 +35,10 @@ MAIN_SRCS	=	src/main.c \
 				src/parsing/check_map_utils.c \
 				src/clean/clear_parsing.c \
 				src/parsing/parse_colour.c \
-				src/parsing/parse_texture.c
+				src/parsing/parse_texture.c \
+				src/parsing/preparse.c \
+				src/parsing/check_ext.c \
+				src/parsing/parse_utils.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')
 TEST_EXES = $(TEST_SRCS:.c=)
