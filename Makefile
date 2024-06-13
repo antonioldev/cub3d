@@ -19,12 +19,13 @@ MAIN_SRCS	=	src/main.c \
 				src/parsing/parsing.c \
 				src/render/refresh_win.c \
 				src/render/render_mini_map.c \
-				src/render/raycasting.c \
 				src/render/render_enviroment.c \
 				src/render/modify_addrs_img.c \
 				src/render/modify_addrs_img_minimap.c \
+				src/render/modify_addrs_img_doors.c \
 				src/render/render_sprites.c \
 				src/render/render_doors.c \
+				src/render/render_utils.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \

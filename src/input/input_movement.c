@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:46:40 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:30:07 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ int	cant_go(char **map, int dir, int left, int right)
 }
 
 /*Update the player position in map array*/
-static void	update_player_position_map(t_cub3d *cub3d, int y, int x)
-{
-	int	old_y;
-	int	old_x;
+// static void	update_player_position_map(t_cub3d *cub3d, int y, int x)
+// {
+// 	int	old_y;
+// 	int	old_x;
 
-	old_y = cub3d->map.y;
-	old_x = cub3d->map.x;
-	if (cub3d->map.y != y || cub3d->map.x != x)
-	{
-		cub3d->map.y = y;
-		cub3d->map.x = x;
-		cub3d->map.map[old_y][old_x] = '0';
-		cub3d->map.map[y][x] = 'P';
-	}
-}
+// 	old_y = cub3d->map.y;
+// 	old_x = cub3d->map.x;
+// 	if (cub3d->map.y != y || cub3d->map.x != x)
+// 	{
+// 		cub3d->map.y = y;
+// 		cub3d->map.x = x;
+// 		cub3d->map.map[old_y][old_x] = '0';
+// 		cub3d->map.map[y][x] = 'P';
+// 	}
+// }
 
 /*Calculate the rotation of the player*/
 static void	rotate_player(t_cub3d *cub3d, int i)
@@ -56,7 +56,7 @@ static void	rotate_player(t_cub3d *cub3d, int i)
 }
 
 /*Calculate the movement of the player based on the moves*/
-static void	move_player(t_cub3d *cub3d, double move_x, double move_y)
+static void	move_player(t_cub3d *cub3d, float move_x, float move_y)
 {
 	int	map_left;
 	int	map_right;
@@ -73,15 +73,15 @@ static void	move_player(t_cub3d *cub3d, double move_x, double move_y)
 	if (cant_go(cub3d->map.map, map_top, map_left, map_right)
 		&& cant_go(cub3d->map.map, map_bottom, map_left, map_right))
 	{
-		update_player_position_map(cub3d, new_cord[1] / TILE_SIZE, \
-			new_cord[0] / TILE_SIZE);
+		// update_player_position_map(cub3d, new_cord[1] / TILE_SIZE,
+		// 	new_cord[0] / TILE_SIZE);
 		cub3d->p.p_x = new_cord[0];
 		cub3d->p.p_y = new_cord[1];
 	}
 }
 
 /*Check if flags for rotation or movement have changed and calculate the moves*/
-void	check_for_input(t_cub3d *cub3d, double move_x, double move_y)
+void	check_for_input(t_cub3d *cub3d, float move_x, float move_y)
 {
 	if (cub3d->p.rot != 0)
 		rotate_player(cub3d, cub3d->p.rot);

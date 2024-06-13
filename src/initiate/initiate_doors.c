@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:53:55 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:53:42 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:36:19 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	count_doors(t_cub3d *cub3d, int y, int x, char door)
 		x = 0;
 		while (x < cub3d->map.width)
 		{
-			if (cub3d->map.map[y][x] == door)
+			if (cub3d->map.map[y][x] == door
+				|| cub3d->map.map[y][x] == door + 32)
 				count++;
 			x++;
 		}
@@ -47,8 +48,10 @@ void	initiate_doors(t_cub3d *cub3d, int i, int x, int y)
 		{
 			if (cub3d->map.map[y][x] == door)
 			{
-				cub3d->doors[i].x = x * TILE_SIZE + TILE_SIZE / 2;
-				cub3d->doors[i].y = y * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->doors[i].x = x;
+				cub3d->doors[i].y = y;
+				cub3d->doors[i].p_x = x * TILE_SIZE + TILE_SIZE / 2;
+				cub3d->doors[i].p_y = y * TILE_SIZE + TILE_SIZE / 2;
 				cub3d->doors[i].texture = cub3d->bonus_door;
 				cub3d->doors[i].state = DOOR_CLOSED;
 				i++;

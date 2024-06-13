@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:53:55 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:53:42 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 08:42:31 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	initiate_sprite(t_cub3d *cub3d, int i, int x, int y)
 /*Update the counter for the sprites animation*/
 void	update_counter(t_cub3d *cub3d, int *i, int *dir)
 {
-	double	angle;
+	float	angle;
 
 	angle = cub3d->p.angle;
 	cub3d->bonus_coins->counter++;

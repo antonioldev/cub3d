@@ -6,14 +6,14 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:13:06 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:43:54 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:45:33 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*Assign the proper color to a specific pixel*/
-void	draw_pixel(t_cub3d *cub3d, int ray, int color, int i)
+void	draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i)
 {
 	char	*pixel_addr;
 
@@ -26,28 +26,6 @@ void	draw_pixel(t_cub3d *cub3d, int ray, int color, int i)
 			*(unsigned int *)pixel_addr = color;
 	}
 }
-
-/*Get the right color for the walls, in order W E S N
-	use with walls without texture*/
-// static int	get_color(t_cub3d *cub3d, int flag)
-// {
-// 	cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
-// 	if (flag == 0)
-// 	{
-// 		if (cub3d->ray.ray_ngl > M_PI / 2
-// 			&& cub3d->ray.ray_ngl < 3 * (M_PI / 2))
-// 			return (0xFF6666);
-// 		else
-// 			return (0xFF0000);
-// 	}
-// 	else
-// 	{
-// 		if (cub3d->ray.ray_ngl > 0 && cub3d->ray.ray_ngl < M_PI)
-// 			return (0x990000);
-// 		else
-// 			return (0x660000);
-// 	}
-// }
 
 /*Get the right pattern for the walls, in order W E S N*/
 t_texture	get_texture(t_cub3d *cub3d, int flag)
@@ -82,7 +60,7 @@ unsigned int	get_tex_color(t_texture texture, int x, int y)
 }
 
 /*Check the color of the pixel and return it if not transparent*/
-static void	draw_pixel_sprite(t_cub3d *cub3d, unsigned int color, int x, int y)
+void	draw_pixel_sprite(t_cub3d *cub3d, unsigned int color, int x, int y)
 {
 	int	pixel_index;
 
@@ -123,3 +101,25 @@ void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 		i++;
 	}
 }
+
+/*Get the right color for the walls, in order W E S N
+	use with walls without texture*/
+// static int	get_color(t_cub3d *cub3d, int flag)
+// {
+// 	cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
+// 	if (flag == 0)
+// 	{
+// 		if (cub3d->ray.ray_ngl > M_PI / 2
+// 			&& cub3d->ray.ray_ngl < 3 * (M_PI / 2))
+// 			return (0xFF6666);
+// 		else
+// 			return (0xFF0000);
+// 	}
+// 	else
+// 	{
+// 		if (cub3d->ray.ray_ngl > 0 && cub3d->ray.ray_ngl < M_PI)
+// 			return (0x990000);
+// 		else
+// 			return (0x660000);
+// 	}
+// }

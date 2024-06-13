@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/08 13:11:31 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:00:05 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	load_all_texture(t_cub3d *cub3d)
 	load_texture(&cub3d->textures[WEST], &cub3d->game, "./texture/wall_W.xpm", WEST);
 	load_texture(&cub3d->textures[EAST], &cub3d->game, "./texture/wall_E.xpm", EAST);
 	i = 0;
-	load_texture(&cub3d->bonus_door, &cub3d->game, "./texture/bonus/door.xpm", i);
+	load_texture(&cub3d->bonus_door, &cub3d->game, "./texture/bonus/door2.xpm", i);
 	path = ft_strdup("./texture/bonus/frame_0.xpm");
 	while (i < FRAME_SPRITE)
 	{
