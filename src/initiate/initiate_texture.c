@@ -39,12 +39,20 @@ void	load_all_texture(t_cub3d *cub3d)
 	load_texture(&cub3d->textures[WEST], &cub3d->game,  cub3d->map.we, WEST);
 	load_texture(&cub3d->textures[EAST], &cub3d->game,  cub3d->map.ea, EAST);
 	i = 0;
-	load_texture(&cub3d->bonus_door, &cub3d->game, "./texture/bonus/door.xpm", i);
-	path = ft_strdup("./texture/bonus/frame_0.xpm");
+	path = ft_strdup("./texture/bonus/sprites/frame_0.xpm");
 	while (i < FRAME_SPRITE)
 	{
-		path[22] = int_to_char(i);
+		path[30] = int_to_char(i);
 		load_texture(&cub3d->bonus_coins[i], &cub3d->game, path, i);
+		i++;
+	}
+	free (path);
+	i = 0;
+	path = ft_strdup("./texture/bonus/door/door00.xpm");
+	while (i < FRAME_DOOR)
+	{
+		path[26] = int_to_char(i);
+		load_texture(&cub3d->bonus_door[i], &cub3d->game, path, i);
 		i++;
 	}
 	free (path);

@@ -5,154 +5,168 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/08 15:52:06 by alimotta         ###   ########.fr       */
+/*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/14 15:33:36 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_doors(t_cub3d *cub3d)
+void check_doors(t_cub3d *cub3d)
 {
-	t_door	*door;
-	int		i;
+	t_door *door;
+	int i;
 
-	i = 0;
-	while (i < cub3d->num_doors)
+	i = -1;
+	while (++i < cub3d->num_doors)
 	{
 		door = &cub3d->doors[i];
-		door->d_x = cub3d->p.p_x - door->x;
-		door->d_y = cub3d->p.p_y - door->y;
-		door->distance_to_player = sqrt(door->d_x * door->d_x + door->d_y * door->d_y);
-		if (door->distance_to_player < DOOR_OPEN_DISTANCE)
-		{
-			if (door->state == DOOR_CLOSED)
-				door->state = DOOR_OPENING;
-		}
+		door->d_x = door->p_x - cub3d->p.p_x;
+		door->d_y = door->p_y - cub3d->p.p_y;
+		door->distance_to_player = sqrt(pow(door->d_x, 2) + pow(door->d_y, 2));
+		if (door->distance_to_player < 100)
+			door->texture = cub3d->bonus_door[8];
+		else if (door->distance_to_player < 120)
+			door->texture = cub3d->bonus_door[7];
+		else if (door->distance_to_player < 140)
+			door->texture = cub3d->bonus_door[6];
+		else if (door->distance_to_player < 160)
+			door->texture = cub3d->bonus_door[5];
+		else if (door->distance_to_player < 180)
+			door->texture = cub3d->bonus_door[4];
+		else if (door->distance_to_player < 200)
+			door->texture = cub3d->bonus_door[3];
+		else if (door->distance_to_player < 220)
+			door->texture = cub3d->bonus_door[2];
+		else if (door->distance_to_player < 240)
+			door->texture = cub3d->bonus_door[1];
 		else
+			door->texture = cub3d->bonus_door[0];
+	}
+}
+
+/*Check if the coordinates x and y intersect with a wall
+ return 0 if a wall was hit or coordinates are out of bounds*/
+static int	is_hit(float x, float y, t_cub3d *cub3d,
+	t_intersect *intersect)
+{
+	int	x_m;
+	int	y_m;
+
+	if (x < 0 || y < 0)
+		return (0);
+	x_m = floor (x / TILE_SIZE);
+	y_m = floor (y / TILE_SIZE);
+	if (y_m >= cub3d->map.height || x_m >= cub3d->map.width
+		|| y_m < 0 || x_m < 0)
+		return (0);
+	if (cub3d->map.map[y_m][x_m] == '1')
+	{
+		intersect->type = cub3d->map.map[y_m][x_m];
+		return (0);
+	}
+	else if (cub3d->map.map[y_m][x_m] == 'D'
+		|| cub3d->map.map[y_m][x_m] == 'd')
+	{
+		intersect->index = find_index_wall(cub3d, y_m, x_m);
+		intersect->type = cub3d->map.map[y_m][x_m];
+		return (0);
+	}
+	return (1);
+}
+
+/*Find the distance with the nearest vertical wall intersection by
+ - Calculate the initial vertical intersection and step values
+ - Adjust the values based on the angledouble
+ - Looping until a wall is hit*/
+void	find_v_inter_wall(t_cub3d *cub3d, float angl,
+	t_intersect *intersect)
+{
+	float	v_x;
+	float	v_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
+
+	x_step = TILE_SIZE;
+	y_step = TILE_SIZE * tan(angl);
+	v_x = floor(cub3d->p.p_x / TILE_SIZE) * TILE_SIZE;
+	pixel = intersection_check(angl, &v_x, &x_step, 0);
+	v_y = cub3d->p.p_y + (v_x - cub3d->p.p_x) * tan(angl);
+	if ((unit_circle(angl, 'x') && y_step < 0)
+		|| (!unit_circle(angl, 'x') && y_step > 0))
+		y_step *= -1;
+	while (is_hit(v_x - pixel, v_y, cub3d, intersect))
+	{
+		v_x += x_step;
+		v_y += y_step;
+	}
+	if (intersect->type == 'd')
+		intersect->type = '1';
+	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2) + \
+			pow(v_y - cub3d->p.p_y, 2));
+	intersect->offset = fabs(v_y);
+}
+
+/*Find the distance with the nearest horizontal wall intersection by
+ - Calculate the initial horizontal intersection and step values
+ - Adjust the values based on the angle
+ - Looping until a wall is hit*/
+void	find_h_inter_wall(t_cub3d *cub3d, float angl,
+	t_intersect *intersect)
+{
+	float	h_x;
+	float	h_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
+
+	y_step = TILE_SIZE ;
+	x_step = TILE_SIZE / tan(angl);
+	h_y = floor(cub3d->p.p_y / TILE_SIZE) * TILE_SIZE;
+	pixel = intersection_check(angl, &h_y, &y_step, 1);
+	h_x = cub3d->p.p_x + (h_y - cub3d->p.p_y) / tan(angl);
+	if ((unit_circle(angl, 'y') && x_step > 0)
+		|| (!unit_circle(angl, 'y') && x_step < 0))
+		x_step *= -1;
+	while (is_hit(h_x, h_y - pixel, cub3d, intersect))
+	{
+		h_x += x_step;
+		h_y += y_step;
+	}
+	if (intersect->type == 'D')
+		intersect->type = '1';
+	intersect->inter = sqrt(pow(h_x - cub3d->p.p_x, 2) + \
+			pow(h_y - cub3d->p.p_y, 2));
+	intersect->offset = fabs(h_x);
+}
+
+void	raycasting_door(t_cub3d *cub3d)
+{
+	t_intersect	h_inter;
+	t_intersect	v_inter;
+	int			ray;
+
+	ray = 0;
+	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
+	while (ray < WIDTH)
+	{
+		find_v_inter_wall(cub3d, cub3d->ray.ray_ngl, &v_inter);
+		find_h_inter_wall(cub3d, cub3d->ray.ray_ngl, &h_inter);
+		if (v_inter.type == 'D')
+			set_right_intersection(cub3d, v_inter, 0);
+		else if (h_inter.type == 'd')
+			set_right_intersection(cub3d, h_inter, 1);
+		else
+			cub3d->ray.type = '1';
+		if (cub3d->ray.type == 'D' || cub3d->ray.type == 'd')
 		{
-			if (door->state == DOOR_OPEN)
-				door->state = DOOR_CLOSED;
+			cub3d->ray.distance *= cos(cub3d->ray.ray_ngl
+				- cub3d->p.angle);
+			render_door(cub3d, ray);
 		}
-		i++;
-	}
-}
-
-/*Draw the 3d map using its address, each loop draw different parts of the map
-respectively cealing, walls, floor*/
-// static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
-// {
-// 	int				i;
-// 	int				y;
-// 	unsigned int	color;
-// 	t_texture		texture;
-
-// 	texture = cub3d->bonus_door;
-// 	i = t_pixel - 1;
-// 	while (++i < b_pixel)
-// 	{
-// 		y = ((i - t_pixel) * texture.height) / (b_pixel - t_pixel);
-// 		color = get_tex_color(texture, cub3d->ray.wall_w, y);
-// 		draw_pixel(cub3d, ray, color, i);
-// 	}
-// }
-
-/*Calculate the door height and the top and bottom pixel for the wall*/
-// void	render_door(t_cub3d *cub3d, int ray)
-// {
-// 	double	wall_h;
-// 	double	b_pixel;
-// 	double	t_pixel;
-
-// 	wall_h = cub3d->ray.distance_scale / cub3d->ray.distance;
-// 	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
-// 	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
-// 	cub3d->ray.wall_w = fmod(cub3d->ray.wall_w, TILE_SIZE);
-// 	draw_map(cub3d, ray, t_pixel, b_pixel);
-// }
-static void	draw_pixel_sprite(t_cub3d *cub3d, unsigned int color, int x, int y)
-{
-	int	pixel_index;
-
-	// if (color == 0xff000000)
-	// 	return ;
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		pixel_index = (y * WIDTH + x) * (cub3d->game.img.bpp / 8);
-		*(unsigned int *)(cub3d->game.img.addr + pixel_index) = color;
-	}
-}
-
-static void	draw_door(t_cub3d *cub3d, t_door *sprite, int texture_x,
-	int texture_y)
-{
-	int				i;
-	int				j;
-
-	i = sprite->l_pixel;
-	while (i <= sprite->r_pixel)
-	{
-		if (i < 0 || i >= WIDTH)
-			continue ;
-		j = sprite->t_pixel;
-		while (j < sprite->b_pixel)
-		{
-			if (j < 0 || j >= HEIGHT)
-				continue ;
-			texture_x = (int)((i - (sprite->sprite_screen_x - \
-				sprite->sprite_w / 2)) * TILE_SIZE / sprite->sprite_w);
-			texture_y = (int)((j - sprite->t_pixel)
-					* TILE_SIZE / sprite->sprite_h);
-			draw_pixel_sprite(cub3d, get_tex_color(cub3d->bonus_door, texture_x, texture_y), i, j);
-			j++;
-		}
-		i++;
-	}
-}
-
-static void	calculate_sprite(t_cub3d *cub3d, t_door *sprite, float angle_diff)
-{
-	sprite->distance_to_plane = (WIDTH >> 1) / tan(cub3d->p.fov_rd / 2);
-	sprite->sprite_h = ((TILE_SIZE / sprite->distance)
-			* sprite->distance_to_plane);
-	sprite->sprite_w = sprite->sprite_h;
-	sprite->sprite_screen_x = (WIDTH / 2) * \
-		(1 + tan(angle_diff) / tan(cub3d->p.fov_rd / 2));
-	sprite->b_pixel = (int)(HEIGHT >> 1) + (sprite->sprite_h / 2);
-	sprite->t_pixel = (int)(HEIGHT >> 1) - (sprite->sprite_h / 2);
-	sprite->l_pixel = (int)(sprite->sprite_screen_x - sprite->sprite_h / 2);
-	sprite->r_pixel = (int)(sprite->sprite_screen_x + sprite->sprite_h / 2);
-	if (sprite->b_pixel >= HEIGHT)
-		sprite->b_pixel = HEIGHT - 1;
-	if (sprite->t_pixel < 0)
-		sprite->t_pixel = 0;
-	if (sprite->l_pixel < 0)
-		sprite->l_pixel = 0;
-	if (sprite->r_pixel >= WIDTH)
-		sprite->r_pixel = WIDTH - 1;
-	draw_door(cub3d, sprite, 0, 0);
-}
-void	render_door(t_cub3d *cub3d, int i, int dir)
-{
-	t_door	*sprite;
-	double	sprite_angle;
-	double	angle_diff;
-	if (dir == 10)
-		return ;
-	while (i < cub3d->num_doors)
-	{
-		sprite = &cub3d->doors[i];
-		sprite->d_x = sprite->x - cub3d->p.p_x;
-		sprite->d_y = sprite->y - cub3d->p.p_y;
-		sprite->delta_x = fabs(1 / sprite->d_x);
-		sprite->delta_y = fabs(1 / sprite->d_y);
-		sprite_angle = atan2(sprite->d_y, sprite->d_x);
-		angle_diff = nor_angle(sprite_angle - cub3d->p.angle);	
-		sprite->distance = sqrt(pow(sprite->d_x, 2) + pow(sprite->d_y, 2));
-		// if (((angle_diff >= -0.6 && angle_diff <= 0.6) || (angle_diff >= 5.7)))
-			// && is_sprite_visible(cub3d, sprite, 
-			// (int)(cub3d->p.p_x / TILE_SIZE), (int)(cub3d->p.p_y / TILE_SIZE)))
-			calculate_sprite(cub3d, sprite, angle_diff);
-		i ++;
+		ray++;
+		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
+		cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
 	}
 }

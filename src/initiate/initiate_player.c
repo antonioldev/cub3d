@@ -6,14 +6,14 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:21:29 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/05 07:47:39 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 08:48:39 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*Set the angle based on the player orientation*/
-double	calculate_angle(char c)
+float	calculate_angle(char c)
 {
 	if (c == 'N')
 		return ((3 * M_PI) / 2);

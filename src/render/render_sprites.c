@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render_sprites.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antonio <antonio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 08:32:36 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/02 10:04:22 by antonio          ###   ########.fr       */
+/*   Updated: 2024/06/13 08:42:54 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-// /*Calculate distance and size of the sprite on the plane*/
+/*Calculate distance and size of the sprite on the plane*/
 static void	calculate_sprite(t_cub3d *cub3d, t_sprite *sprite, float angle_diff)
 {
 	sprite->distance_to_plane = (WIDTH >> 1) / tan(cub3d->p.fov_rd / 2);
@@ -41,8 +41,8 @@ static void	calculate_sprite(t_cub3d *cub3d, t_sprite *sprite, float angle_diff)
 static float	set_direction_y(t_cub3d *cub3d, t_sprite *sprite, int *step_dir)
 {
 	float	current;
-	double	dist;
-	double	delta;
+	float	dist;
+	float	delta;
 	int		map;
 
 	current = cub3d->p.p_y;
@@ -66,8 +66,8 @@ static float	set_direction_y(t_cub3d *cub3d, t_sprite *sprite, int *step_dir)
 static float	set_direction_x(t_cub3d *cub3d, t_sprite *sprite, int *step_dir)
 {
 	float	current;
-	double	dist;
-	double	delta;
+	float	dist;
+	float	delta;
 	int		map;
 
 	current = cub3d->p.p_x;
@@ -100,7 +100,8 @@ bool	is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite,
 	while (map_x >= 0 && map_x < cub3d->map.width && map_y >= 0
 		&& map_y < cub3d->map.height)
 	{
-		if (cub3d->map.map[map_y][map_x] == '1')//add door
+		if (cub3d->map.map[map_y][map_x] == '1'
+			|| cub3d->map.map[map_y][map_x] == 'D')
 			return (false);
 		if (map_y == sprite->y && map_x == sprite->x)
 			return (true);
@@ -116,12 +117,12 @@ bool	is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite,
 	return (false);
 }
 
-// /*Check if sprite is in FOV of camera*/
+/*Check if sprite is in FOV of camera*/
 void	render_sprite(t_cub3d *cub3d, int i, int dir)
 {
 	t_sprite	*sprite;
-	double		sprite_angle;
-	double		angle_diff;
+	float		sprite_angle;
+	float		angle_diff;
 
 	update_counter(cub3d, &i, &dir);
 	while (i >= 0 && i < cub3d->num_coins)
@@ -135,7 +136,7 @@ void	render_sprite(t_cub3d *cub3d, int i, int dir)
 		angle_diff = nor_angle(sprite_angle - cub3d->p.angle);
 		sprite->distance = sqrt(pow(sprite->d_x, 2) + pow(sprite->d_y, 2));
 		if (((angle_diff >= -0.6 && angle_diff <= 0.6) || (angle_diff >= 5.7))
-			&& is_sprite_visible(cub3d, sprite, 
+			&& is_sprite_visible(cub3d, sprite, \
 			(int)(cub3d->p.p_x / TILE_SIZE), (int)(cub3d->p.p_y / TILE_SIZE)))
 			calculate_sprite(cub3d, sprite, angle_diff);
 		i += dir;

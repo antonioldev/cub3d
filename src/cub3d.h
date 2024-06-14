@@ -34,6 +34,14 @@ typedef enum e_orientation
 	EAST
 }		t_orientation;
 
+typedef enum e_object
+{
+	EMPTY,
+	WALL,
+	COIN,
+	DOOR
+}		t_object;
+
 typedef struct s_map
 {
 	//should contain path to texture that should be set on a given direction
@@ -88,7 +96,7 @@ typedef struct s_player
 	int			p_x;
 	int			p_y;
 	float		distance_to_plane;
-	double		angle;
+	float		angle;
 	float		fov_rd;
 	int			rot;
 	int			l_r;
@@ -97,17 +105,21 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-	double		ray_ngl;
-	double		distance;
-	double		distance_scale;
-	double		wall_w;
+	float		ray_ngl;
+	float		distance;
+	float		distance_scale;
+	float		wall_w;
 	int			flag;
+	char		type;
+	int			index;
 }		t_ray;
 
 typedef struct s_intersect
 {
-	double		inter;
-	double		offset;
+	float		inter;
+	float		offset;
+	char		type;
+	int			index;
 }		t_intersect;
 
 typedef struct s_texture
@@ -127,14 +139,14 @@ typedef struct s_sprite
 {
 	int			x;
 	int			y;
-	int			p_x;
-	int			p_y;
-	double		d_x;
-	double		d_y;
-	double		delta_x;
-	double		delta_y;
-	double		distance;
-	double		distance_to_plane;
+	float		p_x;
+	float		p_y;
+	float		d_x;
+	float		d_y;
+	float		delta_x;
+	float		delta_y;
+	float		distance;
+	float		distance_to_plane;
 	int			sprite_h;
 	int			sprite_w;
 	int			t_pixel;
@@ -148,15 +160,19 @@ typedef struct s_sprite
 
 typedef struct s_door
 {
-	double		x;
-	double		y;
-	double		d_x;
-	double		d_y;
-	double		state;
-	double		delta_x;
-	double		delta_y;
-	double		distance;
-	double		distance_to_plane;
+	int			index;
+	int			x;
+	int			y;
+	char		orientation;
+	float		p_x;
+	float		p_y;
+	float		d_x;
+	float		d_y;
+	float		state;
+	float		delta_x;
+	float		delta_y;
+	float		distance;
+	float		distance_to_plane;
 	int			sprite_h;
 	int			sprite_w;
 	int			t_pixel;
@@ -164,7 +180,8 @@ typedef struct s_door
 	int			l_pixel;
 	int			r_pixel;
 	int			sprite_screen_x;
-	double		distance_to_player;
+	float		distance_to_player;
+	float open_progress;
 	t_texture	texture;
 }		t_door;
 
@@ -175,8 +192,8 @@ typedef struct s_cub3d
 	t_player	p;
 	t_ray		ray;
 	t_texture	textures[4];
-	t_texture	bonus_coins[8];
-	t_texture	bonus_door;
+	t_texture	bonus_coins[6];
+	t_texture	bonus_door[9];
 	int			num_coins;
 	int			num_doors;
 	t_door		*doors;
@@ -230,7 +247,7 @@ void			initiate_doors(t_cub3d *cub3d, int i, int x, int y);
 int				x_pressed(t_cub3d *cub3d);
 int				key_press(int ks, t_cub3d *cub3d);
 int				key_release(int ks, t_cub3d *cub3d);
-void			check_for_input(t_cub3d *cub3d, double move_x, double move_y);
+void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
 
 //RENDER FOLDER
 int				refresh_win(t_cub3d *cub3d);
@@ -238,19 +255,28 @@ void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
 void			find_h_inter(t_cub3d *cub3d, float angl,
-					t_intersect *intersect, char type);
+					t_intersect *intersect);
 void			find_v_inter(t_cub3d *cub3d, float angl,
-					t_intersect *intersect, char type);
+					t_intersect *intersect);
 void			render_enviroment(t_cub3d *cub3d, int ray);
 float			nor_angle(float angle);
+int				unit_circle(float angl, char c);
+void			set_right_intersection(t_cub3d *cub3d,
+					t_intersect inter, int flag);
 unsigned int	get_tex_color(t_texture texture, int x, int y);
 t_texture		get_texture(t_cub3d *cub3d, int flag);
-void			draw_pixel(t_cub3d *cub3d, int ray, int color, int i);
+void			draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i);
+void			draw_pixel_sprite(t_cub3d *cub3d,
+					unsigned int color, int x, int y);
 void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
 void			check_doors(t_cub3d *cub3d);
-void			render_door(t_cub3d *cub3d, int i, int dir);
+void			raycasting_door(t_cub3d *cub3d);
+void			render_door(t_cub3d *cub3d, int ray);
+int				intersection_check(float angl, float *inter,
+					float *step, int is_horizon);
+int				find_index_wall(t_cub3d *cub3d, int pos_y, int pos_x);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -263,10 +289,13 @@ void			free_double_array(char **array);
 void			free_double_array(char **array);
 int				parsing_error(char *message);
 
-#define DOOR_CLOSED 0
-#define DOOR_OPENING 1
-#define DOOR_OPEN 2
-#define DOOR_OPEN_DISTANCE 1.0
+// #define DOOR_CLOSED 0
+// #define DOOR_OPENING 1
+// #define DOOR_OPEN 2
+// #define DOOR_CLOSING 3
+
+// #define DOOR_OPEN_DISTANCE 2.0
+// #define DOOR_OPEN_SPEED 0.05
 
 
 # ifndef WIDTH
@@ -301,5 +330,8 @@ int				parsing_error(char *message);
 # endif
 # ifndef FRAME_SPRITE
 #  define FRAME_SPRITE 6
+# endif
+# ifndef FRAME_DOOR
+#  define FRAME_DOOR 9
 # endif
 #endif
