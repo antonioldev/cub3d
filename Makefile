@@ -19,12 +19,13 @@ MAIN_SRCS	=	src/main.c \
 				src/parsing/parsing.c \
 				src/render/refresh_win.c \
 				src/render/render_mini_map.c \
-				src/render/raycasting.c \
 				src/render/render_enviroment.c \
 				src/render/modify_addrs_img.c \
 				src/render/modify_addrs_img_minimap.c \
+				src/render/modify_addrs_img_doors.c \
 				src/render/render_sprites.c \
 				src/render/render_doors.c \
+				src/render/render_utils.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
@@ -35,7 +36,10 @@ MAIN_SRCS	=	src/main.c \
 				src/parsing/check_map_utils.c \
 				src/clean/clear_parsing.c \
 				src/parsing/parse_colour.c \
-				src/parsing/parse_texture.c
+				src/parsing/parse_texture.c \
+				src/parsing/preparse.c \
+				src/parsing/check_ext.c \
+				src/parsing/parse_utils.c
 
 TEST_SRCS := $(shell find tests/unit/ -type f -name '*_test.c')
 TEST_EXES = $(TEST_SRCS:.c=)

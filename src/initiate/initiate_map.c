@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/04 17:13:57 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:28:07 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-// char	**set_map(char **map, int w, int h)
-// {
-// 	char	**new;
-
-// 	new = format_map(map, w);
-// 	check_player(new);
-// 	check_borders(new);
-// 	check_zero(new, w, h);
-// 	return (new);
-// }
 
 void	set_player_pos(t_map **map)
 {
@@ -130,14 +119,15 @@ void	create_map(t_map *map, int fd)
 
 	map_init(map);
 	str_file = ft_read_from_file(fd, NULL);
+	preparse_check(str_file);
 	arr_file = ft_split(str_file, '\n');
 	free(str_file);
 	i = 0;
 	while (arr_file[i])
 	{
-		if (is_fc(arr_file[i]))
+		if (is_fc(arr_file[i], NULL))
 			set_fc(map, arr_file[i]);
-		else if (is_texture(arr_file[i]))
+		else if (is_texture(arr_file[i], NULL))
 			set_texture(map, arr_file[i]);
 		else if (is_map(arr_file[i]))
 			break ;
