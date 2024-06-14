@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:13:06 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:45:33 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:03:38 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i)
 {
 	char	*pixel_addr;
 
+	if (color == 0xff000000)
+		return ;
 	if (i >= 0 && i < HEIGHT)
 	{
 		pixel_addr = cub3d->game.img.addr + (i * cub3d->game.img.line_length + \

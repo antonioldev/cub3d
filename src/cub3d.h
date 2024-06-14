@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:41:52 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:08:09 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_ray
 	float		wall_w;
 	int			flag;
 	char		type;
+	int			index;
 }		t_ray;
 
 typedef struct s_intersect
@@ -107,6 +108,7 @@ typedef struct s_intersect
 	float		inter;
 	float		offset;
 	char		type;
+	int			index;
 }		t_intersect;
 
 typedef struct s_texture
@@ -147,6 +149,7 @@ typedef struct s_sprite
 
 typedef struct s_door
 {
+	int			index;
 	int			x;
 	int			y;
 	char		orientation;
@@ -167,6 +170,7 @@ typedef struct s_door
 	int			r_pixel;
 	int			sprite_screen_x;
 	float		distance_to_player;
+	float open_progress;
 	t_texture	texture;
 }		t_door;
 
@@ -177,8 +181,8 @@ typedef struct s_cub3d
 	t_player	p;
 	t_ray		ray;
 	t_texture	textures[4];
-	t_texture	bonus_coins[8];
-	t_texture	bonus_door;
+	t_texture	bonus_coins[6];
+	t_texture	bonus_door[9];
 	int			num_coins;
 	int			num_doors;
 	t_door		*doors;
@@ -254,6 +258,7 @@ void			raycasting_door(t_cub3d *cub3d);
 void			render_door(t_cub3d *cub3d, int ray);
 int				intersection_check(float angl, float *inter,
 					float *step, int is_horizon);
+int				find_index_wall(t_cub3d *cub3d, int pos_y, int pos_x);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -266,10 +271,13 @@ void			free_double_array(char **array);
 void			free_double_array(char **array);
 int				parsing_error(char *message);
 
-#define DOOR_CLOSED 0
-#define DOOR_OPENING 1
-#define DOOR_OPEN 2
-#define DOOR_OPEN_DISTANCE 1.0
+// #define DOOR_CLOSED 0
+// #define DOOR_OPENING 1
+// #define DOOR_OPEN 2
+// #define DOOR_CLOSING 3
+
+// #define DOOR_OPEN_DISTANCE 2.0
+// #define DOOR_OPEN_SPEED 0.05
 
 
 # ifndef WIDTH
@@ -304,5 +312,8 @@ int				parsing_error(char *message);
 # endif
 # ifndef FRAME_SPRITE
 #  define FRAME_SPRITE 6
+# endif
+# ifndef FRAME_DOOR
+#  define FRAME_DOOR 9
 # endif
 #endif

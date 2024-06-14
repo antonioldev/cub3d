@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:45:16 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/14 09:16:20 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	render_enviroment(t_cub3d *cub3d, int ray)
 	wall_h = cub3d->ray.distance_scale / cub3d->ray.distance;
 	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
 	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
-	cub3d->ray.wall_w = fmod(cub3d->ray.wall_w, TILE_SIZE);
+	// cub3d->ray.wall_w = fmod(cub3d->ray.wall_w, TILE_SIZE);
 	draw_map(cub3d, ray, t_pixel, b_pixel);
 }
 

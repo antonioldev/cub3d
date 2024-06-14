@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:28 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:44:44 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:29:04 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	unit_circle(float angl, char c)
 void	set_right_intersection(t_cub3d *cub3d, t_intersect inter, int flag)
 {
 	cub3d->ray.distance = inter.inter;
-	cub3d->ray.wall_w = inter.offset;
+	// cub3d->ray.wall_w = inter.offset;fmod(cub3d->ray.wall_w, TILE_SIZE);
+	cub3d->ray.wall_w = fmod(inter.offset, TILE_SIZE);
 	cub3d->ray.flag = flag;
 	cub3d->ray.type = inter.type;
+	cub3d->ray.index = inter.index;
 }
 
 /*Adjust the intersection and step values based on the angle and if is
@@ -72,4 +74,31 @@ float	nor_angle(float angle)
 	if (angle >= 2 * M_PI)
 		angle -= (2 * M_PI);
 	return (angle);
+}
+
+int	find_index_wall(t_cub3d *cub3d, int pos_y, int pos_x)
+{
+	char	door;
+	int		count;
+	int		x;
+	int		y;
+
+	door = 'D';
+	count = 0;
+	y = 0;
+	while (y < cub3d->map.height)
+	{
+		x = 0;
+		while (x < cub3d->map.width)
+		{
+			if (y == pos_y && x == pos_x)
+				return (count);
+			if (cub3d->map.map[y][x] == door
+				|| cub3d->map.map[y][x] == door + 32)
+				count++;
+			x++;
+		}
+		y++;
+	}
+	return (count);
 }

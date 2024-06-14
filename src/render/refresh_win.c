@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:28:29 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:55:14 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	raycasting(t_cub3d *cub3d)
 int	refresh_win(t_cub3d *cub3d)
 {
 	check_for_input(cub3d, 0, 0);
+	check_doors(cub3d);
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);
@@ -52,5 +53,3 @@ int	refresh_win(t_cub3d *cub3d)
 		cub3d->game.img_minimap.img, 0, HEIGHT);
 	return (0);
 }
-
-	// check_doors(cub3d);

@@ -5,36 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 16:50:43 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 16:41:11 by alimotta         ###   ########.fr       */
+/*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/14 15:33:36 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_doors(t_cub3d *cub3d)
+void check_doors(t_cub3d *cub3d)
 {
-	t_door	*door;
-	int		i;
+	t_door *door;
+	int i;
 
-	i = 0;
-	while (i < cub3d->num_doors)
+	i = -1;
+	while (++i < cub3d->num_doors)
 	{
 		door = &cub3d->doors[i];
-		door->d_x = cub3d->p.p_x - door->x;
-		door->d_y = cub3d->p.p_y - door->y;
+		door->d_x = door->p_x - cub3d->p.p_x;
+		door->d_y = door->p_y - cub3d->p.p_y;
 		door->distance_to_player = sqrt(pow(door->d_x, 2) + pow(door->d_y, 2));
-		if (door->distance_to_player < DOOR_OPEN_DISTANCE)
-		{
-			if (door->state == DOOR_CLOSED)
-				door->state = DOOR_OPENING;
-		}
+		if (door->distance_to_player < 100)
+			door->texture = cub3d->bonus_door[8];
+		else if (door->distance_to_player < 120)
+			door->texture = cub3d->bonus_door[7];
+		else if (door->distance_to_player < 140)
+			door->texture = cub3d->bonus_door[6];
+		else if (door->distance_to_player < 160)
+			door->texture = cub3d->bonus_door[5];
+		else if (door->distance_to_player < 180)
+			door->texture = cub3d->bonus_door[4];
+		else if (door->distance_to_player < 200)
+			door->texture = cub3d->bonus_door[3];
+		else if (door->distance_to_player < 220)
+			door->texture = cub3d->bonus_door[2];
+		else if (door->distance_to_player < 240)
+			door->texture = cub3d->bonus_door[1];
 		else
-		{
-			if (door->state == DOOR_OPEN)
-				door->state = DOOR_CLOSED;
-		}
-		i++;
+			door->texture = cub3d->bonus_door[0];
 	}
 }
 
@@ -58,9 +65,10 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
 		intersect->type = cub3d->map.map[y_m][x_m];
 		return (0);
 	}
-	if (cub3d->map.map[y_m][x_m] == 'D'
+	else if (cub3d->map.map[y_m][x_m] == 'D'
 		|| cub3d->map.map[y_m][x_m] == 'd')
 	{
+		intersect->index = find_index_wall(cub3d, y_m, x_m);
 		intersect->type = cub3d->map.map[y_m][x_m];
 		return (0);
 	}
@@ -151,10 +159,12 @@ void	raycasting_door(t_cub3d *cub3d)
 			set_right_intersection(cub3d, h_inter, 1);
 		else
 			cub3d->ray.type = '1';
-		cub3d->ray.distance *= cos(cub3d->ray.ray_ngl
-				- cub3d->p.angle);
 		if (cub3d->ray.type == 'D' || cub3d->ray.type == 'd')
+		{
+			cub3d->ray.distance *= cos(cub3d->ray.ray_ngl
+				- cub3d->p.angle);
 			render_door(cub3d, ray);
+		}
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
 		cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
