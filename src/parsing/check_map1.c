@@ -6,7 +6,7 @@
 /*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:14:59 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/04 17:13:44 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:27:50 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 int	count_colum(char **map)
 {
 	int	i;
+	int	res;
 
 	i = 0;
-	while (*map)
+	res = 0;
+	while (map[i])
 	{
-		if ((int)ft_strlen(*map) > i)
-			i = (int)ft_strlen(*map);
-		map++;
+		if ((int)ft_strlen(map[i]) > res)
+			res = (int)ft_strlen(map[i]);
+		i++;
 	}
-	return (i);
+	return (res);
 }
 
 int	count_lines(char **map)
@@ -31,11 +33,8 @@ int	count_lines(char **map)
 	int	lines;
 
 	lines = 0;
-	while (*map)
-	{
-		map++;
+	while (map[lines])
 		lines++;
-	}
 	return (lines);
 }
 

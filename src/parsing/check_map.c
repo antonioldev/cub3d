@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:23:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/06 08:23:21 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:29:32 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,6 @@ int	check_top(char *line)
 		while (*line)
 		{
 			if (*line != '1' && *line != ' ')
-				return (0);
-			line++;
-		}
-		return (1);
-	}
-	return (0);
-}
-
-int	check_middle(char *line)
-{
-	if (line)
-	{
-		if (!check_line_edge(line))
-			return (0);
-		while (*line == ' ')
-			line++;
-		while (*line)
-		{
-			if (!is_allowed_all(*line))
 				return (0);
 			line++;
 		}
