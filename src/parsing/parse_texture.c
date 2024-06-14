@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:51:37 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/06 08:24:21 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:58:38 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,32 @@ int	check_texture(char *texture)
 	return (1);
 }
 
-int	is_texture(char *line)
+int	is_texture(char *line, t_check *check)
 {
-	if (!ft_strncmp(line, "NO", 2) || !ft_strncmp(line, "SO", 2) \
+	if (check != NULL)
+	{
+		if (!ft_strncmp(line, "NO", 2))
+		{
+			check->no++;
+			return (1);
+		}
+		if (!ft_strncmp(line, "SO", 2))
+		{
+			check->so++;
+			return (1);
+		}
+		if (!ft_strncmp(line, "WE", 2))
+		{
+			check->we++;
+			return (1);
+		}
+		if (!ft_strncmp(line, "EA", 2))
+		{
+			check->ea++;
+			return (1);
+		}
+	}
+	else if (!ft_strncmp(line, "NO", 2) || !ft_strncmp(line, "SO", 2) \
 		|| !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2))
 		return (check_texture(line + 3));
 	return (0);

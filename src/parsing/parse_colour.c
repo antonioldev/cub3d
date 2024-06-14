@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colour.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:30:44 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/06 08:24:15 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/12 12:42:47 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,22 @@ int	is_rgb(char *line)
 
 //checking if line contains color for floor/ceiling
 //returns 1 if its rgb color, 0 otherwise
-int	is_fc(char *line)
+int	is_fc(char *line, t_check *check)
 {
-	if (!ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1))
+	if (check != NULL)
+	{
+		if (!ft_strncmp(line, "F", 1))
+		{
+			check->f++;
+			return (1);
+		}
+		if (!ft_strncmp(line, "C", 1))
+		{
+			check->c++;
+			return (1);
+		}
+	}
+	else if (!ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1))
 		return (is_rgb(line + 2));
 	return (0);
 }
