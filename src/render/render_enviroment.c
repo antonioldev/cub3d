@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/14 09:16:20 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 08:43:13 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 	t_texture		texture;
 
 	i = -1;
-	texture = get_texture(cub3d, cub3d->ray.flag);
+	texture = get_texture_walls(cub3d, cub3d->ray.flag);
 	while (++i < t_pixel)
 		draw_pixel(cub3d, ray, cub3d->map.c, i);
 	i = t_pixel - 1;
@@ -38,7 +38,7 @@ static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
 }
 
 /*Calculate the wall height and the top and bottom pixel for the wall*/
-void	render_enviroment(t_cub3d *cub3d, int ray)
+static void	render_enviroment(t_cub3d *cub3d, int ray)
 {
 	float	wall_h;
 	float	b_pixel;
@@ -47,7 +47,6 @@ void	render_enviroment(t_cub3d *cub3d, int ray)
 	wall_h = cub3d->ray.distance_scale / cub3d->ray.distance;
 	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
 	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
-	// cub3d->ray.wall_w = fmod(cub3d->ray.wall_w, TILE_SIZE);
 	draw_map(cub3d, ray, t_pixel, b_pixel);
 }
 
@@ -78,7 +77,7 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
  - Calculate the initial vertical intersection and step values
  - Adjust the values based on the angledouble
  - Looping until a wall is hit*/
-void	find_v_inter(t_cub3d *cub3d, float angl,
+static void	find_v_inter(t_cub3d *cub3d, float angl,
 	t_intersect *intersect)
 {
 	float	v_x;
@@ -109,7 +108,7 @@ void	find_v_inter(t_cub3d *cub3d, float angl,
  - Calculate the initial horizontal intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-void	find_h_inter(t_cub3d *cub3d, float angl,
+static void	find_h_inter(t_cub3d *cub3d, float angl,
 	t_intersect *intersect)
 {
 	float	h_x;
@@ -134,4 +133,29 @@ void	find_h_inter(t_cub3d *cub3d, float angl,
 	intersect->inter = sqrt(pow(h_x - cub3d->p.p_x, 2) + \
 			pow(h_y - cub3d->p.p_y, 2));
 	intersect->offset = fabs(h_x);
+}
+
+/*For each ray calculate the vertical and horizontal intersection*/
+void	raycasting(t_cub3d *cub3d)
+{
+	t_intersect	h_inter;
+	t_intersect	v_inter;
+	int			ray;
+
+	ray = 0;
+	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
+	while (ray < WIDTH)
+	{
+		find_v_inter(cub3d, cub3d->ray.ray_ngl, &v_inter);
+		find_h_inter(cub3d, cub3d->ray.ray_ngl, &h_inter);
+		if (v_inter.inter <= h_inter.inter)
+			set_right_intersection(cub3d, v_inter, 0);
+		else
+			set_right_intersection(cub3d, h_inter, 1);
+		cub3d->ray.distance *= cos(nor_angle(cub3d->ray.ray_ngl
+					- cub3d->p.angle));
+		render_enviroment(cub3d, ray);
+		ray++;
+		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 18:31:03 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/15 08:58:58 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,25 +163,13 @@ typedef struct s_door
 	int			index;
 	int			x;
 	int			y;
-	char		orientation;
 	float		p_x;
 	float		p_y;
 	float		d_x;
 	float		d_y;
-	float		state;
-	float		delta_x;
-	float		delta_y;
-	float		distance;
-	float		distance_to_plane;
-	int			sprite_h;
-	int			sprite_w;
 	int			t_pixel;
 	int			b_pixel;
-	int			l_pixel;
-	int			r_pixel;
-	int			sprite_screen_x;
 	float		distance_to_player;
-	float open_progress;
 	t_texture	texture;
 }		t_door;
 
@@ -250,33 +238,26 @@ int				key_release(int ks, t_cub3d *cub3d);
 void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
 
 //RENDER FOLDER
-int				refresh_win(t_cub3d *cub3d);
 void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
-void			find_h_inter(t_cub3d *cub3d, float angl,
-					t_intersect *intersect);
-void			find_v_inter(t_cub3d *cub3d, float angl,
-					t_intersect *intersect);
-void			render_enviroment(t_cub3d *cub3d, int ray);
-float			nor_angle(float angle);
-int				unit_circle(float angl, char c);
-void			set_right_intersection(t_cub3d *cub3d,
-					t_intersect inter, int flag);
-unsigned int	get_tex_color(t_texture texture, int x, int y);
-t_texture		get_texture(t_cub3d *cub3d, int flag);
+void			raycasting(t_cub3d *cub3d);
+t_texture		get_texture_walls(t_cub3d *cub3d, int flag);
 void			draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i);
-void			draw_pixel_sprite(t_cub3d *cub3d,
-					unsigned int color, int x, int y);
 void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
-void			check_doors(t_cub3d *cub3d);
-void			raycasting_door(t_cub3d *cub3d);
+void			check_doors(t_cub3d *cub3d, int i);
+void			raycasting_door(t_cub3d *cub3d, int ray);
 void			render_door(t_cub3d *cub3d, int ray);
+int				find_index_door(t_cub3d *cub3d, int pos_y, int pos_x);
+float			nor_angle(float angle);
+int				unit_circle(float angl, char c);
 int				intersection_check(float angl, float *inter,
 					float *step, int is_horizon);
-int				find_index_wall(t_cub3d *cub3d, int pos_y, int pos_x);
+void			set_right_intersection(t_cub3d *cub3d,
+					t_intersect inter, int flag);
+unsigned int	get_tex_color(t_texture texture, int x, int y);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
@@ -288,15 +269,6 @@ void			initiate_error_texture(t_mlx *game, t_texture *texture, int i);
 void			free_double_array(char **array);
 void			free_double_array(char **array);
 int				parsing_error(char *message);
-
-// #define DOOR_CLOSED 0
-// #define DOOR_OPENING 1
-// #define DOOR_OPEN 2
-// #define DOOR_CLOSING 3
-
-// #define DOOR_OPEN_DISTANCE 2.0
-// #define DOOR_OPEN_SPEED 0.05
-
 
 # ifndef WIDTH
 #  define WIDTH 800

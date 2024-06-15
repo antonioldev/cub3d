@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_texture.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/12 11:06:29 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/15 09:00:20 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	load_all_texture(t_cub3d *cub3d)
 	}
 	free (path);
 	i = 0;
-	path = ft_strdup("./texture/bonus/door/door00.xpm");
+	path = ft_strdup("./texture/bonus/door/door_0.xpm");
 	while (i < FRAME_DOOR)
 	{
 		path[26] = int_to_char(i);

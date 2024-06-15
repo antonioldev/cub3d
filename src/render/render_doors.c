@@ -6,42 +6,33 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/14 15:33:36 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 08:41:50 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void check_doors(t_cub3d *cub3d)
+/*Calculate the distance from player and find the right texture to use*/
+void	check_doors(t_cub3d *cub3d, int i)
 {
-	t_door *door;
-	int i;
+	t_door	*door;
+	int		index;
 
-	i = -1;
 	while (++i < cub3d->num_doors)
 	{
 		door = &cub3d->doors[i];
 		door->d_x = door->p_x - cub3d->p.p_x;
 		door->d_y = door->p_y - cub3d->p.p_y;
 		door->distance_to_player = sqrt(pow(door->d_x, 2) + pow(door->d_y, 2));
-		if (door->distance_to_player < 100)
+		if (door->distance_to_player > 252)
 			door->texture = cub3d->bonus_door[8];
-		else if (door->distance_to_player < 120)
-			door->texture = cub3d->bonus_door[7];
-		else if (door->distance_to_player < 140)
-			door->texture = cub3d->bonus_door[6];
-		else if (door->distance_to_player < 160)
-			door->texture = cub3d->bonus_door[5];
-		else if (door->distance_to_player < 180)
-			door->texture = cub3d->bonus_door[4];
-		else if (door->distance_to_player < 200)
-			door->texture = cub3d->bonus_door[3];
-		else if (door->distance_to_player < 220)
-			door->texture = cub3d->bonus_door[2];
-		else if (door->distance_to_player < 240)
-			door->texture = cub3d->bonus_door[1];
 		else
-			door->texture = cub3d->bonus_door[0];
+		{
+			index = (int)(door->distance_to_player - 100) / 20;
+			if (index < 0)
+				index = 0;
+			door->texture = cub3d->bonus_door[index];
+		}
 	}
 }
 
@@ -68,7 +59,7 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
 	else if (cub3d->map.map[y_m][x_m] == 'D'
 		|| cub3d->map.map[y_m][x_m] == 'd')
 	{
-		intersect->index = find_index_wall(cub3d, y_m, x_m);
+		intersect->index = find_index_door(cub3d, y_m, x_m);
 		intersect->type = cub3d->map.map[y_m][x_m];
 		return (0);
 	}
@@ -79,7 +70,7 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
  - Calculate the initial vertical intersection and step values
  - Adjust the values based on the angledouble
  - Looping until a wall is hit*/
-void	find_v_inter_wall(t_cub3d *cub3d, float angl,
+static void	find_v_inter_door(t_cub3d *cub3d, float angl,
 	t_intersect *intersect)
 {
 	float	v_x;
@@ -112,7 +103,7 @@ void	find_v_inter_wall(t_cub3d *cub3d, float angl,
  - Calculate the initial horizontal intersection and step values
  - Adjust the values based on the angle
  - Looping until a wall is hit*/
-void	find_h_inter_wall(t_cub3d *cub3d, float angl,
+static void	find_h_inter_door(t_cub3d *cub3d, float angl,
 	t_intersect *intersect)
 {
 	float	h_x;
@@ -141,18 +132,17 @@ void	find_h_inter_wall(t_cub3d *cub3d, float angl,
 	intersect->offset = fabs(h_x);
 }
 
-void	raycasting_door(t_cub3d *cub3d)
+/*Loop each ray of the screen and serch for intersection with doors*/
+void	raycasting_door(t_cub3d *cub3d, int ray)
 {
 	t_intersect	h_inter;
 	t_intersect	v_inter;
-	int			ray;
 
-	ray = 0;
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
 	while (ray < WIDTH)
 	{
-		find_v_inter_wall(cub3d, cub3d->ray.ray_ngl, &v_inter);
-		find_h_inter_wall(cub3d, cub3d->ray.ray_ngl, &h_inter);
+		find_v_inter_door(cub3d, cub3d->ray.ray_ngl, &v_inter);
+		find_h_inter_door(cub3d, cub3d->ray.ray_ngl, &h_inter);
 		if (v_inter.type == 'D')
 			set_right_intersection(cub3d, v_inter, 0);
 		else if (h_inter.type == 'd')
@@ -162,7 +152,7 @@ void	raycasting_door(t_cub3d *cub3d)
 		if (cub3d->ray.type == 'D' || cub3d->ray.type == 'd')
 		{
 			cub3d->ray.distance *= cos(cub3d->ray.ray_ngl
-				- cub3d->p.angle);
+					- cub3d->p.angle);
 			render_door(cub3d, ray);
 		}
 		ray++;
