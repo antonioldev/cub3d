@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/15 11:57:18 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:36:10 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	load_texture(t_texture *texture, t_mlx *game, char *filename, int i)
 		initiate_error_texture(game, texture, i);
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, \
 			&texture->line_length, &texture->endian);
+	texture->index = i;
 }
 
 static char	int_to_char(int i)

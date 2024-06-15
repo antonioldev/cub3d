@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 16:02:53 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:28:14 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->p = initiate_player(cub3d->map);
 	cub3d->ray = initiate_ray(cub3d->p);
 	load_all_texture(cub3d);
-	// cub3d->map.map[1][32] = 'C';//testing
-	// cub3d->map.map[1][28] = 'C';
-	// cub3d->map.map[1][11] = 'C';
-	// cub3d->map.map[3][10] = 'C';
+	cub3d->map.map[1][32] = 'C';//testing
+	cub3d->map.map[1][28] = 'C';
+	cub3d->map.map[1][11] = 'C';
+	cub3d->map.map[3][10] = 'C';
 	cub3d->map.map[1][28] = 'D';//testing
 	//cub3d->map.map[4][26] = 'D';
 	initiate_sprite(cub3d, 0, 0, 0);
@@ -46,6 +46,7 @@ int	refresh_win(t_cub3d *cub3d)
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);
+	
 	raycasting_door(cub3d, -1);
 	render_sprite(cub3d, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,

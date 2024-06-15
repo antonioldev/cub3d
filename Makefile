@@ -26,6 +26,7 @@ MAIN_SRCS	=	src/main.c \
 				src/render/render_sprites.c \
 				src/render/render_doors.c \
 				src/render/render_utils.c \
+				src/render/render_utils_2.c \
 				src/input/input.c \
 				src/input/input_movement.c \
 				src/clean/error.c \
