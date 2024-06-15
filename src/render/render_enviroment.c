@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 16:58:12 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 11:59:09 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:33:23 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ void	raycasting(t_cub3d *cub3d)
 		render_enviroment(cub3d, ray);
 		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
+		// cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
 	}
 }

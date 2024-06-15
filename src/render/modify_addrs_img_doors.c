@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:38:25 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 07:25:05 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:29:56 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	render_door(t_cub3d *cub3d, int ray)
 	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
 	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
 	draw_map(cub3d, ray, t_pixel, b_pixel);
+	
 }

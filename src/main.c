@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 12:31:40 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:53:18 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	// cub3d->map.map[1][28] = 'C';
 	// cub3d->map.map[1][11] = 'C';
 	// cub3d->map.map[3][10] = 'C';
-	cub3d->map.map[2][28] = 'D';//testing
+	cub3d->map.map[1][28] = 'D';//testing
 	//cub3d->map.map[4][26] = 'D';
 	initiate_sprite(cub3d, 0, 0, 0);
 	initiate_doors(cub3d, 0, 0, 0);

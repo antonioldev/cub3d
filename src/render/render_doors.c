@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 13:00:01 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:43:29 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
 	y_m = floor (y / TILE_SIZE);
 	if (y_m >= cub3d->map.height || x_m >= cub3d->map.width
 		|| y_m < 0 || x_m < 0)
-	{
-		intersect->type = '1';
 		return (0);
-	}	
 	if (cub3d->map.map[y_m][x_m] == '1')
 	{
 		intersect->type = cub3d->map.map[y_m][x_m];
@@ -84,7 +81,6 @@ static void	find_v_inter_door(t_cub3d *cub3d, float angl,
 
 	x_step = TILE_SIZE;
 	y_step = TILE_SIZE * tan(angl);
-	// printf("%f\n", y_step);
 	v_x = floor(cub3d->p.p_x / TILE_SIZE) * TILE_SIZE;
 	pixel = intersection_check(angl, &v_x, &x_step, 0);
 	v_y = cub3d->p.p_y + (v_x - cub3d->p.p_x) * tan(angl);
@@ -98,7 +94,7 @@ static void	find_v_inter_door(t_cub3d *cub3d, float angl,
 	}
 	if (intersect->type == 'd')
 		intersect->type = '1';
-	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2) + \
+	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2) + 
 			pow(v_y - cub3d->p.p_y, 2));
 	intersect->offset = fabs(v_y);
 }
@@ -143,13 +139,14 @@ void	raycasting_door(t_cub3d *cub3d, int ray)
 	t_intersect	v_inter;
 
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
+	// cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
 	while (ray < WIDTH)
 	{
 		find_v_inter_door(cub3d, cub3d->ray.ray_ngl, &v_inter);
 		find_h_inter_door(cub3d, cub3d->ray.ray_ngl, &h_inter);
-		if (v_inter.type == 'D' && v_inter.inter > 32)
+		if (v_inter.type == 'D' && v_inter.inter > 32 && v_inter.inter <= h_inter.inter)
 			set_right_intersection(cub3d, v_inter, 0);
-		else if (h_inter.type == 'd' && h_inter.inter > 32)
+		else if (h_inter.type == 'd' && h_inter.inter > 32 && h_inter.inter < v_inter.inter)
 			set_right_intersection(cub3d, h_inter, 1);
 		else
 			cub3d->ray.type = '1';
