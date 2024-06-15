@@ -6,17 +6,16 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 15:43:29 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:25:04 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*Calculate the distance from player and find the right texture to use*/
-void	check_doors(t_cub3d *cub3d, int i)
+void	check_doors(t_cub3d *cub3d, int i, int index)
 {
 	t_door	*door;
-	int		index;
 
 	while (++i < cub3d->num_doors)
 	{
@@ -33,6 +32,8 @@ void	check_doors(t_cub3d *cub3d, int i)
 				index = 0;
 			door->texture = cub3d->bonus_door[index];
 		}
+		if (cub3d->map.map[door->y][door->x] == '0')
+			cub3d->map.map[door->y][door->x] = door->type;
 	}
 }
 
@@ -44,6 +45,7 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
 	int	x_m;
 	int	y_m;
 
+	intersect->type = '1';
 	if (x < 0 || y < 0)
 		return (0);
 	x_m = floor (x / TILE_SIZE);
@@ -92,10 +94,10 @@ static void	find_v_inter_door(t_cub3d *cub3d, float angl,
 		v_x += x_step;
 		v_y += y_step;
 	}
-	if (intersect->type == 'd')
+	if (intersect->type != 'D')
 		intersect->type = '1';
-	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2) + 
-			pow(v_y - cub3d->p.p_y, 2));
+	intersect->inter = sqrt(pow(v_x - cub3d->p.p_x, 2)
+			+ pow(v_y - cub3d->p.p_y, 2));
 	intersect->offset = fabs(v_y);
 }
 
@@ -125,7 +127,7 @@ static void	find_h_inter_door(t_cub3d *cub3d, float angl,
 		h_x += x_step;
 		h_y += y_step;
 	}
-	if (intersect->type == 'D')
+	if (intersect->type != 'd')
 		intersect->type = '1';
 	intersect->inter = sqrt(pow(h_x - cub3d->p.p_x, 2) + \
 			pow(h_y - cub3d->p.p_y, 2));
@@ -139,14 +141,15 @@ void	raycasting_door(t_cub3d *cub3d, int ray)
 	t_intersect	v_inter;
 
 	cub3d->ray.ray_ngl = cub3d->p.angle - (cub3d->p.fov_rd / 2);
-	// cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
-	while (ray < WIDTH)
+	while (++ray < WIDTH)
 	{
 		find_v_inter_door(cub3d, cub3d->ray.ray_ngl, &v_inter);
 		find_h_inter_door(cub3d, cub3d->ray.ray_ngl, &h_inter);
-		if (v_inter.type == 'D' && v_inter.inter > 32 && v_inter.inter <= h_inter.inter)
+		if (v_inter.type == 'D' && v_inter.inter > 32
+			&& v_inter.inter <= h_inter.inter)
 			set_right_intersection(cub3d, v_inter, 0);
-		else if (h_inter.type == 'd' && h_inter.inter > 32 && h_inter.inter < v_inter.inter)
+		else if (h_inter.type == 'd' && h_inter.inter > 32
+			&& h_inter.inter < v_inter.inter)
 			set_right_intersection(cub3d, h_inter, 1);
 		else
 			cub3d->ray.type = '1';
@@ -156,7 +159,6 @@ void	raycasting_door(t_cub3d *cub3d, int ray)
 					- cub3d->p.angle);
 			render_door(cub3d, ray);
 		}
-		ray++;
 		cub3d->ray.ray_ngl += (cub3d->p.fov_rd / WIDTH);
 		cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
 	}

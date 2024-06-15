@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 15:43:13 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:05:20 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct s_sprite
 typedef struct s_door
 {
 	int			index;
+	char		type;
 	int			x;
 	int			y;
 	float		p_x;
@@ -249,7 +250,7 @@ void			draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i);
 void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
-void			check_doors(t_cub3d *cub3d, int i);
+void			check_doors(t_cub3d *cub3d, int i, int index);
 void			raycasting_door(t_cub3d *cub3d, int ray);
 void			render_door(t_cub3d *cub3d, int ray);
 int				find_index_door(t_cub3d *cub3d, int pos_y, int pos_x);

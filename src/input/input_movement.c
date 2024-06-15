@@ -6,14 +6,14 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 11:29:13 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:17:13 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*Check if player can move to new position*/
-int	cant_go(char **map, int dir, int left, int right)
+int	can_go(char **map, int dir, int left, int right)
 {
 	if ((map[dir][left] != '1' && map[dir][right] != '1')
 		&& (map[dir][left] != 'C' && map[dir][right] != 'C'))
@@ -31,8 +31,8 @@ int	cant_go(char **map, int dir, int left, int right)
 // 	old_x = cub3d->map.x;
 // 	if (cub3d->map.y != y || cub3d->map.x != x)
 // 	{
-// 		cub3d->map.y = y;
-// 		cub3d->map.x = x;
+// 		// cub3d->map.y = y;
+// 		// cub3d->map.x = x;
 // 		cub3d->map.map[old_y][old_x] = '0';
 // 		cub3d->map.map[y][x] = 'P';
 // 	}
@@ -70,13 +70,15 @@ static void	move_player(t_cub3d *cub3d, float move_x, float move_y)
 	map_right = (new_cord[0] + DISTANCE_WALL) / TILE_SIZE;
 	map_top = (new_cord[1] - DISTANCE_WALL) / TILE_SIZE;
 	map_bottom = (new_cord[1] + DISTANCE_WALL) / TILE_SIZE;
-	if (cant_go(cub3d->map.map, map_top, map_left, map_right)
-		&& cant_go(cub3d->map.map, map_bottom, map_left, map_right))
+	if (can_go(cub3d->map.map, map_top, map_left, map_right)
+		&& can_go(cub3d->map.map, map_bottom, map_left, map_right))
 	{
 		cub3d->p.p_x = new_cord[0];
 		cub3d->p.p_y = new_cord[1];
+		cub3d->map.map[cub3d->p.y][cub3d->p.x] = '0';
 		cub3d->p.x = (int)floor((cub3d->p.p_x / TILE_SIZE));
 		cub3d->p.y = (int)floor((cub3d->p.p_y / TILE_SIZE));
+		cub3d->map.map[cub3d->p.y][cub3d->p.x] = 'P';
 	}
 }
 

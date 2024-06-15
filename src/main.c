@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 13:53:18 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:02:53 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 int	refresh_win(t_cub3d *cub3d)
 {
 	check_for_input(cub3d, 0, 0);
-	check_doors(cub3d, -1);
+	check_doors(cub3d, -1, 0);
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
 	raycasting(cub3d);
-	raycasting_door(cub3d, 0);
+	raycasting_door(cub3d, -1);
 	render_sprite(cub3d, 0, 0);
 	mlx_put_image_to_window(cub3d->game.mlx, cub3d->game.win,
 		cub3d->game.img.img, 0, 0);
