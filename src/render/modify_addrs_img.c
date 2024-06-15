@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:13:06 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 08:43:08 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:00:35 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i)
 }
 
 /*Get the right pattern for the walls, in order W E S N*/
-t_texture	get_texture_walls(t_cub3d *cub3d, int flag)
+static t_texture	get_texture_walls(t_cub3d *cub3d, int flag)
 {
 	cub3d->ray.ray_ngl = nor_angle(cub3d->ray.ray_ngl);
 	if (flag == 0)
@@ -48,6 +48,44 @@ t_texture	get_texture_walls(t_cub3d *cub3d, int flag)
 		else
 			return (cub3d->textures[NORTH]);
 	}
+}
+
+/*Draw the 3d map using its address, each loop draw different parts of the map
+respectively cealing, walls, floor*/
+static void	draw_map(t_cub3d *cub3d, int ray, int t_pixel, int b_pixel)
+{
+	int				i;
+	int				y;
+	unsigned int	color;
+	t_texture		texture;
+
+	i = -1;
+	texture = get_texture_walls(cub3d, cub3d->ray.flag);
+	while (++i < t_pixel)
+		draw_pixel(cub3d, ray, cub3d->map.c, i);
+	i = t_pixel - 1;
+	while (++i < b_pixel)
+	{
+		y = ((i - t_pixel) * texture.height) / (b_pixel - t_pixel);
+		color = get_tex_color(texture, cub3d->ray.wall_w, y);
+		draw_pixel(cub3d, ray, color, i);
+	}
+	i = b_pixel - 1;
+	while (++i < HEIGHT)
+		draw_pixel(cub3d, ray, cub3d->map.f, i);
+}
+
+/*Calculate the wall height and the top and bottom pixel for the wall*/
+void	render_enviroment(t_cub3d *cub3d, int ray)
+{
+	float	wall_h;
+	float	b_pixel;
+	float	t_pixel;
+
+	wall_h = cub3d->ray.distance_scale / cub3d->ray.distance;
+	b_pixel = (HEIGHT >> 1) + (wall_h / 2);
+	t_pixel = (HEIGHT >> 1) - (wall_h / 2);
+	draw_map(cub3d, ray, t_pixel, b_pixel);
 }
 
 /*Get the right color for the walls, in order W E S N

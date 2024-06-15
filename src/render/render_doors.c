@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 08:41:50 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:00:01 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	check_doors(t_cub3d *cub3d, int i)
 	}
 }
 
-/*Check if the coordinates x and y intersect with a wall
- return 0 if a wall was hit or coordinates are out of bounds*/
+/*Check if the coordinates x and y intersect with a door
+ return 0 if a door was hit or coordinates are out of bounds*/
 static int	is_hit(float x, float y, t_cub3d *cub3d,
 	t_intersect *intersect)
 {
@@ -50,7 +50,10 @@ static int	is_hit(float x, float y, t_cub3d *cub3d,
 	y_m = floor (y / TILE_SIZE);
 	if (y_m >= cub3d->map.height || x_m >= cub3d->map.width
 		|| y_m < 0 || x_m < 0)
+	{
+		intersect->type = '1';
 		return (0);
+	}	
 	if (cub3d->map.map[y_m][x_m] == '1')
 	{
 		intersect->type = cub3d->map.map[y_m][x_m];
@@ -81,6 +84,7 @@ static void	find_v_inter_door(t_cub3d *cub3d, float angl,
 
 	x_step = TILE_SIZE;
 	y_step = TILE_SIZE * tan(angl);
+	// printf("%f\n", y_step);
 	v_x = floor(cub3d->p.p_x / TILE_SIZE) * TILE_SIZE;
 	pixel = intersection_check(angl, &v_x, &x_step, 0);
 	v_y = cub3d->p.p_y + (v_x - cub3d->p.p_x) * tan(angl);
@@ -112,7 +116,7 @@ static void	find_h_inter_door(t_cub3d *cub3d, float angl,
 	float	y_step;
 	int		pixel;
 
-	y_step = TILE_SIZE ;
+	y_step = TILE_SIZE;
 	x_step = TILE_SIZE / tan(angl);
 	h_y = floor(cub3d->p.p_y / TILE_SIZE) * TILE_SIZE;
 	pixel = intersection_check(angl, &h_y, &y_step, 1);
@@ -143,9 +147,9 @@ void	raycasting_door(t_cub3d *cub3d, int ray)
 	{
 		find_v_inter_door(cub3d, cub3d->ray.ray_ngl, &v_inter);
 		find_h_inter_door(cub3d, cub3d->ray.ray_ngl, &h_inter);
-		if (v_inter.type == 'D')
+		if (v_inter.type == 'D' && v_inter.inter > 32)
 			set_right_intersection(cub3d, v_inter, 0);
-		else if (h_inter.type == 'd')
+		else if (h_inter.type == 'd' && h_inter.inter > 32)
 			set_right_intersection(cub3d, h_inter, 1);
 		else
 			cub3d->ray.type = '1';
