@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:28 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/14 15:29:04 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 08:22:25 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	unit_circle(float angl, char c)
 void	set_right_intersection(t_cub3d *cub3d, t_intersect inter, int flag)
 {
 	cub3d->ray.distance = inter.inter;
-	// cub3d->ray.wall_w = inter.offset;fmod(cub3d->ray.wall_w, TILE_SIZE);
 	cub3d->ray.wall_w = fmod(inter.offset, TILE_SIZE);
 	cub3d->ray.flag = flag;
 	cub3d->ray.type = inter.type;
@@ -76,7 +75,8 @@ float	nor_angle(float angle)
 	return (angle);
 }
 
-int	find_index_wall(t_cub3d *cub3d, int pos_y, int pos_x)
+/*Return the index of the door that has been found during raycasting*/
+int	find_index_door(t_cub3d *cub3d, int pos_y, int pos_x)
 {
 	char	door;
 	int		count;
