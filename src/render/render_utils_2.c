@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+static bool	open_door(t_cub3d *cub3d, int y, int x)
+{
+	int	index;
+
+	index = find_index_door(cub3d, y, x);
+	if (cub3d->doors[index].texture.index < 4)
+		return (true);
+	return (false);
+}
+
 /*sets up the parameters needed for the Digital
 	 Differential Analyzer (DDA) algorithm */
 static float	set_direction_y(t_cub3d *cub3d, t_sprite *sprite, int *step_dir)
@@ -63,32 +74,30 @@ static float	set_direction_x(t_cub3d *cub3d, t_sprite *sprite, int *step_dir)
 
 /*Check if the sprite is not behind a wall*/
 bool	is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite,
-			int map_x, int map_y)
+			int x, int y)
 {
-	int		step_dir_x;
-	int		step_dir_y;
-	float	side_dist_x;
-	float	side_dist_y;
+	int		step_dir[2];
+	float	side_dist[2];
 
-	side_dist_x = set_direction_x(cub3d, sprite, &step_dir_x);
-	side_dist_y = set_direction_y(cub3d, sprite, &step_dir_y);
-	while (map_x >= 0 && map_x < cub3d->map.width && map_y >= 0
-		&& map_y < cub3d->map.height)
+	side_dist[0] = set_direction_x(cub3d, sprite, &step_dir[0]);
+	side_dist[1] = set_direction_y(cub3d, sprite, &step_dir[1]);
+	while (x >= 0 && x < cub3d->map.width && y >= 0 && y < cub3d->map.height)
 	{
-		if (cub3d->map.map[map_y][map_x] == '1')
-			// || cub3d->map.map[map_y][map_x] == 'D'
-			// || cub3d->map.map[map_y][map_x] == 'd')
+		if (cub3d->map.map[y][x] == '1')
 			return (false);
-		if (map_y == sprite->y && map_x == sprite->x)
+		if (cub3d->map.map[y][x] == 'D' || cub3d->map.map[y][x] == 'd')
+			if (!open_door(cub3d, y, x))
+				return (false);
+		if (y == sprite->y && x == sprite->x)
 			return (true);
-		if (side_dist_x < side_dist_y)
+		if (side_dist[0] < side_dist[1])
 		{
-			side_dist_x += sprite->delta_x;
-			map_x += step_dir_x;
+			side_dist[0] += sprite->delta_x;
+			x += step_dir[0];
 			continue ;
 		}
-		side_dist_y += sprite->delta_y;
-		map_y += step_dir_y;
+		side_dist[1] += sprite->delta_y;
+		y += step_dir[1];
 	}
 	return (false);
 }

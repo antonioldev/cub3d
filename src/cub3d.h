@@ -136,7 +136,6 @@ typedef struct s_texture
 	int			counter;
 	int			load;
 	int			index;
-	
 }		t_texture;
 
 typedef struct s_sprite
