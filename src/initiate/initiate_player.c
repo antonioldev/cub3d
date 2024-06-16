@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:21:29 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 08:48:39 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 10:53:05 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_player	initiate_player(t_map map)
 {
 	t_player	player;
 
+	player.x = map.x;
+	player.y = map.y;
 	player.p_x = map.x * TILE_SIZE + TILE_SIZE / 2;
 	player.p_y = map.y * TILE_SIZE + TILE_SIZE / 2;
 	player.fov_rd = (FOV * M_PI) / 180;

@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:43:21 by antonio           #+#    #+#             */
-/*   Updated: 2024/06/15 09:00:20 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:36:10 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	load_texture(t_texture *texture, t_mlx *game, char *filename, int i)
 		initiate_error_texture(game, texture, i);
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, \
 			&texture->line_length, &texture->endian);
+	texture->index = i;
 }
 
 static char	int_to_char(int i)
@@ -35,25 +36,23 @@ void	load_all_texture(t_cub3d *cub3d)
 	char	*path;
 
 	load_texture(&cub3d->textures[NORTH], &cub3d->game, cub3d->map.no, NORTH);
-	load_texture(&cub3d->textures[SOUTH], &cub3d->game,  cub3d->map.so, SOUTH);
-	load_texture(&cub3d->textures[WEST], &cub3d->game,  cub3d->map.we, WEST);
-	load_texture(&cub3d->textures[EAST], &cub3d->game,  cub3d->map.ea, EAST);
-	i = 0;
+	load_texture(&cub3d->textures[SOUTH], &cub3d->game, cub3d->map.so, SOUTH);
+	load_texture(&cub3d->textures[WEST], &cub3d->game, cub3d->map.we, WEST);
+	load_texture(&cub3d->textures[EAST], &cub3d->game, cub3d->map.ea, EAST);
+	i = -1;
 	path = ft_strdup("./texture/bonus/sprites/frame_0.xpm");
-	while (i < FRAME_SPRITE)
+	while (++i < FRAME_SPRITE)
 	{
 		path[30] = int_to_char(i);
 		load_texture(&cub3d->bonus_coins[i], &cub3d->game, path, i);
-		i++;
 	}
 	free (path);
-	i = 0;
+	i = -1;
 	path = ft_strdup("./texture/bonus/door/door_0.xpm");
-	while (i < FRAME_DOOR)
+	while (++i < FRAME_DOOR)
 	{
 		path[26] = int_to_char(i);
 		load_texture(&cub3d->bonus_door[i], &cub3d->game, path, i);
-		i++;
 	}
 	free (path);
 	cub3d->bonus_coins->counter = 0;

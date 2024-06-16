@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 08:58:58 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:40:05 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
+	int			x;
+	int			y;
 	int			p_x;
 	int			p_y;
 	float		distance_to_plane;
@@ -133,6 +135,7 @@ typedef struct s_texture
 	int			endian;
 	int			counter;
 	int			load;
+	int			index;
 }		t_texture;
 
 typedef struct s_sprite
@@ -161,6 +164,7 @@ typedef struct s_sprite
 typedef struct s_door
 {
 	int			index;
+	char		type;
 	int			x;
 	int			y;
 	float		p_x;
@@ -242,12 +246,14 @@ void			clear_mini_map(t_mlx *game);
 int				render_mini_map(t_cub3d *cub3d);
 void			draw_square_minimap(t_mlx *game, int w, int h, int color);
 void			raycasting(t_cub3d *cub3d);
-t_texture		get_texture_walls(t_cub3d *cub3d, int flag);
+void			render_enviroment(t_cub3d *cub3d, int ray);
 void			draw_pixel(t_cub3d *cub3d, int ray, unsigned int color, int i);
 void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int texture_x,
 					int texture_y);
 void			render_sprite(t_cub3d *cub3d, int i, int dir);
-void			check_doors(t_cub3d *cub3d, int i);
+bool			is_sprite_visible(t_cub3d *cub3d, t_sprite *sprite,
+					int map_x, int map_y);
+void			check_doors(t_cub3d *cub3d, int i, int index);
 void			raycasting_door(t_cub3d *cub3d, int ray);
 void			render_door(t_cub3d *cub3d, int ray);
 int				find_index_door(t_cub3d *cub3d, int pos_y, int pos_x);
