@@ -36,9 +36,9 @@ static size_t	ft_count_words_par(char const *s, char c)
 	return (words);
 }
 
-char *malloc_nl(int	*increment)
+char	*malloc_nl(int	*increment)
 {
-	char *newline;
+	char	*newline;
 
 	newline = (char *)malloc(2 * sizeof(char));
 	if (!newline)
@@ -52,7 +52,7 @@ char *malloc_nl(int	*increment)
 char	**ft_split_par(char const *s, char c)
 {
 	char	**res;
-	int	i;
+	int		i;
 	int		start;
 
 	res = (char **)malloc((ft_count_words_par(s, c) + 1) * sizeof(char *));
@@ -131,7 +131,7 @@ void	preparse_check(char *str)
 		i++;
 	}
 	free_double_array(lines);
-	printf("no = %d so = %d we = %d ea = %d f = %d c = %d map = %d\n", check.no, check.so, check.we, check.ea, check.f, check.c, check.map );
+	printf("no = %d so = %d we = %d ea = %d f = %d c = %d map = %d\n", check.no, check.so, check.we, check.ea, check.f, check.c, check.map);
 	if ((check.no != 1) || (check.so != 1) || (check.we != 1) || (check.ea != 1) || (check.f != 1) || (check.c != 1) || (check.map == -2))
 	{
 		free(str);

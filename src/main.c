@@ -31,7 +31,7 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 	cub3d->map.map[1][32] = 'C';//testing
 	cub3d->map.map[1][28] = 'C';
 	cub3d->map.map[1][11] = 'C';
-	// cub3d->map.map[3][10] = 'C';
+	cub3d->map.map[3][10] = 'C';
 	cub3d->map.map[1][28] = 'D';//testing
 	cub3d->map.map[2][10] = 'd';
 	initiate_sprite(cub3d, 0, 0, 0);
