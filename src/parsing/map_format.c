@@ -52,9 +52,9 @@ char	**format_map(char **map, int w)
 	i = 0;
 	while (i < lines)
 	{
-        printf("Processing line %d = %s\n", i, map[i]);  // Print current line for debugging
-        new[i] = fill_string(map[i], w, map);
-        printf("Formatted line %d = '%s'\n", i, new[i]);
+		printf("Processing line %d = %s\n", i, map[i]);// Print current line for debugging
+		new[i] = fill_string(map[i], w, map);
+		printf("Formatted line %d = '%s'\n", i, new[i]);
 		i++;
 	}
 	new[lines] = NULL;
