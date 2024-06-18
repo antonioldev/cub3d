@@ -64,6 +64,8 @@ int	main(int argc, char **argv)
 	mlx_hook(cub3d.game.win, 17, 1L << 0, x_pressed, &cub3d);
 	mlx_hook(cub3d.game.win, 2, 1L << 0, key_press, &cub3d);
 	mlx_hook(cub3d.game.win, 3, 1L << 1, key_release, &cub3d);
+	mlx_hook(cub3d.game.win, ButtonPress, ButtonPressMask, mouse_press, &cub3d);
+    mlx_hook(cub3d.game.win, ButtonRelease, ButtonReleaseMask, mouse_release, &cub3d);
 	mlx_loop(cub3d.game.mlx);
 	ft_destroy_mlx(&cub3d);
 	return (EXIT_SUCCESS);

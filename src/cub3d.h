@@ -19,9 +19,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
+# include <X11/X.h>
 # include <X11/keysym.h>
 # include <string.h>
-# include <X11/keysym.h>
 # include <math.h>
 # include <stdbool.h>
 # include "../libs/libft/libft.h"
@@ -208,7 +208,6 @@ void			set_player_pos(t_map **map);
 void			create_map(t_map *map, int fd);
 int				check_middle(char *line);
 int				check_line_edge(char *line);
-
 //PARSING/parsing_colour.c
 int				is_rgb(char *line);
 int				is_fc(char *line, t_check *check);
@@ -240,6 +239,10 @@ int				x_pressed(t_cub3d *cub3d);
 int				key_press(int ks, t_cub3d *cub3d);
 int				key_release(int ks, t_cub3d *cub3d);
 void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
+void			rotate_player(t_cub3d *cub3d, int i);
+int 			handle_mouse(int button, int x, int y, t_cub3d *cub3d);
+int 			mouse_press(int button, int x, int y, t_cub3d *cub3d);
+int				mouse_release(int button, int x, int y, t_cub3d *cub3d);
 
 //RENDER FOLDER
 void			clear_mini_map(t_mlx *game);
