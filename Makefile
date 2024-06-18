@@ -18,6 +18,7 @@ src/clean/error.c						src/parsing/preparse.c					src/render/render_doors.c \
 src/clean/error_init_mlx.c				src/parsing/check_ext.c					src/render/render_utils.c \
 src/clean/clear_mlx.c															src/input/input.c \
 src/clean/clear_parsing.c														src/input/input_movement.c \
+src/input/mouse_move.c
 ##############################################################################################################################
 ##############################################################################################################################
 
