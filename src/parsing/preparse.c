@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preparse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 11:20:58 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/19 10:12:46 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:36:14 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,36 @@ static void	check_c_map2(t_check *check, char **str)
 		|| (check->map == -2))
 	{
 		free(*str);
-		perror("Error\nPreparse error\n");
+		ft_putstr_fd("Error\nMisconfiguration in the input file\n", 2);
 		exit (1);
 	}
 }
 
 void	preparse_check(char *str, int i)
 {
-	char	**lines;
+	char	**l;
 	t_check	check;
 	char	**c_map;
 
 	init_check(&check);
-	lines = ft_split_par(str, '\n', 0);
-	while (lines[++i])
+	l = ft_split_par(str, '\n', 0);
+	if (l == NULL)
 	{
-		if (is_fc(lines[i], &check))
+		free(str);
+		exit (1);
+	}
+	while (l[++i])
+	{
+		if (is_fc(l[i], &check) || is_texture(l[i], &check)
+			|| is_empty(l[i]) || !ft_strncmp(l[i], "\n", ft_strlen(l[i])))
 			;
-		else if (is_texture(lines[i], &check))
-			;
-		else if (is_map(lines[i]))
+		else if (is_map(l[i]))
 			break ;
-		else if (is_empty(lines[i]))
-			;
-		else if (!ft_strncmp(lines[i], "\n", ft_strlen(lines[i])))
-			;
 		else
 			check.map = -2;
 	}
-	c_map = lines + i;
-	check_c_map(c_map, &check);//
-	free_double_array(lines);
-	check_c_map2(&check, &str);//
+	c_map = l + i;
+	check_c_map(c_map, &check);
+	free_double_array(l);
+	check_c_map2(&check, &str);
 }

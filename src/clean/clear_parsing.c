@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:43:55 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/05/31 09:12:01 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:51:57 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*Throw an error and exit the program if there is a parsing error*/
 int	parsing_error(char *message)
 {
-	perror(message);
+	ft_putstr_fd(message, 2);
 	return (0);
 }
 

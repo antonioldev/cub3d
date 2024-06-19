@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:03:19 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/19 10:12:22 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:50:42 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,16 @@ int	ft_error(int argc, char **argv)
 
 	errno = 22;
 	if (argc < 2)
-		perror("Error: Map was not provided");
+		ft_putstr_fd("Error\nMap was not provided\n", 2);
 	else if (argc > 2)
-	{
-		errno = 7;
-		perror("Error");
-	}
+		ft_putstr_fd("Error\nToo many arguments\n", 2);
 	if (argc != 2)
 		exit (EXIT_FAILURE);
 	else
 		fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		errno = 2;
-		perror("Error while reading the file\n");
+		ft_putstr_fd("Error\nError while reading the file\n", 2);
 		exit (EXIT_FAILURE);
 	}
 	return (fd);
@@ -42,13 +38,13 @@ int	ft_error(int argc, char **argv)
 void	file_error(char **to_clean, t_map *map)
 {
 	free_double_array(to_clean);
-	perror("Error\nFile error\n");
+	ft_putstr_fd("Error\nMisconfiguration in the input file\n", 2);
 	free_t_map(map);
 	exit (1);
 }
 
 void	ft_error_empty_map(void)
 {
-	perror("Error\nEmpty map\n");
+	ft_putstr_fd("Error\nEmpty map\n", 2);
 	exit (1);
 }

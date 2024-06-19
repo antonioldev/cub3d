@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/19 11:23:15 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:37:25 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 {
 	int	fd;
 
+	fd = ft_error(argc, argv);
 	if (!check_extension(argv[1]))
 	{
-		perror("Error\nExtension error\n");
+		ft_putstr_fd("Error\nExtension error\n", 2);
 		exit (1);
 	}
-	fd = ft_error(argc, argv);
 	create_map(&cub3d->map, fd);
 	cub3d->game = initiate_mlx();
 	cub3d->p = initiate_player(cub3d->map);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_format.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 18:01:17 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/19 08:50:47 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:13:34 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*fill_string(char *to_copy, int w, char **map)
 	if (!new)
 	{
 		free_double_array(map);
-		perror("Malloc error\n");
+		ft_putstr_fd("Error\nMalloc error\n", 2);
 		exit(1);
 	}
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/19 10:09:06 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:54:59 by rtavabil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	check_map(char **cur_map, t_map *map)
 	map->width = count_colum(cur_map);
 	map->height = count_lines(cur_map);
 	new = format_map(cur_map, map->width);
+	if (new == NULL)
+		return (0);
 	ret = check_player(new) && check_borders(new) \
 		&& check_zero(new, map->width, map->height);
 	map->map = new;
-	if (new == NULL)
-		return (0);
 	return (ret);
 }
 
