@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 16:40:05 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:00:31 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,8 @@ typedef struct s_cub3d
 }		t_cub3d;
 
 //PARSING FOLDER
-char			*ft_read_from_file(int fd, char *s);
+char			*ft_read_from_file(int fd, char *s, size_t bytes_read);
 int				ft_error(int argc, char **argv);
-char			*ft_read_from_file(int fd, char *s);
 int				check_borders(char	**map);
 int				count_lines(char **map);
 char			**format_map(char **map, int w);
@@ -221,7 +220,9 @@ void			free_t_map(t_map *map);
 //PARSING
 int				is_empty(char *line);
 int				is_map(char *line);
-void			preparse_check(char *str);
+void			preparse_check(char *str, int i);
+void			init_check(t_check *check);
+char			**ft_split_par(char const *s, char c, int i);
 int				check_extension(char *filename);
 
 //INITIATE FOLDER
@@ -240,8 +241,7 @@ int				key_press(int ks, t_cub3d *cub3d);
 int				key_release(int ks, t_cub3d *cub3d);
 void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
 void			rotate_player(t_cub3d *cub3d, int i);
-int 			handle_mouse(int button, int x, int y, t_cub3d *cub3d);
-int 			mouse_press(int button, int x, int y, t_cub3d *cub3d);
+int				mouse_press(int button, int x, int y, t_cub3d *cub3d);
 int				mouse_release(int button, int x, int y, t_cub3d *cub3d);
 
 //RENDER FOLDER
@@ -270,6 +270,8 @@ unsigned int	get_tex_color(t_texture texture, int x, int y);
 
 //CLEAN FOLDER
 int				ft_error(int argc, char **argv);
+void			ft_error_empty_map(void);
+void			file_error(char **to_clean, t_map *map);
 void			ft_destroy_mlx(t_cub3d *cub3d);
 void			initiate_error_win(t_mlx game);
 void			initiate_error_img_minimap(t_mlx game);

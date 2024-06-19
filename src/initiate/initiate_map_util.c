@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils_bonus.c                                :+:      :+:    :+:   */
+/*   initiate_map_util.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 18:31:27 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/19 10:34:25 by alimotta         ###   ########.fr       */
+/*   Created: 2024/06/19 08:39:10 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/19 08:40:58 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_middle(char *line)
+int	double_array_len(char **arr)
 {
-	if (line)
+	int	len;
+
+	len = 0;
+	while (*arr)
 	{
-		if (!check_line_edge(line))
-			return (0);
-		while (*line == ' ')
-			line++;
-		while (*line)
-		{
-			if (!is_allowed_all(*line))
-				return (0);
-			line++;
-		}
-		return (1);
+		arr++;
+		len++;
 	}
-	return (0);
+	return (len);
 }
 
-int	is_allowed_all(char c)
+int	is_map(char *line)
 {
-	return (c == 'N' || c == 'W' || c == 'E' \
-			|| c == 'S' || c == '1' || c == '0' \
-			|| c == ' ' || c == 'D' || c == 'd' \
-			|| c == 'C');
+	while (*line)
+	{
+		if (!is_allowed_all(*line))
+			return (0);
+		line++;
+	}
+	return (1);
+}
+
+int	is_empty(char *line)
+{
+	if (ft_strlen(line) == 0)
+		return (1);
+	return (0);
 }

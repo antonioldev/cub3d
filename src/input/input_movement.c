@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 16:17:13 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:40:07 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,8 @@ int	can_go(char **map, int dir, int left, int right)
 	return (0);
 }
 
-/*Update the player position in map array*/
-// static void	update_player_position_map(t_cub3d *cub3d, int y, int x)
-// {
-// 	int	old_y;
-// 	int	old_x;
-
-// 	old_y = cub3d->map.y;
-// 	old_x = cub3d->map.x;
-// 	if (cub3d->map.y != y || cub3d->map.x != x)
-// 	{
-// 		// cub3d->map.y = y;
-// 		// cub3d->map.x = x;
-// 		cub3d->map.map[old_y][old_x] = '0';
-// 		cub3d->map.map[y][x] = 'P';
-// 	}
-// }
-
 /*Calculate the rotation of the player*/
-static void	rotate_player(t_cub3d *cub3d, int i)
+void	rotate_player(t_cub3d *cub3d, int i)
 {
 	if (i == 1)
 	{
@@ -82,6 +65,12 @@ static void	move_player(t_cub3d *cub3d, float move_x, float move_y)
 	}
 }
 
+static void	check_moves(t_cub3d *cub3d, float move_x, float move_y, int dir)
+{
+	if (dir != 0)
+		move_player(cub3d, move_x, move_y);
+}
+
 /*Check if flags for rotation or movement have changed and calculate the moves*/
 void	check_for_input(t_cub3d *cub3d, float move_x, float move_y)
 {
@@ -97,6 +86,7 @@ void	check_for_input(t_cub3d *cub3d, float move_x, float move_y)
 		move_x = sin(cub3d->p.angle) * PLAYER_SPEED;
 		move_y = -cos(cub3d->p.angle) * PLAYER_SPEED;
 	}
+	check_moves (cub3d, move_x, move_y, cub3d->p.l_r);
 	if (cub3d->p.u_d == 1)
 	{
 		move_x = cos(cub3d->p.angle) * PLAYER_SPEED;
@@ -107,5 +97,5 @@ void	check_for_input(t_cub3d *cub3d, float move_x, float move_y)
 		move_x = -cos(cub3d->p.angle) * PLAYER_SPEED;
 		move_y = -sin(cub3d->p.angle) * PLAYER_SPEED;
 	}
-	move_player(cub3d, move_x, move_y);
+	check_moves (cub3d, move_x, move_y, cub3d->p.u_d);
 }

@@ -1,37 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_move.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/19 08:27:56 by alimotta          #+#    #+#             */
+/*   Updated: 2024/06/19 11:02:12 by alimotta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int mouse_press(int button, int x, int y, t_cub3d *cub3d)
+static void	handle_mouse(int button, t_cub3d *cub3d)
 {
-    if (button == 1)
-        handle_mouse(button, x, y, cub3d);
-    return (x * y);
+	if (button == 1)
+	{
+		cub3d->p.rot = -1;
+		rotate_player(cub3d, -1);
+	}
+	if (button == 3)
+	{
+		cub3d->p.rot = 1;
+		rotate_player(cub3d, 1);
+	}
 }
 
-int mouse_release(int button, int x, int y, t_cub3d *cub3d)
+int	mouse_press(int button, int x, int y, t_cub3d *cub3d)
 {
-    if (button == 1)
-        cub3d->p.rot = 0;
-    return (x * y);
+	if (button == 1 || button == 3)
+		handle_mouse(button, cub3d);
+	return (x * y);
 }
 
-int handle_mouse(int button, int x, int y, t_cub3d *cub3d)
+int	mouse_release(int button, int x, int y, t_cub3d *cub3d)
 {
-	static int	old_x = WIDTH / 2;
-
-    if (button == 1)
-    {
-        if (x == old_x)
-            return (0);
-        else if (x < old_x)
-        {
-            cub3d->p.rot = -1;
-            rotate_player(cub3d, 1);
-        }
-        else if (x > old_x)
-        {
-            cub3d->p.rot = 1;
-            rotate_player(cub3d, -1);
-        }
-    }
-    return (x * y);
+	if (button == 1 || button == 3)
+		cub3d->p.rot = 0;
+	return (x * y);
 }

@@ -6,7 +6,8 @@
 		"keysym.h": "c",
 		"test": "c",
 		"libft.h": "c",
-		"cmath": "cpp"
+		"cmath": "cpp",
+		"*.gitattributes": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 18:23:14 by rtavabil          #+#    #+#             */
-/*   Updated: 2024/06/13 18:29:32 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:18:02 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,9 @@ int	check_borders(char	**map)
 	if (!check_top(map[lines - 1]))
 		return (0);
 	return (1);
+}
+
+int	is_allowed_p(char c)
+{
+	return (c == 'N' || c == 'W' || c == 'E' || c == 'S');
 }

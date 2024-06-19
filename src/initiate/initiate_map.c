@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initiate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtavabil <rtavabil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:04:58 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/13 18:28:07 by rtavabil         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:09:06 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,6 @@ void	set_player_pos(t_map **map)
 	}
 }
 
-int	double_array_len(char **arr)
-{
-	int	len;
-
-	len = 0;
-	while (*arr)
-	{
-		arr++;
-		len++;
-	}
-	return (len);
-}
-
 //initialing map structure
 void	map_init(t_map *map)
 {
@@ -65,32 +52,6 @@ void	map_init(t_map *map)
 	map->map = 0;
 	map->x = 0;
 	map->y = 0;
-}
-
-int	is_map(char *line)
-{
-	while (*line)
-	{
-		if (!is_allowed_all(*line))
-			return (0);
-		line++;
-	}
-	return (1);
-}
-
-int	is_empty(char *line)
-{
-	if (ft_strlen(line) == 0)
-		return (1);
-	return (0);
-}
-
-void	file_error(char **to_clean, t_map *map)
-{
-	free_double_array(to_clean);
-	perror("Error\nFile error\n");
-	free_t_map(map);
-	exit (1);
 }
 
 int	check_map(char **cur_map, t_map *map)
@@ -110,18 +71,10 @@ int	check_map(char **cur_map, t_map *map)
 	return (ret);
 }
 
-void	create_map(t_map *map, int fd)
+void	check_array(t_map *map, char **arr_file, char ***c_map)
 {
-	char	**arr_file;
-	char	*str_file;
-	char	**c_map;
-	int		i;
+	int	i;
 
-	map_init(map);
-	str_file = ft_read_from_file(fd, NULL);
-	preparse_check(str_file);
-	arr_file = ft_split(str_file, '\n');
-	free(str_file);
 	i = 0;
 	while (arr_file[i])
 	{
@@ -137,7 +90,21 @@ void	create_map(t_map *map, int fd)
 			file_error(arr_file, map);
 		i++;
 	}
-	c_map = &(arr_file[i]);
+	*c_map = &(arr_file[i]);
+}
+
+void	create_map(t_map *map, int fd)
+{
+	char	**arr_file;
+	char	*str_file;
+	char	**c_map;
+
+	map_init(map);
+	str_file = ft_read_from_file(fd, NULL, 0);
+	preparse_check(str_file, -1);
+	arr_file = ft_split(str_file, '\n');
+	free(str_file);
+	check_array(map, arr_file, &c_map);
 	if (!check_map(c_map, map))
 		file_error(arr_file, map);
 	free_double_array(arr_file);

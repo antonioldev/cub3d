@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:03:19 by alimotta          #+#    #+#             */
-/*   Updated: 2024/05/24 15:42:01 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:12:22 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,18 @@ int	ft_error(int argc, char **argv)
 		exit (EXIT_FAILURE);
 	}
 	return (fd);
+}
+
+void	file_error(char **to_clean, t_map *map)
+{
+	free_double_array(to_clean);
+	perror("Error\nFile error\n");
+	free_t_map(map);
+	exit (1);
+}
+
+void	ft_error_empty_map(void)
+{
+	perror("Error\nEmpty map\n");
+	exit (1);
 }
