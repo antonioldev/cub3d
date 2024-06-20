@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/19 11:00:31 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:39:54 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_player
 	int			rot;
 	int			l_r;
 	int			u_d;
+	int			mouse_y;
 }		t_player;
 
 typedef struct s_ray
@@ -243,6 +244,7 @@ void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
 void			rotate_player(t_cub3d *cub3d, int i);
 int				mouse_press(int button, int x, int y, t_cub3d *cub3d);
 int				mouse_release(int button, int x, int y, t_cub3d *cub3d);
+int				mouse_move(int x, int y, t_cub3d *cub3d);
 
 //RENDER FOLDER
 void			clear_mini_map(t_mlx *game);

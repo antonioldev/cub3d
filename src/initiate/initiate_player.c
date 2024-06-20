@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:21:29 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 10:53:05 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:37:50 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_player	initiate_player(t_map map)
 	player.l_r = 0;
 	player.u_d = 0;
 	player.rot = 0;
+	player.mouse_y = 0;
 	return (player);
 }
