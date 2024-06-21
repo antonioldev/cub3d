@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:34:30 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/20 15:39:54 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:56:26 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_player
 	int			l_r;
 	int			u_d;
 	int			mouse_y;
+	bool		key;
 }		t_player;
 
 typedef struct s_ray
@@ -175,6 +176,7 @@ typedef struct s_door
 	int			t_pixel;
 	int			b_pixel;
 	float		distance_to_player;
+	bool		close;
 	t_texture	texture;
 }		t_door;
 
@@ -240,7 +242,7 @@ void			initiate_doors(t_cub3d *cub3d, int i, int x, int y);
 int				x_pressed(t_cub3d *cub3d);
 int				key_press(int ks, t_cub3d *cub3d);
 int				key_release(int ks, t_cub3d *cub3d);
-void			check_for_input(t_cub3d *cub3d, float move_x, float move_y);
+void			check_for_input(t_cub3d *cub3d);
 void			rotate_player(t_cub3d *cub3d, int i);
 int				mouse_press(int button, int x, int y, t_cub3d *cub3d);
 int				mouse_release(int button, int x, int y, t_cub3d *cub3d);

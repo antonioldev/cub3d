@@ -6,36 +6,11 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:21:48 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 16:25:04 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:18:42 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-/*Calculate the distance from player and find the right texture to use*/
-void	check_doors(t_cub3d *cub3d, int i, int index)
-{
-	t_door	*door;
-
-	while (++i < cub3d->num_doors)
-	{
-		door = &cub3d->doors[i];
-		door->d_x = door->p_x - cub3d->p.p_x;
-		door->d_y = door->p_y - cub3d->p.p_y;
-		door->distance_to_player = sqrt(pow(door->d_x, 2) + pow(door->d_y, 2));
-		if (door->distance_to_player > 252)
-			door->texture = cub3d->bonus_door[8];
-		else
-		{
-			index = (int)(door->distance_to_player - 100) / 20;
-			if (index < 0)
-				index = 0;
-			door->texture = cub3d->bonus_door[index];
-		}
-		if (cub3d->map.map[door->y][door->x] == '0')
-			cub3d->map.map[door->y][door->x] = door->type;
-	}
-}
 
 /*Check if the coordinates x and y intersect with a door
  return 0 if a door was hit or coordinates are out of bounds*/

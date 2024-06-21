@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 08:27:56 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/20 15:49:09 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:15:30 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	mouse_move(int x, int y, t_cub3d *cub3d)
 		if (x < cub3d->p.mouse_y)
 		{
 			cub3d->p.rot = -1;
-			rotate_player(cub3d, -1);	
+			rotate_player(cub3d, -1);
 		}
 		else if (x > cub3d->p.mouse_y)
 		{

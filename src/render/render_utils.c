@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:28 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 12:57:27 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 09:17:25 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ int	find_index_door(t_cub3d *cub3d, int pos_y, int pos_x)
 		}
 		y++;
 	}
-	return (count);
+	return (-1);
 }

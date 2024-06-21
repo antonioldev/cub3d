@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:18:53 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/06 07:29:34 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:22:00 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	key_press(int ks, t_cub3d *cub3d)
 		cub3d->p.rot = -1;
 	else if (ks == XK_Right)
 		cub3d->p.rot = 1;
+	if (ks == 101)
+		cub3d->p.key = true;
 	return (0);
 }
 

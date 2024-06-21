@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:35:35 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/20 15:38:13 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:01:55 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	load_data(t_cub3d *cub3d, int argc, char **argv)
 /*It keep rendering the map and minimap on display*/
 int	refresh_win(t_cub3d *cub3d)
 {
-	check_for_input(cub3d, 0, 0);
+	check_for_input(cub3d);
 	check_doors(cub3d, -1, 0);
 	clear_mini_map(&cub3d->game);
 	render_mini_map(cub3d);
@@ -54,7 +54,6 @@ int	main(int argc, char **argv)
 	t_cub3d	cub3d;
 
 	load_data(&cub3d, argc, argv);
-	//mlx_mouse_hide(cub3d.game.mlx, cub3d.game.win);
 	mlx_loop_hook(cub3d.game.mlx, refresh_win, &cub3d);
 	mlx_hook(cub3d.game.win, 17, 1L << 0, x_pressed, &cub3d);
 	mlx_hook(cub3d.game.win, 2, 1L << 0, key_press, &cub3d);
@@ -67,3 +66,5 @@ int	main(int argc, char **argv)
 	ft_destroy_mlx(&cub3d);
 	return (EXIT_SUCCESS);
 }
+
+//mlx_mouse_hide(cub3d.game.mlx, cub3d.game.win);

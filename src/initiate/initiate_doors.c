@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:53:55 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/15 16:21:22 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:07:13 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	initiate_doors(t_cub3d *cub3d, int i, int x, int y)
 				cub3d->doors[i].p_y = y * TILE_SIZE + TILE_SIZE / 2;
 				cub3d->doors[i].texture = cub3d->bonus_door[8];
 				cub3d->doors[i].index = i;
+				cub3d->doors[i].close = true;
 				i++;
 			}
 			x++;

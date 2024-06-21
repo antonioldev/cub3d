@@ -38,9 +38,9 @@ src/initiate/initiate_doors.c			src/parsing/parse_colour.c				src/render/render_
 src/initiate/initiate_map_util.c		src/parsing/parse_texture.c				src/render/render_utils_2.c \
 src/clean/error.c						src/parsing/preparse.c					src/render/render_doors.c \
 src/clean/error_init_mlx.c				src/parsing/check_ext.c					src/render/render_utils.c \
-src/clean/clear_mlx.c															src/input/input.c \
+src/clean/clear_mlx.c															src/render/check_doors.c \
 src/clean/clear_parsing.c														src/input/input_movement.c \
-src/input/mouse_move_bonus.c
+src/input/mouse_move_bonus.c													src/input/input.c \
 ##############################################################################################################################
 ##############################################################################################################################
 
