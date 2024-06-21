@@ -1,7 +1,7 @@
 NAME			= cub3D
 NAME_BONUS		= cub3D_bonus
 CC				= gcc
-CFLAGS			= -g -Wall -Wextra -Werror
+CFLAGS			= #-g -Wall -Wextra -Werror
 MATH_FLAGS		=  -O3 -ffast-math -lm
 
 ######################################################## SOURCE FILES ########################################################

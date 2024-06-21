@@ -6,7 +6,7 @@
 /*   By: alimotta <alimotta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 08:16:20 by alimotta          #+#    #+#             */
-/*   Updated: 2024/06/21 12:37:43 by alimotta         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:57:29 by alimotta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,30 @@ void	rotate_player(t_cub3d *cub3d, int i)
 	}
 }
 
-static bool	wall_collision(t_cub3d *cub3d, float new_x, float new_y)
-{
-	int	index;
+// static bool	door_collision(t_cub3d *cub3d, int *new_cord, int move_x, int move_y)
+// {
+// 	int	index;
+// 	int	new_y;
+// 	int	new_x;
 
-	if (cub3d->map.map[(int)floorf(new_y / TILE_SIZE)] \
-		[(int)floorf(new_x / TILE_SIZE)] == 'D'
-		|| cub3d->map.map[(int)floorf(new_y / TILE_SIZE)]
-		[(int)floorf(new_x / TILE_SIZE)] == 'd')
-	{
-		index = find_index_door(cub3d, (int)floorf(new_y / TILE_SIZE),
-				(int)floorf(new_x / TILE_SIZE));
-		if (index >= 0 && index < cub3d->num_doors
-			&& cub3d->doors[index].close == true)
-			return (true);
-	}
-	return (false);
-}
+// 	new_x = new_cord[0];
+// 	if (move_y < 0)
+// 		new_y = new_cord[1] - 32;
+// 	else if (move_y >= 0)
+// 		new_y = new_cord[1] + 32;
+// 	if (cub3d->map.map[(int)floorf(new_y / TILE_SIZE)] \
+// 		[(int)floorf(new_x / TILE_SIZE)] == 'D'
+// 		|| cub3d->map.map[(int)floorf(new_y / TILE_SIZE)]
+// 		[(int)floorf(new_x / TILE_SIZE)] == 'd')
+// 	{
+// 		index = find_index_door(cub3d, (int)floorf(new_y / TILE_SIZE),
+// 				(int)floorf(new_x / TILE_SIZE));
+// 		if (index >= 0 && index < cub3d->num_doors
+// 			&& cub3d->doors[index].close == true)
+// 			return (true);
+// 	}
+// 	return (false);
+// }
 
 /*Calculate the movement of the player based on the moves*/
 static void	move_player(t_cub3d *cub3d, float move_x, float move_y)
@@ -70,8 +77,8 @@ static void	move_player(t_cub3d *cub3d, float move_x, float move_y)
 
 	new_cord[0] = (int)roundf(cub3d->p.p_x + move_x);
 	new_cord[1] = (int)roundf(cub3d->p.p_y + move_y);
-	if (wall_collision(cub3d, new_cord[0], new_cord[1]))
-		return ;
+	// if (door_collision(cub3d, new_cord, move_x, move_y))
+	// 	return ;
 	map_left = (new_cord[0] - DISTANCE_WALL) / TILE_SIZE;
 	map_right = (new_cord[0] + DISTANCE_WALL) / TILE_SIZE;
 	map_top = (new_cord[1] - DISTANCE_WALL) / TILE_SIZE;
